@@ -9,7 +9,7 @@
     <meta name="dmenk-toko-online-ecommerce" content="">
 
     <title>
-        OnPets Online Marketplace
+        Bookstore Marketplace
     </title>
 
     <meta name="dmenk-toko-online-ecommerce" content="">
@@ -30,16 +30,12 @@
     <!-- Theme style -->
     <link rel="stylesheet" href="<?php echo config_item('assets'); ?>adminlte/css/AdminLTE.min.css">
     <!-- AdminLTE Skins. Choose a skin from the css/skins
-         folder instead of downloading all of them to reduce the load. -->
+		folder instead of downloading all of them to reduce the load. -->
     <link rel="stylesheet" href="<?php echo config_item('assets'); ?>adminlte/css/skins/skin-black.css">
-    <!-- <link rel="stylesheet" href="<?php echo config_item('assets'); ?>dist/css/skins/_all-skins.min.css"> -->
-    <!-- your stylesheet with modifications -->
-    <!-- <link rel="stylesheet" type="text/css" media="all" href="<?php echo config_item('assets'); ?>css/custom_adm.css"> -->
-    <!-- Date Picker -->
     <link rel="stylesheet" href="<?php echo config_item('assets'); ?>datepicker/datepicker3.css">
     <!-- select2 -->
-    <link rel="stylesheet" href="<?php echo config_item('assets'); ?>select2/select2.min.css">
-    <link rel="stylesheet" href="<?php echo config_item('assets'); ?>select2/select2-bootstrap.css">
+    <!-- <link rel="stylesheet" href="<?php echo config_item('assets'); ?>select2/select2.min.css">
+    <link rel="stylesheet" href="<?php echo config_item('assets'); ?>select2/select2-bootstrap.css"> -->
     <!-- css custom -->
     <link rel="stylesheet" href="<?php echo config_item('assets'); ?>adminlte/css/custom.css">
     <!-- css notifikasi -->
