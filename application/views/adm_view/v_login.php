@@ -43,7 +43,7 @@
         <span class="logo-lg"><img src="<?php echo base_url('assets/img/logo-login-page.png');?>"></span> 
         <strong><p class="login-box-text">NAMA OWNER</p></strong>
       </div>
-    <form action="<?php echo base_url('login/proc'); ?>" method="post">
+    <form action="<?php echo base_url('admin/login/proc'); ?>" method="post">
       <div class="form-group has-feedback">
         <input type="text" class="form-control" placeholder="username" name="username" required>
         <span class="glyphicon glyphicon-user form-control-feedback"></span>

@@ -13,22 +13,22 @@ class Login extends CI_Controller {
 
 	public function proc()
 	{
-		$this->load->model('pengguna/mod_pengguna');
+		$this->load->model('adm_model/mod_user', 'm_user');
 		$this->load->library('Enkripsi');
 
-		$pass_string = $this->input->post('password');
+		$pass_string = clean_string($this->db->escape_str($this->input->post('password')));
+		$username_string = clean_string($this->db->escape_str($this->input->post('username')));
 		$hasil_password = $this->enkripsi->encrypt($pass_string);
 				
 		$data_input = array(
-			'data_user'=>$this->input->post('username'),
+			'data_user'=> $username_string,
 			'data_password'=>$hasil_password,
 		);
 		
-		$result = $this->mod_pengguna->login($data_input);
+		$result = $this->m_user->login($data_input);
 		
 		if ($data = $result[0]) {
-			$this->mod_pengguna->set_lastlogin($data['id_user']);
-			// unset($data['id_user']);
+			$this->m_user->set_lastlogin($data['id_user']);
 			$this->session->set_userdata(
 				array(
 					'username' => $data['username'],
@@ -37,50 +37,10 @@ class Login extends CI_Controller {
 					'id_level_user' => $data['id_level_user'],
 					'logged_in' => true,
 				));
-				redirect('home');
+				redirect('admin/dashboard');
 		}else{
-			//cek login sebagai pegawai/guru
-			$data_peg = $this->mod_pengguna->get_datalogin_pegawai(trim($this->input->post('username')));
-			if ($data_peg) {
-				if ($data_peg->password == null) {
-					//cek persamaan user dan password pada inputan
-					if (trim($this->input->post('username')) == trim($this->input->post('password'))) {
-						$this->session->set_userdata(
-							array(
-								'username' => $data_peg->nama,
-								'id_user' => $data_peg->nip,
-								'last_login' => null,
-								'id_level_user' => '5',
-								'logged_in' => true,
-							)
-						);
-						redirect('home');
-					}else{
-						$this->session->set_flashdata('message', 'Kombinasi Username & Password Salah, Mohon di cek ulang');
-						redirect('login');
-					}
-				}else{
-					//jika password tidak kosong
-					if ($this->enkripsi->encrypt(trim($this->input->post('password'))) == $data_peg->password) {
-						$this->session->set_userdata(
-							array(
-								'username' => $data_peg->nama,
-								'id_user' => $data_peg->nip,
-								'last_login' => null,
-								'id_level_user' => '5',
-								'logged_in' => true,
-							)
-						);
-						redirect('home');
-					}else{
-						$this->session->set_flashdata('message', 'Kombinasi Username & Password Salah, Mohon di cek ulang');
-						redirect('login');
-					}
-				}
-			}else{
-				$this->session->set_flashdata('message', 'Kombinasi Username & Password Salah, Mohon di cek ulang');
-				redirect('login');
-			}
+			$this->session->set_flashdata('message', 'Kombinasi Username & Password Salah, Mohon di cek ulang');
+			redirect('login');
 		}
 	}
 

@@ -26,16 +26,16 @@ class Template_view extends CI_Controller {
 
 		$queryActive = $this->_ci->db->query("
 		select
-			tbl_menu.id_menu,
-			tbl_menu.tingkat_menu,
-            tbl_menu.nama_menu,
-			tbl_menu.id_parent as id_ataspertama,
-			(select menuataskedua.id_parent from tbl_menu menuataskedua where menuataskedua.id_menu=tbl_menu.id_parent) as id_ataskedua,
-			(select menuatasketiga.id_parent from tbl_menu menuatasketiga where menuatasketiga.id_menu= (select menuataskedua.id_parent from tbl_menu menuataskedua where menuataskedua.id_menu=tbl_menu.id_parent)) as id_atasketiga
+			m_menu.id_menu,
+			m_menu.tingkat_menu,
+            m_menu.nama_menu,
+			m_menu.id_parent as id_ataspertama,
+			(select menuataskedua.id_parent from m_menu menuataskedua where menuataskedua.id_menu=m_menu.id_parent) as id_ataskedua,
+			(select menuatasketiga.id_parent from m_menu menuatasketiga where menuatasketiga.id_menu= (select menuataskedua.id_parent from m_menu menuataskedua where menuataskedua.id_menu=m_menu.id_parent)) as id_atasketiga
 		from
-			tbl_menu,tbl_hak_akses
+			m_menu,t_hak_akses
 		WHERE
-			tbl_menu.aktif_menu = 1 and tbl_menu.LINK_MENU = '".$this->_ci->uri->segment(1)."' and tbl_menu.id_menu=tbl_hak_akses.id_menu and tbl_hak_akses.id_level_user= '".$id_level."'
+			m_menu.aktif_menu = 1 and m_menu.LINK_MENU = '".$this->_ci->uri->segment(1)."' and m_menu.id_menu=t_hak_akses.id_menu and t_hak_akses.id_level_user= '".$id_level."'
 		");
 		$dataActive = $queryActive->row();
 		//echo $this->_ci->db->last_query();
@@ -43,12 +43,12 @@ class Template_view extends CI_Controller {
 		$menuHtml = "<ul class='sidebar-menu'>";
         $menu1 = $this->_ci->db->query("
             select 
-                tbl_menu.* 
+                m_menu.* 
             from 
-                tbl_menu,tbl_hak_akses where tbl_menu.id_parent = '0' and 
-                tbl_menu.aktif_menu= 1 and tbl_menu.id_menu=tbl_hak_akses.id_menu and 
-                tbl_hak_akses.id_level_user= '".$id_level."' 
-            order by tbl_menu.URUTAN_MENU
+                m_menu,t_hak_akses where m_menu.id_parent = '0' and 
+                m_menu.aktif_menu= 1 and m_menu.id_menu=t_hak_akses.id_menu and 
+                t_hak_akses.id_level_user= '".$id_level."' 
+            order by m_menu.URUTAN_MENU
         ");
         $dataMenu1 = $menu1->result();
 
@@ -57,14 +57,14 @@ class Template_view extends CI_Controller {
 
             $Parent1 = $this->_ci->db->query("
                 select 
-                    count(tbl_menu.id_menu) as jumlah 
+                    count(m_menu.id_menu) as jumlah 
                 from 
-                    tbl_menu,tbl_hak_akses 
+                    m_menu,t_hak_akses 
                 where 
-                    tbl_menu.id_parent = '".$dataMenuSatu->id_menu."' and 
-                    tbl_menu.id_menu=tbl_hak_akses.id_menu and 
-                    tbl_menu.aktif_menu = 1 and 
-                    tbl_hak_akses.id_level_user = '".$id_level."'
+                    m_menu.id_parent = '".$dataMenuSatu->id_menu."' and 
+                    m_menu.id_menu=t_hak_akses.id_menu and 
+                    m_menu.aktif_menu = 1 and 
+                    t_hak_akses.id_level_user = '".$id_level."'
             ");
 
             $jumlahParent1 = $Parent1->row();
@@ -119,12 +119,12 @@ class Template_view extends CI_Controller {
 
                 $menu2 = $this->_ci->db->query("
                     select 
-                        tbl_menu.* 
+                        m_menu.* 
                     from 
-                        tbl_menu,tbl_hak_akses 
+                        m_menu,t_hak_akses 
                     where 
-                        tbl_menu.id_parent = '".$dataMenuSatu->id_menu."' and tbl_menu.id_menu=tbl_hak_akses.id_menu and tbl_menu.aktif_menu = 1 and  tbl_hak_akses.id_level_user= '".$id_level."' 
-                    order by tbl_menu.URUTAN_MENU
+                        m_menu.id_parent = '".$dataMenuSatu->id_menu."' and m_menu.id_menu=t_hak_akses.id_menu and m_menu.aktif_menu = 1 and  t_hak_akses.id_level_user= '".$id_level."' 
+                    order by m_menu.URUTAN_MENU
                 ");
 
 				$dataMenu2 = $menu2->result();
@@ -134,14 +134,14 @@ class Template_view extends CI_Controller {
 
                     $Parent2 = $this->_ci->db->query("
                         select 
-                            count(tbl_menu.id_menu) as jumlah 
+                            count(m_menu.id_menu) as jumlah 
                         from 
-                            tbl_menu,tbl_hak_akses 
+                            m_menu,t_hak_akses 
                         where 
-                            tbl_menu.id_parent = '".$dataMenuDua->id_menu."' and 
-                            tbl_menu.aktif_menu = 1 and 
-                            tbl_menu.id_menu=tbl_hak_akses.id_menu and 
-                            tbl_hak_akses.id_level_user= '".$id_level."' 
+                            m_menu.id_parent = '".$dataMenuDua->id_menu."' and 
+                            m_menu.aktif_menu = 1 and 
+                            m_menu.id_menu=t_hak_akses.id_menu and 
+                            t_hak_akses.id_level_user= '".$id_level."' 
                     ");
 
 					$jumlahParent2 = $Parent2->row();
@@ -187,12 +187,12 @@ class Template_view extends CI_Controller {
 
                         $menu3 = $this->_ci->db->query("
                             select 
-                                tbl_menu.* 
+                                m_menu.* 
                             from 
-                                tbl_menu,tbl_hak_akses 
+                                m_menu,t_hak_akses 
                             where 
-                                tbl_menu.id_parent = '".$dataMenuDua->id_menu."' and tbl_menu.id_menu=tbl_hak_akses.id_menu and tbl_menu.aktif_menu = 1 and tbl_hak_akses.id_level_user= '".$id_level."' 
-                            order by tbl_menu.URUTAN_MENU
+                                m_menu.id_parent = '".$dataMenuDua->id_menu."' and m_menu.id_menu=t_hak_akses.id_menu and m_menu.aktif_menu = 1 and t_hak_akses.id_level_user= '".$id_level."' 
+                            order by m_menu.URUTAN_MENU
                         ");
 
 						$dataMenu3 = $menu3->result();
@@ -202,11 +202,11 @@ class Template_view extends CI_Controller {
 
                             $Parent3 = $this->_ci->db->query("
                                 select 
-                                    count(tbl_menu.id_menu) as jumlah
+                                    count(m_menu.id_menu) as jumlah
                                 from 
-                                    tbl_menu,tbl_hak_akses 
+                                    m_menu,t_hak_akses 
                                 where 
-                                    tbl_menu.id_parent = '".$dataMenuTiga->id_menu."' and tbl_menu.id_menu=tbl_hak_akses.id_menu and  tbl_menu.aktif_menu = 1 and tbl_hak_akses.id_level_user= '".$id_level."' 
+                                    m_menu.id_parent = '".$dataMenuTiga->id_menu."' and m_menu.id_menu=t_hak_akses.id_menu and  m_menu.aktif_menu = 1 and t_hak_akses.id_level_user= '".$id_level."' 
                             ");
 
 							$jumlahParent3 = $Parent3->row();
@@ -251,13 +251,13 @@ class Template_view extends CI_Controller {
 
                                 $menu4 = $this->_ci->db->query("
                                     select 
-                                        tbl_menu.* 
+                                        m_menu.* 
                                     from 
-                                        tbl_menu,tbl_hak_akses 
+                                        m_menu,t_hak_akses 
                                     where 
-                                        tbl_menu.id_parent = '".$dataMenuTiga->id_menu."' and tbl_menu.id_menu=tbl_hak_akses.id_menu and
-                                        tbl_hak_akses.id_level_user= '".$id_level."' 
-                                    order by tbl_menu.URUTAN_MENU
+                                        m_menu.id_parent = '".$dataMenuTiga->id_menu."' and m_menu.id_menu=t_hak_akses.id_menu and
+                                        t_hak_akses.id_level_user= '".$id_level."' 
+                                    order by m_menu.URUTAN_MENU
                                 ");
 								$dataMenu4 = $menu4->result();
 								$noMenuEmpat = 1;
@@ -268,9 +268,9 @@ class Template_view extends CI_Controller {
                                         select 
                                             count(id_menu) as jumlah 
                                         from 
-                                            tbl_menu,tbl_hak_akses 
+                                            m_menu,t_hak_akses 
                                         where 
-                                            tbl_menu.id_parent = '".$dataMenuTiga->id_menu."' and tbl_menu.id_menu=tbl_hak_akses.id_menu and tbl_hak_akses.id_level_user= '".$id_level."' order by tbl_menu.URUTAN_MENU
+                                            m_menu.id_parent = '".$dataMenuTiga->id_menu."' and m_menu.id_menu=t_hak_akses.id_menu and t_hak_akses.id_level_user= '".$id_level."' order by m_menu.URUTAN_MENU
                                     ");
 									$jumlahParent4 = $Parent4->row();
 
@@ -346,14 +346,14 @@ class Template_view extends CI_Controller {
     function nama_menu($string){
         $queryMenu = $this->_ci->db->query("
         select
-            tbl_menu.id_menu,
-            tbl_menu.tingkat_menu,
-            tbl_menu.judul_menu,
-            tbl_menu.nama_menu
+            m_menu.id_menu,
+            m_menu.tingkat_menu,
+            m_menu.judul_menu,
+            m_menu.nama_menu
         from
-            tbl_menu
+            m_menu
         WHERE
-            tbl_menu.link_menu = '".$this->_ci->uri->segment(1)."'
+            m_menu.link_menu = '".$this->_ci->uri->segment(1)."'
         ");
         $dataMenu = $queryMenu->row();
 
@@ -382,13 +382,13 @@ class Template_view extends CI_Controller {
 		if($id_level){
 			$queryButton = $this->_ci->db->query("
 			select
-				tbl_hak_akses.add_button
+				t_hak_akses.add_button
 			from
-				tbl_menu,tbl_hak_akses
+				m_menu,t_hak_akses
 			WHERE
-				tbl_menu.id_menu=tbl_hak_akses.id_menu
-				and tbl_hak_akses.id_level_user= '".$id_level."'
-				and tbl_menu.link_menu = '".$this->_ci->uri->segment(1)."'
+				m_menu.id_menu=t_hak_akses.id_menu
+				and t_hak_akses.id_level_user= '".$id_level."'
+				and m_menu.link_menu = '".$this->_ci->uri->segment(1)."'
 			");
 			$dataButton = $queryButton->row();
 			if($dataButton->add_button == 1 ){
@@ -411,13 +411,13 @@ class Template_view extends CI_Controller {
 		if($id_level){
 			$queryButton = $this->_ci->db->query("
 			select
-				tbl_hak_akses.edit_button
+				t_hak_akses.edit_button
 			from
-				tbl_menu,tbl_hak_akses
+				m_menu,t_hak_akses
 			WHERE
-				tbl_menu.id_menu=tbl_hak_akses.id_menu
-				and tbl_hak_akses.id_level_user= '".$id_level."'
-				and tbl_menu.link_menu = '".$this->_ci->uri->segment(1)."'
+				m_menu.id_menu=t_hak_akses.id_menu
+				and t_hak_akses.id_level_user= '".$id_level."'
+				and m_menu.link_menu = '".$this->_ci->uri->segment(1)."'
 			");
 			$dataButton = $queryButton->row();
 			if($dataButton->edit_button == 1 ){
@@ -439,13 +439,13 @@ class Template_view extends CI_Controller {
 		if($id_level){
 			$queryButton = $this->_ci->db->query("
 			select
-				tbl_hak_akses.delete_button
+				t_hak_akses.delete_button
 			from
-				tbl_menu,tbl_hak_akses
+				m_menu,t_hak_akses
 			WHERE
-				tbl_menu.id_menu=tbl_hak_akses.id_menu
-				and tbl_hak_akses.id_level_user= '".$id_level."'
-				and tbl_menu.link_menu = '".$this->_ci->uri->segment(1)."'
+				m_menu.id_menu=t_hak_akses.id_menu
+				and t_hak_akses.id_level_user= '".$id_level."'
+				and m_menu.link_menu = '".$this->_ci->uri->segment(1)."'
 			");
 			$dataButton = $queryButton->row();
 			if($dataButton->delete_button == 1 ){

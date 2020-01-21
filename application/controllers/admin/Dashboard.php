@@ -27,6 +27,7 @@ class Dashboard extends CI_Controller {
 		$content = [
 			'modal' => false,
 			// 'js'	=> 'jsDashboardAdm',
+			'js' => false,
 			'css'	=> false,
 			'view'	=> 'adm_view/v_dashboard_adm'
 		];

@@ -1,16 +1,15 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-class Mod_pengguna extends CI_Model
+class Mod_user extends CI_Model
 {
-	var $table = 'tbl_user';
-	var $column_order = array('username','password',null,'status','last_login',null); //set column field database for datatable orderable
-	var $column_search = array('username','status'); //set column field database for datatable searchable just username are searchable
-	var $order = array('id_user' => 'desc'); // default order 
+	var $table = 'm_user';
+	var $column_order = array('username','password',null,'status','last_login',null);
+	var $column_search = array('username','status');
+	var $order = array('id_user' => 'desc'); 
 
 	public function __construct()
 	{
 		parent::__construct();
-		//alternative load library from config
 		$this->load->database();
 	}
 
@@ -21,14 +20,14 @@ class Mod_pengguna extends CI_Model
 
 		$i = 0;
 	
-		foreach ($this->column_search as $item) // loop column 
+		foreach ($this->column_search as $item) 
 		{
-			if($_POST['search']['value']) // if datatable send POST for search
+			if($_POST['search']['value'])
 			{
 				
-				if($i===0) // first loop
+				if($i===0)
 				{
-					$this->db->group_start(); // open bracket. query Where with OR clause better with bracket. because maybe can combine with other WHERE with AND.
+					$this->db->group_start();
 					$this->db->like($item, $_POST['search']['value']);
 				}
 				else
@@ -36,8 +35,8 @@ class Mod_pengguna extends CI_Model
 					$this->db->or_like($item, $_POST['search']['value']);
 				}
 
-				if(count($this->column_search) - 1 == $i) //last loop
-					$this->db->group_end(); //close bracket
+				if(count($this->column_search) - 1 == $i)
+					$this->db->group_end();
 			}
 			$i++;
 		}
@@ -61,7 +60,7 @@ class Mod_pengguna extends CI_Model
 
 		$this->db->select('id_user,username,password,level_user,status,last_login');
 		$this->db->from('tbl_level_user');
-		$this->db->where('tbl_user.id_level_user = tbl_level_user.id_level_user');
+		$this->db->where('m_user.id_level_user = tbl_level_user.id_level_user');
 
 		$query = $this->db->get();
 		return $query->result();
@@ -83,7 +82,7 @@ class Mod_pengguna extends CI_Model
 	public function get_detail_user($id_user)
 	{
 		$this->db->select('*');
-		$this->db->from('tbl_user_detail');
+		$this->db->from('m_user_detail');
 		$this->db->where('id_user', $id_user);
 
         $query = $this->db->get();
@@ -104,11 +103,8 @@ class Mod_pengguna extends CI_Model
 
 	public function save($data_user, $data_user_detail)
 	{
-		//insert into tbl_user 
-		$this->db->insert('tbl_user',$data_user);
-
-		//insert into tbl_user_detail 
-		$this->db->insert('tbl_user_detail',$data_user_detail);
+		$this->db->insert('m_user',$data_user); 
+		$this->db->insert('m_user_detail',$data_user_detail);
 	}
 
 	public function update($where, $data)
@@ -120,10 +116,10 @@ class Mod_pengguna extends CI_Model
 	public function delete_by_id($id)
 	{
 		$this->db->where('id_user', $id);
-		$this->db->delete('tbl_user');
+		$this->db->delete('m_user');
 
 		$this->db->where('id_user', $id);
-		$this->db->delete('tbl_user_detail');
+		$this->db->delete('m_user_detail');
 	}
 
 	//dibutuhkan di contoller login untuk ambil data user
@@ -132,17 +128,17 @@ class Mod_pengguna extends CI_Model
 			->where('username',$data['data_user'])
 			->where('password',$data['data_password'])
 			->where('status', 1 )
-			->get('tbl_user')->result_array();
+			->get('m_user')->result_array();
 	}
 
 	//dibutuhkan di contoller login untuk set last login
 	function set_lastlogin($id){
 		$this->db->where('id_user',$id)
-				->update('tbl_user',array('last_login'=>date('Y-m-d H:i:s')));			
+				->update('m_user',array('last_login'=>date('Y-m-d H:i:s')));			
 	}
 
 	function getKodeUser(){
-            $q = $this->db->query("select MAX(RIGHT(id_user,5)) as kode_max from tbl_user");
+            $q = $this->db->query("select MAX(RIGHT(id_user,5)) as kode_max from m_user");
             $kd = "";
             if($q->num_rows()>0){
                 foreach($q->result() as $k){
