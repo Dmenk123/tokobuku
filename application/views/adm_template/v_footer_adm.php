@@ -19,34 +19,34 @@ if (isset($modal)) {
 } ?>
 
 <!-- jQuery 2.2.3 -->
-<script src="<?php echo config_item('assets'); ?>jQuery/jquery-2.2.3.min.js"></script>
+<script src="<?php echo base_url('assets/'); ?>jQuery/jquery-2.2.3.min.js"></script>
 <!-- jquery validation -->
-<script src="<?php echo config_item('assets'); ?>adminlte/js/jquery-validation.js"></script>
+<script src="<?php echo base_url('assets/'); ?>adminlte/js/jquery-validation.js"></script>
 <!-- jQuery UI  -->
-<script src="<?php echo config_item('assets'); ?>jQueryUI/jquery-ui.min.js"></script>
+<script src="<?php echo base_url('assets/'); ?>jQueryUI/jquery-ui.min.js"></script>
 <script>
 	$.widget.bridge('uibutton', $.ui.button);
 </script>
 <!-- Bootstrap 3.3.6 -->
-<script src="<?php echo config_item('assets'); ?>bootstrap/js/bootstrap.min.js"></script>
+<script src="<?php echo base_url('assets/'); ?>bootstrap/js/bootstrap.min.js"></script>
 <!-- Sparkline -->
-<script src="<?php echo config_item('assets'); ?>sparkline/jquery.sparkline.min.js"></script>
+<script src="<?php echo base_url('assets/'); ?>sparkline/jquery.sparkline.min.js"></script>
 <!-- datepicker -->
-<script src="<?php echo config_item('assets'); ?>datepicker/bootstrap-datepicker.js"></script>
+<script src="<?php echo base_url('assets/'); ?>datepicker/bootstrap-datepicker.js"></script>
 <!-- select2 -->
-<script src="<?php echo config_item('assets'); ?>select2/select2.min.js"></script>
+<script src="<?php echo base_url('assets/'); ?>select2/select2.min.js"></script>
 <!-- chartjs -->
-<script src="<?php echo config_item('assets'); ?>chartjs/Chart.min.js"></script>
+<script src="<?php echo base_url('assets/'); ?>chartjs/Chart.min.js"></script>
 <!-- Slimscroll -->
-<script src="<?php echo config_item('assets'); ?>slimScroll/jquery.slimscroll.min.js"></script>
+<script src="<?php echo base_url('assets/'); ?>slimScroll/jquery.slimscroll.min.js"></script>
 <!-- FastClick -->
-<script src="<?php echo config_item('assets'); ?>fastclick/fastclick.js"></script>
+<script src="<?php echo base_url('assets/'); ?>fastclick/fastclick.js"></script>
 <!-- AdminLTE App -->
-<script src="<?php echo config_item('assets'); ?>adminlte/app.min.js"></script>
+<script src="<?php echo base_url('assets/'); ?>adminlte/app.min.js"></script>
 <!-- DataTables -->
-<script src="<?php echo config_item('assets') ?>datatables/jquery.dataTables.min.js"></script>
-<script src="<?php echo config_item('assets') ?>datatables/dataTables.bootstrap.min.js"></script>
-<script src="<?php echo config_item('assets') ?>js/sweetalert.min.js"></script>
+<script src="<?php echo base_url('assets/') ?>datatables/jquery.dataTables.min.js"></script>
+<script src="<?php echo base_url('assets/') ?>datatables/dataTables.bootstrap.min.js"></script>
+<script src="<?php echo base_url('assets/') ?>js/sweetalert.min.js"></script>
 <!-- load js per modul -->
 <?php
 if (isset($js)) {

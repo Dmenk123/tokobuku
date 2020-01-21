@@ -15,31 +15,31 @@
     <meta name="dmenk-toko-online-ecommerce" content="">
 
     <link href='http://fonts.googleapis.com/css?family=Roboto:400,500,700,300,100' rel='stylesheet' type='text/css'>
-    <link rel="shortcut icon" href="<?php echo config_item('assets'); ?>img/logo.png" />
+    <link rel="shortcut icon" href="<?php echo base_url('assets/'); ?>img/logo.png" />
     
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.6 -->
-    <link rel="stylesheet" href="<?php echo config_item('assets'); ?>adminlte/css/bootstrap.min.css">
+    <link rel="stylesheet" href="<?php echo base_url('assets/'); ?>adminlte/css/bootstrap.min.css">
     <!-- jquery-ui.css -->
-    <link rel="stylesheet" href="<?php echo config_item('assets'); ?>jQueryUI/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="<?php echo base_url('assets/'); ?>jQueryUI/themes/base/jquery-ui.css">
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="<?php echo config_item('assets'); ?>adminlte/css/font-awesome.min.css">
+    <link rel="stylesheet" href="<?php echo base_url('assets/'); ?>adminlte/css/font-awesome.min.css">
     <!-- Ionicons -->
-    <link rel="stylesheet" href="<?php echo config_item('assets'); ?>adminlte/css/ionicons.min.css">
+    <link rel="stylesheet" href="<?php echo base_url('assets/'); ?>adminlte/css/ionicons.min.css">
     <!-- Theme style -->
-    <link rel="stylesheet" href="<?php echo config_item('assets'); ?>adminlte/css/AdminLTE.min.css">
+    <link rel="stylesheet" href="<?php echo base_url('assets/'); ?>adminlte/css/AdminLTE.min.css">
     <!-- AdminLTE Skins. Choose a skin from the css/skins
 		folder instead of downloading all of them to reduce the load. -->
-    <link rel="stylesheet" href="<?php echo config_item('assets'); ?>adminlte/css/skins/skin-black.css">
-    <link rel="stylesheet" href="<?php echo config_item('assets'); ?>datepicker/datepicker3.css">
+    <link rel="stylesheet" href="<?php echo base_url('assets/'); ?>adminlte/css/skins/skin-black.css">
+    <link rel="stylesheet" href="<?php echo base_url('assets/'); ?>datepicker/datepicker3.css">
     <!-- select2 -->
-    <!-- <link rel="stylesheet" href="<?php echo config_item('assets'); ?>select2/select2.min.css">
-    <link rel="stylesheet" href="<?php echo config_item('assets'); ?>select2/select2-bootstrap.css"> -->
+    <!-- <link rel="stylesheet" href="<?php echo base_url('assets/'); ?>select2/select2.min.css">
+    <link rel="stylesheet" href="<?php echo base_url('assets/'); ?>select2/select2-bootstrap.css"> -->
     <!-- css custom -->
-    <link rel="stylesheet" href="<?php echo config_item('assets'); ?>adminlte/css/custom.css">
+    <link rel="stylesheet" href="<?php echo base_url('assets/'); ?>adminlte/css/custom.css">
     <!-- css notifikasi -->
-    <link rel="stylesheet" href="<?php echo config_item('assets'); ?>adminlte/css/notifikasi.css">
+    <link rel="stylesheet" href="<?php echo base_url('assets/'); ?>adminlte/css/notifikasi.css">
 
   <?php 
     //load file css per modul

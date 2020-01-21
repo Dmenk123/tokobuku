@@ -334,12 +334,12 @@ class Template_view extends CI_Controller {
 
         //$data['modal']      = $this->_ci->load->view($content['modal'], $data, TRUE);
         //$data['js']         = $this->_ci->load->view($content['js'], $data, TRUE);
-		$data['navbar']     = $this->_ci->load->view('template/v_navbar_adm', $data, TRUE);
-        $data['header']     = $this->_ci->load->view('template/v_header_adm', $data, TRUE);
+		$data['navbar']     = $this->_ci->load->view('adm_template/v_navbar_adm', $data, TRUE);
+        $data['header']     = $this->_ci->load->view('adm_template/v_header_adm', $data, TRUE);
         $data['content']    = $this->_ci->load->view($content['view'], $data, TRUE);
-        $data['footer']     = $this->_ci->load->view('template/v_footer_adm', $data, TRUE);
+        $data['footer']     = $this->_ci->load->view('adm_template/v_footer_adm', $data, TRUE);
 		
-        $this->_ci->load->view('template/v_index_adm', $data);
+        $this->_ci->load->view('adm_template/v_index_adm', $data);
 
     }
 

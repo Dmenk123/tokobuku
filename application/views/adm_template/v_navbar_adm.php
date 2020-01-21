@@ -5,7 +5,7 @@
       <span class="logo-mini"><img src="<?php echo base_url('assets/img/logo_thumb.png');?>"></span>
       <!-- logo for regular state and mobile devices -->
       <!-- <span class="logo-lg"><img src="<?php echo base_url('assets/img/logo_small.png');?>"></span> -->
-      <span class="logo-lg" style="color:white;"><strong>On Pets Shop</strong></span>
+      <span class="logo-lg" style="color:white;"><strong>Toko Buku</strong></span>
    </a>
    
    <!-- Header Navbar: style can be found in header.less -->
@@ -21,7 +21,7 @@
             <li class="dropdown user user-menu">
                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                <?php foreach ($data_user as $val) { ?>
-                  <span class="hidden-xs" style="padding: 30px;"><?php echo $val->fname_user." ".$val->lname_user;?></span>
+                  <span class="hidden-xs" style="padding: 30px;"><?php echo $val->nama_lengkap_user;?></span>
               <?php } ?>
                </a>
                <ul class="dropdown-menu">
@@ -29,8 +29,8 @@
                   <!-- User image -->
                   <li class="user-header">
                   <?php foreach ($data_user as $val) { ?>
-                     <img src="<?php echo config_item('assets'); ?>img/foto_profil/<?php echo $val->foto_user; ?>" class="img-circle" alt="User Image">  
-                     <p><?php echo $val->fname_user." ".$val->lname_user;?></p>
+                     <img src="<?php echo config_item('assets'); ?>img/foto_profil/<?php echo $val->gambar_user; ?>" class="img-circle" alt="User Image">  
+                     <p><?php echo $val->nama_lengkap_user;?></p>
                   <?php } ?>
                   </li>
 
@@ -57,9 +57,9 @@
          <ul class="nav navbar-nav">
             <li class="dropdown user user-menu">
                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-envelope"></i>
-               <?php if ($qty_notif > 0) { ?>
+               <!-- <?php if ($qty_notif > 0) { ?>
                   <span class="badge badge-danger" id="load_row"><?php echo $qty_notif;?></span>
-               <?php } ?> 
+               <?php } ?>  -->
                </a>
                <?php $no=0;
                if (count($isi_notif) > 0) { ?>

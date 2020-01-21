@@ -7,6 +7,7 @@ class Dashboard extends CI_Controller {
 	{
 		parent::__construct();
 		$this->load->model('adm_model/Mod_dashboard_adm','m_dasbor');
+		$this->load->model('adm_model/Mod_user','m_user');
 		// $this->load->model('penjualan_adm/mod_penjualan_adm','m_jual');
 		// $this->load->library('flashdata_stokmin');
 		
@@ -21,8 +22,17 @@ class Dashboard extends CI_Controller {
 		$thn_now = date('Y');
 		$tanggal_awal = $thn_now.'-'.$bln_now.'-01';
 		$tanggal_akhir = date('Y-m-t', strtotime($tanggal_awal));
+		
+		$id_user = $this->session->userdata('id_user');
+		$query = $this->m_user->get_detail_user($id_user);
 
-		$data = [];
+		$data_dashboard = [];
+		$isi_notif = [];
+		
+		$data = [
+			'data_user' => $query,
+			'isi_notif' => $isi_notif
+		];
 
 		$content = [
 			'modal' => false,
