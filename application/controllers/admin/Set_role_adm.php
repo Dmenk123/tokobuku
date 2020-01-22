@@ -46,12 +46,12 @@ class Set_role_adm extends CI_Controller {
 			//add html for action button
 			if ($listRole->aktif == 1) {
 				$row[] =
-					'<a class="btn btn-sm btn-primary" title="Edit" href="'.base_url('set_role_adm/edit_role/'.$listRole->id_level_user).'"><i class="glyphicon glyphicon-pencil"></i> Edit</a>
+					'<a class="btn btn-sm btn-primary" title="Edit" href="'.base_url('admin/set_role_adm/edit_role/'.$listRole->id_level_user).'"><i class="glyphicon glyphicon-pencil"></i> Edit</a>
 					 <a class="btn btn-sm btn-success btn_edit_status" href="javascript:void(0)" title="aktif" id="'.$listRole->id_level_user.'"><i class="fa fa-check"></i> Aktif</a>';
 				$data[] = $row;
 			}else{
 				$row[] =
-					'<a class="btn btn-sm btn-primary" title="Edit" href="'.base_url('set_role_adm/edit_role/'.$listRole->id_level_user).'"><i class="glyphicon glyphicon-pencil"></i> Edit</a>
+					'<a class="btn btn-sm btn-primary" title="Edit" href="'.base_url('admin/set_role_adm/edit_role/'.$listRole->id_level_user).'"><i class="glyphicon glyphicon-pencil"></i> Edit</a>
 					 <a class="btn btn-sm btn-danger btn_edit_status" href="javascript:void(0)" title="nonaktif" id="'.$listRole->id_level_user.'"><i class="fa fa-times"></i> Nonaktif</a>';
 				$data[] = $row;
 			}
@@ -71,9 +71,9 @@ class Set_role_adm extends CI_Controller {
 	public function edit_role($id)
 	{
 		$id_user = $this->session->userdata('id_user'); 
-		$data_user = $this->m_user->get_detail_pengguna($id_user);		
+		$data_user = $this->m_user->get_detail_user($id_user);		
 		$where = "id_level_user = $id";
-		$oldData = $this->m_role->get_data($where, 'tbl_level_user');
+		$oldData = $this->m_role->get_data($where, 'm_level_user');
 		
 		if(!$oldData){
 			redirect($this->uri->segment(1));
@@ -350,17 +350,21 @@ class Set_role_adm extends CI_Controller {
 		}
 		$checkboxMenu .= "</tbody></table></div>";
 
+		$isi_notif = [];
+
 		$data = array(
 			'data_user' => $data_user,
 			'old_data'	=> $oldData,
-			'check_box_menu' => $checkboxMenu
+			'check_box_menu' => $checkboxMenu,
+			'isi_notif' => $isi_notif
 		);
 
+
 		$content = [
+			'css' => 'adm_view/css/css_set_role_adm',
 			'modal' => false,
-			'js'		=> false,
-			'css'		=> 'setRoleAdmCss',
-			'view'	=> 'view_list_edit_role'
+			'js'	=> false,
+			'view'	=> 'adm_view/v_edit_role'
 		];
 
 		$this->template_view->load_view($content, $data);
@@ -369,7 +373,7 @@ class Set_role_adm extends CI_Controller {
 	public function edit_role_data()
 	{
 		$id_user = $this->session->userdata('id_user'); 
-		$data_user = $this->m_user->get_detail_pengguna($id_user);
+		$data_user = $this->m_user->get_detail_user($id_user);
 
 		$this->form_validation->set_rules('id_role', '', 'trim|required');
 		$this->form_validation->set_rules('nama_role', '', 'trim|required');
@@ -384,15 +388,15 @@ class Set_role_adm extends CI_Controller {
 				'keterangan_level_user' => $this->input->post('keterangan')
 			);
 			$where = array('id_level_user' => $this->input->post('id_role'));
-			$query = $this->m_role->update_data_role($where, $input, 'tbl_level_user');
+			$query = $this->m_role->update_data_role($where, $input, 'm_level_user');
 			
 			// select data di tbl hak akses dengan role terpilih
-			$d_akses = $this->db->query("SELECT * FROM tbl_hak_akses WHERE id_level_user = '".$this->input->post('id_role')."'")->result();
+			$d_akses = $this->db->query("SELECT * FROM t_hak_akses WHERE id_level_user = '".$this->input->post('id_role')."'")->result();
 			
 			if($d_akses){
 				// delete hak akses sesuai parent yg di update
 				$where2 = array('id_level_user' => $this->input->post('id_role'));
-				$this->m_role->delete_data_role($where2, 'tbl_hak_akses');
+				$this->m_role->delete_data_role($where2, 't_hak_akses');
 			}
 		
 			$id_menu = $this->input->post('id_menu');
@@ -400,7 +404,7 @@ class Set_role_adm extends CI_Controller {
 
 			for ($i=0; $i < count($id_menu); $i++) { 
 				$insert = "
-					insert into tbl_hak_akses
+					insert into t_hak_akses
 						(id_menu, id_level_user, add_button, edit_button, delete_button)
 					values (
 						'".$id_menu[$i]."',
@@ -430,10 +434,10 @@ class Set_role_adm extends CI_Controller {
 		}
 
 		if ($flag_aktifkan) {
-			$this->m_role->update_data_role(['id_level_user' => $idRole], ['aktif' => 1], 'tbl_level_user');
+			$this->m_role->update_data_role(['id_level_user' => $idRole], ['aktif' => 1], 'm_level_user');
 			$pesan = 'Role berhasil di aktifkan';
 		}else{
-			$this->m_role->update_data_role(['id_level_user' => $idRole], ['aktif' => 0], 'tbl_level_user');
+			$this->m_role->update_data_role(['id_level_user' => $idRole], ['aktif' => 0], 'm_level_user');
 			$pesan = 'Role berhasil di nonaktifkan';
 		}
 

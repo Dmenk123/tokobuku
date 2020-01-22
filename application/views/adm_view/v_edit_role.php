@@ -15,7 +15,7 @@
       <div class="row">
         <div class="col-xs-12">
           <div class="box">
-            <form class="form-edit-role" id="form-edit-role" action="<?=base_url()."".$this->uri->segment(1)."/".$this->uri->segment(2);?>_data" method="post">
+            <form class="form-edit-role" id="form-edit-role" action="<?=base_url('admin/')."".$this->uri->segment(2)."/".$this->uri->segment(3);?>_data" method="post">
               <div class="box-header">
               <input type="hidden" value="<?php echo $old_data['id_level_user'];?>" name="id_role">
                 <div class="form-group">
