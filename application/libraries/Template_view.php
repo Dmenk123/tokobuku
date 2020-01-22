@@ -35,10 +35,10 @@ class Template_view extends CI_Controller {
 		from
 			m_menu,t_hak_akses
 		WHERE
-			m_menu.aktif_menu = 1 and m_menu.LINK_MENU = '".$this->_ci->uri->segment(1)."' and m_menu.id_menu=t_hak_akses.id_menu and t_hak_akses.id_level_user= '".$id_level."'
+			m_menu.aktif_menu = 1 and m_menu.LINK_MENU = 'admin/".$this->_ci->uri->segment(2)."' and m_menu.id_menu=t_hak_akses.id_menu and t_hak_akses.id_level_user= '".$id_level."'
 		");
 		$dataActive = $queryActive->row();
-		//echo $this->_ci->db->last_query();
+		//echo $this->_ci->db->last_query();exit;
 
 		$menuHtml = "<ul class='sidebar-menu'>";
         $menu1 = $this->_ci->db->query("
@@ -84,9 +84,9 @@ class Template_view extends CI_Controller {
 			}
 
 			
-			if(!$dataActive){
-				redirect("login");
-			}
+		/* 	if(!$dataActive){
+				redirect("admin/login");
+			} */
 
 			if($dataActive->tingkat_menu=='4' && $dataActive->id_atasketiga==$dataMenuSatu->id_menu){
 				$active1="active";
@@ -353,7 +353,7 @@ class Template_view extends CI_Controller {
         from
             m_menu
         WHERE
-            m_menu.link_menu = '".$this->_ci->uri->segment(1)."'
+            m_menu.link_menu = 'admin/".$this->_ci->uri->segment(2)."'
         ");
         $dataMenu = $queryMenu->row();
 
@@ -388,11 +388,11 @@ class Template_view extends CI_Controller {
 			WHERE
 				m_menu.id_menu=t_hak_akses.id_menu
 				and t_hak_akses.id_level_user= '".$id_level."'
-				and m_menu.link_menu = '".$this->_ci->uri->segment(1)."'
+				and m_menu.link_menu = 'admin/".$this->_ci->uri->segment(2)."'
 			");
 			$dataButton = $queryButton->row();
 			if($dataButton->add_button == 1 ){
-				echo "<a href='".base_url().$this->_ci->uri->segment(1)."/add'><span class='btn btn-primary'><i class='fa fa-plus'></i> Tambah Data</span></a>
+				echo "<a href='".base_url('admin').$this->_ci->uri->segment(2)."/add'><span class='btn btn-primary'><i class='fa fa-plus'></i> Tambah Data</span></a>
 				";
 			}
 		}
@@ -417,7 +417,7 @@ class Template_view extends CI_Controller {
 			WHERE
 				m_menu.id_menu=t_hak_akses.id_menu
 				and t_hak_akses.id_level_user= '".$id_level."'
-				and m_menu.link_menu = '".$this->_ci->uri->segment(1)."'
+				and m_menu.link_menu = 'admin/".$this->_ci->uri->segment(2)."'
 			");
 			$dataButton = $queryButton->row();
 			if($dataButton->edit_button == 1 ){
@@ -445,7 +445,7 @@ class Template_view extends CI_Controller {
 			WHERE
 				m_menu.id_menu=t_hak_akses.id_menu
 				and t_hak_akses.id_level_user= '".$id_level."'
-				and m_menu.link_menu = '".$this->_ci->uri->segment(1)."'
+				and m_menu.link_menu = 'admin/".$this->_ci->uri->segment(2)."'
 			");
 			$dataButton = $queryButton->row();
 			if($dataButton->delete_button == 1 ){
