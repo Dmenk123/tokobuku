@@ -418,7 +418,7 @@ class Set_role_adm extends CI_Controller {
 			}
 
 			$this->session->set_flashdata('feedback_success','Berhasil update data role.'); 
-			redirect($this->uri->segment(1));
+			redirect('admin/'. $this->uri->segment(2));
 		}
 	}
 
