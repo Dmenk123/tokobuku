@@ -6,44 +6,47 @@ class Master_produk_adm extends CI_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model('dashboard_adm/Mod_dashboard_adm','m_dasbor');
-		$this->load->model('Mod_master_produk_adm','m_prod');
-		//cek sudah login apa tidak
-		if ($this->session->userdata('logged_in') != true) {
-			redirect('home/error_404');
-		}
-		//cek level user
-		if ($this->session->userdata('id_level_user') == "2" || $this->session->userdata('id_level_user') == "4") {
-			redirect('home/error_404');
-		}
-
-		//pesan stok minimum
-		$produk = $this->m_dasbor->get_produk();
+		$this->load->model('adm_model/mod_user', 'm_user');
+		$this->load->model('adm_model/mod_set_role_adm', 'm_role');
+		
+		/* //pesan stok minimum
+		$produk = $this->m_user->get_produk();
 		$link_notif = site_url('laporan_stok');
 		foreach ($produk as $val) {
 			if ($val->stok_sisa <= $val->stok_minimum) {
 				$this->session->set_flashdata('cek_stok', 'Terdapat Stok produk dibawah nilai minimum, Mohon di cek ulang <a href="'.$link_notif.'">disini</a>');
 			}
-		}
+		} */
 	}
 
 	public function index()
 	{
+		$isi_notif = [];
 		$id_user = $this->session->userdata('id_user'); 
-		$data_user = $this->m_dasbor->get_data_user($id_user);
-
-		$jumlah_notif = $this->m_dasbor->email_notif_count($id_user);  //menghitung jumlah email masuk
-		$notif = $this->m_dasbor->get_email_notif($id_user); //menampilkan isi email
+		$data_user = $this->m_user->get_detail_user($id_user);
 
 		$data = array(
 			'content'=>'view_list_master_produk',
 			'modal'=>'modalMasterProdukAdm',
 			'js'=>'masterProdukAdmJs',
 			'data_user' => $data_user,
-			'qty_notif' => $jumlah_notif,
-			'isi_notif' => $notif,
 		);
-		$this->load->view('temp_adm',$data);
+
+		$data = array(
+			'data_user' => $data_user,
+			'isi_notif' => $isi_notif
+		);
+
+		$content = [
+			'css' => false,
+			// 'modal' => 'adm_view/modal/modalSetRoleAdm',
+			// 'js'	=> 'adm_view/js/js_set_role_adm',
+			'modal' => false,
+			'js'	=> false,
+			'view'	=> 'adm_view/v_master_produk'
+		];
+
+		$this->template_view->load_view($content, $data);
 	}
 
 	public function list_produk()
@@ -133,10 +136,10 @@ class Master_produk_adm extends CI_Controller {
 	public function master_produk_detail($id)
 	{
 		$id_user = $this->session->userdata('id_user'); 
-		$data_user = $this->m_dasbor->get_data_user($id_user);
+		$data_user = $this->m_user->get_data_user($id_user);
 
-		$jumlah_notif = $this->m_dasbor->email_notif_count($id_user);  //menghitung jumlah email masuk
-		$notif = $this->m_dasbor->get_email_notif($id_user); //menampilkan isi email
+		$jumlah_notif = $this->m_user->email_notif_count($id_user);  //menghitung jumlah email masuk
+		$notif = $this->m_user->get_email_notif($id_user); //menampilkan isi email
 
 		$query_header = $this->m_prod->get_detail_produk_header($id);
 
