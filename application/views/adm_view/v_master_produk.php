@@ -15,8 +15,9 @@
         <div class="col-xs-12">
           <div class="box">
             <div class="box-header">
-              <button class="btn btn-success" onclick="addProduk()"><i class="glyphicon glyphicon-plus"></i> Add produk</button>
-              <button class="btn btn-default" onclick="reload_table()"><i class="glyphicon glyphicon-refresh"></i> Reload</button>
+							<a href="<?= base_url('admin/master_produk_adm/add_data_produk'); ?>"></a>
+							<?= $this->template_view->getAddButton(); ?>
+              <!-- <button class="btn btn-default" onclick="reload_table()"><i class="glyphicon glyphicon-refresh"></i> Reload</button> -->
             </div>
             <!-- /.box-header -->
             <div class="box-body">
@@ -28,11 +29,9 @@
                       <th>ID</th>
                       <th>Nama Produk</th>
                       <th>Kategori</th>
-                      <th>Sub Kategori</th>
                       <th>Harga</th>
                       <th>Satuan</th>
-                      <th>Bahan</th>
-                      <th style="width: 240px; text-align: center;">Action</th>
+                      <th style="width: 240px; text-align: center;">#</th>
                     </tr>
                   </thead>
                   <tbody>

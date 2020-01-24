@@ -392,7 +392,7 @@ class Template_view extends CI_Controller {
 			");
 			$dataButton = $queryButton->row();
 			if($dataButton->add_button == 1 ){
-				echo "<a href='".base_url('admin').$this->_ci->uri->segment(2)."/add'><span class='btn btn-primary'><i class='fa fa-plus'></i> Tambah Data</span></a>
+				echo "<a href='".base_url('admin/').$this->_ci->uri->segment(2)."/add'><span class='btn btn-primary'><i class='fa fa-plus'></i> Tambah Data</span></a>
 				";
 			}
 		}
