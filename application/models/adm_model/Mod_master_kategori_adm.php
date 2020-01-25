@@ -9,12 +9,6 @@ class Mod_master_kategori_adm extends CI_Model
 			'akronim',
 		);
 
-	var $column_search2 = array(
-			'nama_sub_kategori',
-			'ket_sub_kategori',
-			'gender_sub_kategori',
-		);
-
 	var $column_order = array(
 			null,
 			'nama_kategori',
@@ -22,16 +16,8 @@ class Mod_master_kategori_adm extends CI_Model
 			'akronim',
 		);
 
-	var $column_order2 = array(
-			null,
-			'nama_sub_kategori',
-			'ket_sub_kategori',
-			'gender_sub_kategori',
-		);
-
 	var $order = array('nama_kategori' => 'asc'); // default order
-	var $order2 = array('nama_sub_kategori' => 'asc');
-
+	
 	public function __construct()
 	{
 		parent::__construct();
@@ -119,83 +105,6 @@ class Mod_master_kategori_adm extends CI_Model
 		return $this->db->count_all_results();
 	}
 
-	//********************************************************************************************
-	//for subkategori
-	private function _get_data_subkategori_query($term='', $id_kategori) //term is value of $_REQUEST['search']
-	{
-		$column = array(
-				null,
-				'nama_sub_kategori',
-				'ket_sub_kategori',
-				null,
-			);
-
-		$this->db->select('
-				id_sub_kategori,
-				nama_sub_kategori,
-				ket_sub_kategori,
-			');
-
-		$this->db->from('tbl_sub_kategori_produk');
-		$this->db->where('id_kategori', $id_kategori);
-		$i = 0;
-		// loop column 
-		foreach ($this->column_search2 as $item) 
-		{
-			if($_POST['search']['value']) 
-			{
-				if($i===0) 
-				{
-					$this->db->group_start();
-					$this->db->like($item, $_POST['search']['value']);
-				}
-				else
-				{
-					$this->db->or_like($item, $_POST['search']['value']);
-				}
-				//last loop
-				if(count($this->column_search2) - 1 == $i) 
-					$this->db->group_end(); //close bracket
-			}
-			$i++;
-		}
-
-		if(isset($_POST['order'])) // here order processing
-		{
-			$this->db->order_by($this->column_order2[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);
-		} 
-		else if(isset($this->order2))
-		{
-			$order = $this->order2;
-            $this->db->order_by(key($order), $order[key($order)]);
-		}
-	}
-
-	function get_datatable_subkategori($id_kategori)
-	{
-		$term = $_REQUEST['search']['value'];
-		$this->_get_data_subkategori_query($term, $id_kategori);
-		if($_REQUEST['length'] != -1)
-		$this->db->limit($_REQUEST['length'], $_REQUEST['start']);
-
-		$query = $this->db->get();
-		return $query->result();
-	}
-
-	function count_filtered_subkategori($id_kategori)
-	{
-		$term = $_REQUEST['search']['value'];
-		$this->_get_data_subkategori_query($term, $id_kategori);
-		$query = $this->db->get();
-		return $query->num_rows();
-	}
-
-	public function count_all_subkategori($id_kategori)
-	{
-		$this->db->from('tbl_sub_kategori_produk');
-		$this->db->where('id_kategori', $id_kategori);
-		return $this->db->count_all_results();
-	}
 	//end datatable query
 	//********************************************************************************************
 	

@@ -6,6 +6,7 @@ class Master_produk_adm extends CI_Controller {
 	public function __construct()
 	{
 		parent::__construct();
+		$this->load->model('mod_global', 'm_global');
 		$this->load->model('adm_model/mod_user', 'm_user');
 		$this->load->model('adm_model/mod_master_produk_adm', 'm_prod');
 		
@@ -50,6 +51,7 @@ class Master_produk_adm extends CI_Controller {
 
 	public function add()
 	{
+		var_dump($this->m_global->gen_uuid());exit;
 		$timestamp = date('Y-m-d H:i:s');
 		$id_kategori = $this->input->post('kategoriProduk');
 		$akronim = $this->m_prod->get_akronim_kategori($id_kategori);
