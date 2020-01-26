@@ -27,7 +27,6 @@ class Master_produk_adm extends CI_Controller {
 		$data_user = $this->m_user->get_detail_user($id_user);
 
 		$data = array(
-			'content'=>'view_list_master_produk',
 			'modal'=>'modalMasterProdukAdm',
 			'js'=>'masterProdukAdmJs',
 			'data_user' => $data_user,
@@ -51,7 +50,35 @@ class Master_produk_adm extends CI_Controller {
 
 	public function add()
 	{
-		var_dump($this->m_global->gen_uuid());exit;
+		$isi_notif = [];
+		$id_user = $this->session->userdata('id_user'); 
+		$data_user = $this->m_user->get_detail_user($id_user);
+
+		$data = array(
+			'modal'=>'modalMasterProdukAdm',
+			'js'=>'masterProdukAdmJs',
+			'data_user' => $data_user,
+		);
+
+		$data = array(
+			'data_user' => $data_user,
+			'isi_notif' => $isi_notif
+		);
+
+		$content = [
+			'css' => false,
+			// 'modal' => 'adm_view/modal/modalSetRoleAdm',
+			'js'	=> 'adm_view/js/js_produk_adm',
+			'modal' => false,
+			'view'	=> 'adm_view/v_add_master_produk'
+		];
+
+		$this->template_view->load_view($content, $data);
+	}
+
+	public function add_data()
+	{
+		$uuid = $this->m_global->gen_uuid();
 		$timestamp = date('Y-m-d H:i:s');
 		$id_kategori = $this->input->post('kategoriProduk');
 		$akronim = $this->m_prod->get_akronim_kategori($id_kategori);

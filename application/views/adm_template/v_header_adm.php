@@ -34,13 +34,13 @@
     <link rel="stylesheet" href="<?php echo base_url('assets/'); ?>adminlte/css/skins/skin-black.css">
     <link rel="stylesheet" href="<?php echo base_url('assets/'); ?>datepicker/datepicker3.css">
     <!-- select2 -->
-    <!-- <link rel="stylesheet" href="<?php echo base_url('assets/'); ?>select2/select2.min.css">
-    <link rel="stylesheet" href="<?php echo base_url('assets/'); ?>select2/select2-bootstrap.css"> -->
+    <link rel="stylesheet" href="<?php echo base_url('assets/'); ?>select2/dist/css/select2.min.css">
+    <link rel="stylesheet" href="<?php echo base_url('assets/'); ?>select2-bootstrap-theme-master/dist/select2-bootstrap.min.css">
     <!-- css custom -->
     <link rel="stylesheet" href="<?php echo base_url('assets/'); ?>adminlte/css/custom.css">
     <!-- css notifikasi -->
     <link rel="stylesheet" href="<?php echo base_url('assets/'); ?>adminlte/css/notifikasi.css">
-
+    
   <?php 
     //load file css per modul
     if(isset($css)){

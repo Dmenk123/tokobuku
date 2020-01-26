@@ -3,9 +3,9 @@
 
 <footer class="main-footer">
 	<div class="pull-right hidden-xs">
-		<b>OnPets e-marketplace | Powered by : adminLTE</b>
+		<b>Powered by : adminLTE</b>
 	</div>
-	<strong>Copyright &copy; <?php echo date('Y'); ?> OnPets </strong> All rights
+	<strong>Copyright &copy; <?php echo date('Y'); ?> MAS NUR </strong> All rights
 	reserved.
 </footer>
 
@@ -34,7 +34,7 @@ if (isset($modal)) {
 <!-- datepicker -->
 <script src="<?php echo base_url('assets/'); ?>datepicker/bootstrap-datepicker.js"></script>
 <!-- select2 -->
-<script src="<?php echo base_url('assets/'); ?>select2/select2.min.js"></script>
+<script src="<?php echo base_url('assets/'); ?>select2/dist/js/select2.min.js"></script>
 <!-- chartjs -->
 <script src="<?php echo base_url('assets/'); ?>chartjs/Chart.min.js"></script>
 <!-- Slimscroll -->
@@ -86,6 +86,15 @@ if (isset($js)) {
 
 	//fix to issue select2 on modal when opening in firefox, thanks to github
 	$.fn.modal.Constructor.prototype.enforceFocus = function() {};
+	// $.fn.select2.defaults.set("theme", "bootstrap");
+	$('.select2').select2({
+		theme: "bootstrap"
+	});
+
+	//force integer input in textfield
+    $('input.numberinput').bind('keypress', function(e) {
+      return (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57) && e.which != 46) ? false : true;
+    });
 </script>
 
 </body>
