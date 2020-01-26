@@ -1,21 +1,39 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : localhost
+ Source Server         : lokal
  Source Server Type    : MySQL
- Source Server Version : 100129
+ Source Server Version : 100131
  Source Host           : localhost:3306
  Source Schema         : properti
 
  Target Server Type    : MySQL
- Target Server Version : 100129
+ Target Server Version : 100131
  File Encoding         : 65001
 
- Date: 25/01/2020 09:46:34
+ Date: 26/01/2020 23:31:18
 */
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
+
+-- ----------------------------
+-- Table structure for m_kategori
+-- ----------------------------
+DROP TABLE IF EXISTS `m_kategori`;
+CREATE TABLE `m_kategori`  (
+  `id` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+  `nama` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+  `keterangan` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+  `akronim` varchar(3) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Records of m_kategori
+-- ----------------------------
+INSERT INTO `m_kategori` VALUES ('1', 'Teknologi', 'Teknologi', 'TEK');
+INSERT INTO `m_kategori` VALUES ('2', 'Fiksi', 'Fiksi', 'FIK');
 
 -- ----------------------------
 -- Table structure for m_level_user
@@ -67,6 +85,51 @@ INSERT INTO `m_menu` VALUES (5, 0, 'Data Master', 'Data Master', ' ', 'fa fa-dat
 INSERT INTO `m_menu` VALUES (6, 5, 'Master Produk', 'Master Produk', 'admin/master_produk_adm', '', 1, 2, 1, 1, 1, 1);
 
 -- ----------------------------
+-- Table structure for m_produk
+-- ----------------------------
+DROP TABLE IF EXISTS `m_produk`;
+CREATE TABLE `m_produk`  (
+  `id` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+  `id_kategori` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+  `id_satuan` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+  `kode` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+  `nama` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+  `keterangan` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+  `dimensi_panjang` double(20, 2) NULL DEFAULT NULL,
+  `dimensi_lebar` double(20, 2) NULL DEFAULT NULL,
+  `jumlah_halaman` int(14) NULL DEFAULT NULL,
+  `penerbit` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+  `tahun` varchar(4) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+  `created_at` datetime(0) NULL DEFAULT NULL,
+  `deleted_at` datetime(0) NULL DEFAULT NULL,
+  `is_aktif` int(1) NULL DEFAULT NULL,
+  `is_posting` int(1) NULL DEFAULT NULL,
+  `gambar_1` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+  `gambar_2` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+  `gambar_3` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+  `thumb` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Table structure for m_satuan
+-- ----------------------------
+DROP TABLE IF EXISTS `m_satuan`;
+CREATE TABLE `m_satuan`  (
+  `id` int(11) NOT NULL,
+  `nama` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+  `is_aktif` int(1) NULL DEFAULT 1,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Records of m_satuan
+-- ----------------------------
+INSERT INTO `m_satuan` VALUES (1, 'PCS', 1);
+INSERT INTO `m_satuan` VALUES (2, 'BOX', 1);
+INSERT INTO `m_satuan` VALUES (3, 'PACK', 1);
+
+-- ----------------------------
 -- Table structure for m_user
 -- ----------------------------
 DROP TABLE IF EXISTS `m_user`;
@@ -86,7 +149,7 @@ CREATE TABLE `m_user`  (
 -- ----------------------------
 -- Records of m_user
 -- ----------------------------
-INSERT INTO `m_user` VALUES ('USR00001', 'masnur', 'kmJnZmZo', 1, NULL, 1, '2020-01-24 07:39:35', '2019-10-05 21:34:14', '2020-01-24 13:39:35');
+INSERT INTO `m_user` VALUES ('USR00001', 'masnur', 'kmJnZmZo', 1, NULL, 1, '2020-01-26 16:25:54', '2019-10-05 21:34:14', '2020-01-26 22:25:54');
 INSERT INTO `m_user` VALUES ('USR00002', 'agen', 'kmJnZmZo', 2, NULL, 1, '2019-12-03 08:42:33', '2019-11-09 19:36:13', '2020-01-21 15:03:27');
 INSERT INTO `m_user` VALUES ('USR00003', 'customer', 'kmJnZmZo', 3, NULL, 1, '2019-12-03 08:41:40', '2019-11-09 19:43:19', '2020-01-21 15:03:52');
 
@@ -140,5 +203,35 @@ INSERT INTO `t_hak_akses` VALUES (6, 1, 1, 1, 1);
 INSERT INTO `t_hak_akses` VALUES (4, 1, 0, 0, 0);
 INSERT INTO `t_hak_akses` VALUES (3, 1, 1, 1, 1);
 INSERT INTO `t_hak_akses` VALUES (2, 1, 1, 1, 1);
+
+-- ----------------------------
+-- Function structure for uuid_v4
+-- ----------------------------
+DROP FUNCTION IF EXISTS `uuid_v4`;
+delimiter ;;
+CREATE DEFINER=`root`@`localhost` FUNCTION `uuid_v4`() RETURNS char(36) CHARSET latin1
+BEGIN
+    -- Generate 8 2-byte strings that we will combine into a UUIDv4
+    SET @h1 = LPAD(HEX(FLOOR(RAND() * 0xffff)), 4, '0');
+    SET @h2 = LPAD(HEX(FLOOR(RAND() * 0xffff)), 4, '0');
+    SET @h3 = LPAD(HEX(FLOOR(RAND() * 0xffff)), 4, '0');
+    SET @h6 = LPAD(HEX(FLOOR(RAND() * 0xffff)), 4, '0');
+    SET @h7 = LPAD(HEX(FLOOR(RAND() * 0xffff)), 4, '0');
+    SET @h8 = LPAD(HEX(FLOOR(RAND() * 0xffff)), 4, '0');
+
+    -- 4th section will start with a 4 indicating the version
+    SET @h4 = CONCAT('4', LPAD(HEX(FLOOR(RAND() * 0x0fff)), 3, '0'));
+
+    -- 5th section first half-byte can only be 8, 9 A or B
+    SET @h5 = CONCAT(HEX(FLOOR(RAND() * 4 + 8)),
+                LPAD(HEX(FLOOR(RAND() * 0x0fff)), 3, '0'));
+
+    -- Build the complete UUID
+    RETURN LOWER(CONCAT(
+        @h1, @h2, '-', @h3, '-', @h4, '-', @h5, '-', @h6, @h7, @h8
+    ));
+END
+;;
+delimiter ;
 
 SET FOREIGN_KEY_CHECKS = 1;
