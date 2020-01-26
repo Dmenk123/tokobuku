@@ -17,11 +17,39 @@
           <div class="box">
             <!-- /.box-header -->
             <div class="box-body">
-              <form id="form_input">
+              <form id="form">
                 <div class="form-group col-md-12">
-                  <label>KODE : </label>
-                  <input type="text" class="form-control" id="kode" name="kode" value="<?php if(isset($hasil_data)){echo $hasil_data->kode;}?>" readonly>
+                  <label>Nama : </label>
+                  <input type="text" class="form-control" id="nama" name="nama" value="<?php if(isset($hasil_data)){echo $hasil_data->nama;}?>">
                   <input type="hidden" class="form-control" id="id" name="id" value="<?php if(isset($hasil_data)){echo $hasil_data->id;}?>">
+                  <span class="help-block"></span>
+                </div>
+
+                <div class="form-group col-md-6">
+                  <label>Kategori : </label>
+                  <select class="form-control select2" id="kategori" name="kategori">
+                    <?php foreach ($data_kategori as $key => $value): ?>
+                      <option value="<?= $value->id; ?>" 
+                        <?php if(isset($hasil_data)){
+                          if ($hasil_data->id_kategori == $value->id) {echo "selected";}
+                        }?>><?= $value->nama ?>
+                      </option>
+                    <?php endforeach ?>
+                  </select>
+                  <span class="help-block"></span>
+                </div>
+
+                <div class="form-group col-md-6">
+                  <label>Satuan : </label>
+                  <select class="form-control select2" id="satuan" name="satuan">
+                    <?php foreach ($data_satuan as $key => $value): ?>
+                      <option value="<?= $value->id; ?>" 
+                        <?php if(isset($hasil_data)){
+                          if ($hasil_data->id_satuan == $value->id) {echo "selected";}
+                        }?>><?= $value->nama ?>
+                      </option>
+                    <?php endforeach ?>
+                  </select>
                   <span class="help-block"></span>
                 </div>
 
@@ -45,7 +73,7 @@
 
                 <div class="form-group col-md-4">
                   <label>Jumlah Halaman : </label>
-                  <input type="text" class="form-control numberinput" id="lebar" name="lebar" value="<?php if(isset($hasil_data)){echo $hasil_data->lebar;}?>">
+                  <input type="text" class="form-control numberinput" id="jumlah_halaman" name="jumlah_halaman" value="<?php if(isset($hasil_data)){echo $hasil_data->jumlah_halaman;}?>">
                   <span class="help-block"></span>
                 </div>
 
@@ -59,9 +87,12 @@
                   <label>Tahun : </label>
                   <select class="form-control select2" id="tahun" name="tahun">
                     <option value="">Pilih Tahun</option>
-                    <?php for ($i=2019; $i <= date('Y')+20 ; $i++) { 
-                      echo '<option value="'.$i.'">'.$i.'</option>';
-                    } ?>
+                    <?php for ($i=2019; $i <= date('Y')+20 ; $i++) { ?>
+                      <option value="<?= $i; ?>" <?php if (isset($hasil_data)) {
+                        if ($i == $hasil_data->tahun) { echo "selected"; }
+                      }?>><?= $i; ?>
+                      </option>
+                    <?php } ?>
                   </select>
                   <span class="help-block"></span>
                 </div>

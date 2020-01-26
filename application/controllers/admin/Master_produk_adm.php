@@ -48,21 +48,50 @@ class Master_produk_adm extends CI_Controller {
 		$this->template_view->load_view($content, $data);
 	}
 
+	private function konfigurasi_upload_produk($nmfile)
+	{ 
+		//konfigurasi upload img display
+		$config['upload_path'] = './assets/img/produk/';
+		$config['allowed_types'] = 'gif|jpg|png|jpeg|bmp';
+		$config['overwrite'] = TRUE;
+		$config['max_size'] = '4000';//in KB (4MB)
+		$config['max_width']  = '0';//zero for no limit 
+		$config['max_height']  = '0';//zero for no limit
+		$config['file_name'] = $nmfile;
+		//load library with custom object name alias
+		$this->load->library('upload', $config, 'gbr_produk');
+		$this->gbr_produk->initialize($config);
+	}
+
+	private function konfigurasi_image_produk($filename)
+	{
+		//konfigurasi image lib
+	    $config['image_library'] = 'gd2';
+	    $config['source_image'] = './assets/img/produk/'.$filename;
+	    $config['create_thumb'] = FALSE;
+	    $config['maintain_ratio'] = FALSE;
+	    $config['new_image'] = './assets/img/produk/'.$filename;
+	    $config['overwrite'] = TRUE;
+	    $config['width'] = 450; //resize
+	    $config['height'] = 500; //resize
+	    $this->load->library('image_lib',$config); //load image library
+	    $this->image_lib->initialize($config);
+	    $this->image_lib->resize();
+	}
+
 	public function add()
 	{
 		$isi_notif = [];
 		$id_user = $this->session->userdata('id_user'); 
 		$data_user = $this->m_user->get_detail_user($id_user);
-
-		$data = array(
-			'modal'=>'modalMasterProdukAdm',
-			'js'=>'masterProdukAdmJs',
-			'data_user' => $data_user,
-		);
+		$data_kategori = $this->m_prod->get_data_kategori();
+		$data_satuan = $this->m_prod->get_data_satuan();
 
 		$data = array(
 			'data_user' => $data_user,
-			'isi_notif' => $isi_notif
+			'isi_notif' => $isi_notif,
+			'data_satuan' => $data_satuan,
+			'data_kategori' => $data_kategori
 		);
 
 		$content = [
@@ -78,117 +107,202 @@ class Master_produk_adm extends CI_Controller {
 
 	public function add_data()
 	{
-		$uuid = $this->m_global->gen_uuid();
-		$timestamp = date('Y-m-d H:i:s');
-		$id_kategori = $this->input->post('kategoriProduk');
-		$akronim = $this->m_prod->get_akronim_kategori($id_kategori);
-		$id_produk = $this->m_prod->get_kode_produk($akronim);
-		//get extension
-		$path = $_FILES['gambarDisplay']['name'];
-		$ext = pathinfo($path, PATHINFO_EXTENSION);
-		//replace space with dash
-		$nmfile = str_replace(" ", "-", strtolower(trim($this->input->post('namaProduk'))));
+		//$arr_valid = $this->_validate();
+		$nama = trim(strtoupper(clean_string($this->input->post('nama'))));
+		$kategori = trim(clean_string($this->input->post('kategori')));
+		$satuan = trim(clean_string($this->input->post('satuan')));
+		$keterangan = trim(clean_string($this->input->post('keterangan')));
+		$panjang = clean_string($this->input->post('panjang'));
+		$lebar = clean_string($this->input->post('lebar'));
+		$jumlah_halaman = clean_string($this->input->post('jumlah_halaman'));
+		$penerbit = trim(clean_string($this->input->post('penerbit')));
+		$tahun = clean_string($this->input->post('tahun'));
+		$aktif = trim(clean_string($this->input->post('aktif')));
+		$posting = clean_string($this->input->post('posting'));
 
-		$data = array(
-			'id_produk' => $id_produk,
-			'id_kategori' => $id_kategori,
-			'id_sub_kategori' => $this->input->post('subKategoriProduk'),
-			'nama_produk' => trim($this->input->post('namaProduk')),
-			'harga' => trim($this->input->post('hargaProduk')),
-			'id_satuan' => $this->input->post('satuanProduk'),
-			'keterangan_produk' => trim($this->input->post('keteranganProduk')),
-			'bahan_produk' => trim($this->input->post('bahanProduk')),
-			'created' => $timestamp,
-			'status' => '1'
-		);
-		//save data (PROSES PERTAMA)
-		$this->m_prod->insert_data_produk($data);
-		//insert data tabel gambar
+
+		$namafileseo = $this->seoUrl($nama.' '.time());
+		
+
+		if ($arr_valid['status'] == FALSE) {
+			echo json_encode($arr_valid);
+			return;
+		}
+
+		$this->db->trans_begin();
+
 		//load konfig upload
-		$this->konfigurasi_upload_produk($nmfile);
-
-		//jika melakukan upload foto
-		if ($this->gbr_produk->do_upload('gambarDisplay')) {
-			$gbrDisplay = $this->gbr_produk->data();
-			//inisiasi variabel u/ digunakan pada fungsi config img produk
-			$nama_file_produk = $gbrDisplay['file_name'];
-			//load config img produk
-			$this->konfigurasi_image_produk($nama_file_produk);
-			//data input array
-			$input_display = array(
-				'id_produk' => $id_produk,
-				'jenis_gambar' => 'display',
-				'nama_gambar' => $gbrDisplay['file_name'],
-			);
-			//clear img lib after resize
-			$this->image_lib->clear();
-			//save data (PROSES KEDUA)
-			$this->m_prod->insert_data_gambar($input_display);
-		} //end 
-
-		//insert data tabel gambar detail
-		//load config image detail
-		$this->konfigurasi_upload_produk_detail();
+		$this->konfigurasi_upload_produk($namafileseo);
 		//loop 3x berdasarkan upload field
 		for ($i = 1; $i <= 3; $i++) {
 			//jika melakukan upload foto
-			if ($this->gbr_detail->do_upload('gambarDetail' . $i)) {
-				$gbrDetail = $this->gbr_detail->data(); //get file upload data
+			if ($this->gbr_produk->do_upload('gambar' . $i)) {
+				$gbr = $this->gbr_produk->data(); //get file upload data
 				$config['image_library'] = 'gd2';
-				$config['source_image'] = './assets/img/produk/img_detail/' . $gbrDetail['file_name'];
+				$config['source_image'] = './assets/img/produk/' . $gbr['file_name'];
 				$config['create_thumb'] = FALSE;
 				$config['maintain_ratio'] = FALSE;
 				$config['width'] = 450; //resize
 				$config['height'] = 500; //resize
-				$config['new_image'] = './assets/img/produk/img_detail/' . $nmfile . "-det" . $i . "." . $ext;
+				$config['new_image'] = './assets/img/produk/' . $nmfile . "-det" . $i . "." . $ext;
 				$this->load->library('image_lib', $config);
 				$this->image_lib->initialize($config);
 				$this->image_lib->resize();
-				$input_detail = array(
-					'id_produk' => $id_produk,
-					'jenis_gambar' => 'detail',
-					'nama_gambar' => $nmfile . "-det" . $i . "." . $ext,
-				);
-				//save data (PROSES KETIGA)
-				$this->m_prod->insert_data_gambar($input_detail);
-				$this->image_lib->clear(); //clear img lib after resize
+
+				$arr_gambar[] = ['nama_gambar' => $nmfile . "-det" . $i . "." . $ext];
+
+				//clear img lib after resize
+				$this->image_lib->clear(); 
 
 				//unlink file upload, just image processed file only saved in server
-				$ifile = '/e-commerce/assets/img/produk/img_detail/' . $gbrDetail['file_name'];
+				$ifile = '/assets/img/produk/' . $gbr['file_name'];
 				unlink($_SERVER['DOCUMENT_ROOT'] . $ifile); // use server document root
 			} else {
 				//jika tidak ada file diupload, maka duplicate upload file pertama tiap loop
-				$this->gbr_detail->do_upload('gambarDetail1');
-				$gbrDetail = $this->gbr_detail->data();
+				$this->gbr_produk->do_upload('gambar1');
+				$gbr = $this->gbr_produk->data();
 				//konfigurasi image lib
 				$config['image_library'] = 'gd2';
-				$config['source_image'] = './assets/img/produk/img_detail/' . $gbrDetail['file_name'];
+				$config['source_image'] = './assets/img/produk/' . $gbr['file_name'];
 				$config['create_thumb'] = FALSE;
 				$config['maintain_ratio'] = FALSE;
 				$config['width'] = 450; //resize
 				$config['height'] = 500; //resize
-				$config['new_image'] = './assets/img/produk/img_detail/' . $nmfile . "-det" . $i . "." . $ext;
+				$config['new_image'] = './assets/img/produk/' . $nmfile . "-det" . $i . "." . $ext;
 				$this->load->library('image_lib', $config);
 				$this->image_lib->initialize($config);
 				$this->image_lib->resize();
 
-				$input_detail = array(
-					'id_produk' => $id_produk,
-					'jenis_gambar' => 'detail',
-					'nama_gambar' => $nmfile . "-det" . $i . "." . $ext,
-				);
-				//save data (PROSES KETIGA)
-				$this->m_prod->insert_data_gambar($input_detail);
+				$arr_gambar[] = ['nama_gambar' => $nmfile . "-det" . $i . "." . $ext];
 				$this->image_lib->clear(); //clear img lib after resize
-				$ifile = '/e-commerce/assets/img/produk/img_detail/' . $gbrDetail['file_name'];
+
+				$ifile = '/assets/img/produk/' . $gbr['file_name'];
 				unlink($_SERVER['DOCUMENT_ROOT'] . $ifile); // use server document root
 			}
 		} //end loop
+
+		$data = array(
+			'id' => $nip,
+			'id_kategori' => $nama,
+			'id_satuan' => $jabatan,
+			'kode' => $alamat,
+			'nama' => $tempat_lahir,
+			'keterangan' => date('Y-m-d', strtotime($tahun.'-'.$bulan.'-'.$hari)),
+			'dimensi_panjang' => $jenkel,
+			'dimensi_lebar' => $nama_file_foto,
+			'jumlah_halaman' => $tipepeg,
+			'penerbit' => $tipepeg,
+			'tahun' => $tipepeg,
+			'created_at' => $tipepeg,
+			'is_aktif' => $tipepeg,
+			'is_posting' => $tipepeg,
+			'gambar_1' => $tipepeg,
+			'gambar_2' => $tipepeg,
+			'gambar_3' => $tipepeg
+		);
+
+		$insert = $this->m_prod->save($data);
+
+		if ($this->db->trans_status() === FALSE){
+			$this->db->trans_rollback();
+			$this->session->set_flashdata('feedback_failed','Gagal Buat Master Produk.'); 
+			$status = FALSE;
+		}
+		else {
+			$this->db->trans_commit();
+			$this->session->set_flashdata('feedback_success','Berhasil Buat Master Produk');
+			$status = TRUE;
+		}
+
 		echo json_encode(array(
-			'status' => TRUE,
-			'pesan' => "Data Produk " . $id_produk . " Berhasil ditambahkan"
+			"status" => $status
 		));
 	}
+
+
+	private function _validate()
+	{
+		$data = array();
+		$data['error_string'] = array();
+		$data['inputerror'] = array();
+		$data['status'] = TRUE;
+
+		if ($this->input->post('nip') == '') {
+			$data['inputerror'][] = 'nip';
+            $data['error_string'][] = 'Wajib mengisi nip';
+            $data['status'] = FALSE;
+		}
+
+		if ($this->input->post('nama') == '') {
+			$data['inputerror'][] = 'nama';
+            $data['error_string'][] = 'Wajib mengisi nama';
+            $data['status'] = FALSE;
+		}
+
+		if ($this->input->post('jabatan') == null) {
+			$data['inputerror'][] = 'jabatan';
+            $data['error_string'][] = 'Wajib mengisi jabatan';
+            $data['status'] = FALSE;
+		}
+
+		if ($this->input->post('tempatlahir') == '') {
+			$data['inputerror'][] = 'tempatlahir';
+            $data['error_string'][] = 'Wajib mengisi tempatlahir';
+            $data['status'] = FALSE;
+		}
+
+		if ($this->input->post('hari') == '') {
+			$data['inputerror'][] = 'hari';
+            $data['error_string'][] = 'Wajib mengisi hari';
+            $data['status'] = FALSE;
+		}
+
+		if ($this->input->post('bulan') == '') {
+			$data['inputerror'][] = 'bulan';
+            $data['error_string'][] = 'Wajib mengisi bulan';
+            $data['status'] = FALSE;
+		}
+
+		if ($this->input->post('tahun') == '') {
+			$data['inputerror'][] = 'tahun';
+            $data['error_string'][] = 'Wajib mengisi tahun';
+            $data['status'] = FALSE;
+		}
+
+		if ($this->input->post('alamat') == '') {
+			$data['inputerror'][] = 'alamat';
+            $data['error_string'][] = 'Wajib mengisi alamat';
+            $data['status'] = FALSE;
+		}
+
+		if ($this->input->post('jenkel') == '') {
+			$data['inputerror'][] = 'jenkel';
+            $data['error_string'][] = 'Wajib mengisi jenkel';
+            $data['status'] = FALSE;
+		}
+
+		if ($this->input->post('tipepeg') == '') {
+			$data['inputerror'][] = 'tipepeg';
+            $data['error_string'][] = 'Wajib mengisi tipe pegawai';
+            $data['status'] = FALSE;
+		}
+			
+        return $data;
+	}
+
+	private function seoUrl($string) {
+	    //Lower case everything
+	    $string = strtolower($string);
+	    //Make alphanumeric (removes all other characters)
+	    $string = preg_replace("/[^a-z0-9_\s-]/", "", $string);
+	    //Clean up multiple dashes or whitespaces
+	    $string = preg_replace("/[\s-]+/", " ", $string);
+	    //Convert whitespaces and underscore to dash
+	    $string = preg_replace("/[\s_]/", "-", $string);
+	    return $string;
+	}
+	
+	// =========================================================================================================================
 
 	public function list_produk()
 	{
@@ -441,54 +555,7 @@ class Master_produk_adm extends CI_Controller {
 	{
 		$data = $this->m_prod->get_data_produk_detail($id_stok);
 		echo json_encode($data);
-	}
-
-	public function konfigurasi_upload_produk($nmfile)
-	{ 
-		//konfigurasi upload img display
-		$config['upload_path'] = './assets/img/produk/';
-		$config['allowed_types'] = 'gif|jpg|png|jpeg|bmp';
-		$config['overwrite'] = TRUE;
-		$config['max_size'] = '4000';//in KB (4MB)
-		$config['max_width']  = '0';//zero for no limit 
-		$config['max_height']  = '0';//zero for no limit
-		$config['file_name'] = $nmfile;
-		//load library with custom object name alias
-		$this->load->library('upload', $config, 'gbr_produk');
-		$this->gbr_produk->initialize($config);
-	}
-
-	public function konfigurasi_upload_produk_detail()
-	{
-		//konfigurasi upload img detail
-		$config['upload_path'] = './assets/img/produk/img_detail/';
-		$config['allowed_types'] = 'gif|jpg|png|jpeg|bmp';
-		$config['overwrite'] = TRUE;
-		$config['max_size'] = '4000';//in KB (4MB)
-		$config['max_width']  = '0';//zero for no limit 
-		$config['max_height']  = '0';//zero for no limit
-		//load library with custom object name alias
-		$this->load->library('upload', $config, 'gbr_detail');
-		$this->gbr_detail->initialize($config);
-	}
-
-	public function konfigurasi_image_produk($filename)
-	{
-		//konfigurasi image lib
-	    $config['image_library'] = 'gd2';
-	    $config['source_image'] = './assets/img/produk/'.$filename;
-	    $config['create_thumb'] = FALSE;
-	    $config['maintain_ratio'] = FALSE;
-	    $config['new_image'] = './assets/img/produk/'.$filename;
-	    $config['overwrite'] = TRUE;
-	    $config['width'] = 450; //resize
-	    $config['height'] = 500; //resize
-	    $this->load->library('image_lib',$config); //load image library
-	    $this->image_lib->initialize($config);
-	    $this->image_lib->resize();
-	}
-
-	
+	}	
 
 	public function update_produk()
 	{

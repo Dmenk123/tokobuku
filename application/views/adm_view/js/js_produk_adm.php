@@ -60,55 +60,6 @@ $(document).ready(function() {
     });
 });	
 
-function add_user() 
-	{
-		save_method = 'add';
-		$('#form')[0].reset(); //reset form on modals
-		$('.form-group').removeClass('has-error');//clear error class
-		$('.help-block').empty(); //clear error string
-		$('#modal_form').modal('show'); //show bootstrap modal
-		$('.modal-title').text('Add Pengguna'); //set title modal
-	}
-
-function edit_user(id)
-{
-    save_method = 'update';
-    $('#form')[0].reset(); // reset form on modals
-    $('.form-group').removeClass('has-error'); // clear error class
-    $('.help-block').empty(); // clear error string
-
-    //Ajax Load data from ajax
-    $.ajax({
-        url : "<?php echo site_url('pengguna/edit_pengguna/')?>/" + id,
-        type: "GET",
-        dataType: "JSON",
-        success: function(data)
-        {
-            //ambil data ke json->modal
-            $('[name="id"]').val(data.id_user);
-            $('[name="username"]').val(data.username);
-            $('[name="password"]').val(data.password);
-            $('[name="levelUser"]').val(data.id_level_user);
-            $('[name="statusUser"]').val(data.status);
-            $('[name="last_login"]').val(data.last_login);
-            $('#modal_form').modal('show'); // show bootstrap modal when complete loaded
-            $('.modal-title').text('Edit Pengguna'); // Set title to Bootstrap modal title
-
-        },
-        error: function (jqXHR, textStatus, errorThrown)
-        {
-            alert('Error get data from ajax');
-        }
-    });
-}
-
-/*setInterval(function(){
-    $("#load_row").load('<?=base_url()?>pesan/load_row_notif')
-}, 2000); //menggunakan setinterval jumlah notifikasi akan selalu update setiap 2 detik diambil dari controller notifikasi fungsi load_row
- 
-setInterval(function(){
-    $("#load_data").load('<?=base_url()?>pesan/load_data_notif')
-}, 2000); //yang ini untuk selalu cek isi data notifikasinya sama setiap 2 detik diambil dari controller notifikasi fungsi load_data*/
 
 function reload_table()
 {
@@ -122,10 +73,10 @@ function save()
     var url;
 
     if(save_method == 'add') {
-        url = "<?php echo site_url('pengguna/add_pengguna')?>";
+        url = "<?php echo site_url('master_produk_adm/add_data')?>";
         tipe_simpan = 'tambah';
     } else {
-        url = "<?php echo site_url('pengguna/update_pengguna')?>";
+        url = "<?php echo site_url('master_produk_adm/update_data')?>";
         tipe_simpan = 'update';
     }
 
@@ -138,31 +89,22 @@ function save()
         success: function(data)
         {
 
-            if(data.status) //if success close modal and reload ajax table
-            {
-                if (tipe_simpan == 'tambah') {
-                  alert(data.pesan_tambah);
-                } 
-                else
-                {
-                  alert(data.pesan_update);
-                }
-
-                $('#modal_form').modal('hide');
-                reload_table();
-            }
-            else
-            {
+            if(data.status) {
+                window.location.href = "<?=base_url('/master_guru');?>";
+            }else {
                 for (var i = 0; i < data.inputerror.length; i++) 
                 {
-                    $('[name="'+data.inputerror[i]+'"]').parent().parent().addClass('has-error'); //select parent twice to select div form-group class and add has-error class
-                    $('[name="'+data.inputerror[i]+'"]').next().text(data.error_string[i]); //select span help-block class set text error string
+                    if (data.inputerror[i] != 'jabatan') {
+                        $('[name="'+data.inputerror[i]+'"]').parent().addClass('has-error');
+                        $('[name="'+data.inputerror[i]+'"]').next().text(data.error_string[i]);
+                    }else{
+                        $($('#jabatan').data('select2').$container).addClass('has-error');
+                    }
                 }
             }
-            $('#btnSave').text('save'); //change button text
-            $('#btnSave').attr('disabled',false); //set button enable 
 
-
+            $('#btnSave').text('save');
+            $('#btnSave').attr('disabled',false);
         },
         error: function (jqXHR, textStatus, errorThrown)
         {

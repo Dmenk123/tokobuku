@@ -13,14 +13,6 @@ class Mod_master_produk_adm extends CI_Model
 			'tbl_produk.bahan_produk',
 		);
 
-	var $column_search_detail = array(
-			'tbl_stok.ukuran_produk',
-			'tbl_stok.berat_satuan',
-			'tbl_stok.stok_awal',
-			'tbl_stok.stok_sisa',
-			'tbl_stok.stok_minimum',
-		);
-
 	var $column_order = array(
 			null,
 			'tbl_produk.id_produk',
@@ -32,17 +24,7 @@ class Mod_master_produk_adm extends CI_Model
 			'tbl_produk.bahan_produk',
 		);
 
-	var $column_order_detail = array(
-			null,
-			'tbl_stok.ukuran_produk',
-			'tbl_stok.berat_satuan',
-			'tbl_stok.stok_awal',
-			'tbl_stok.stok_sisa',
-			'tbl_stok.stok_minimum',
-		);
-
-	var $order = array('tbl_produk.nama_produk' => 'asc'); // default order 
-	var $order_detail = array('tbl_stok.berat_satuan' => 'asc'); // default order 
+	var $order = array('tbl_produk.nama_produk' => 'asc'); 
 
 	public function __construct()
 	{
@@ -149,96 +131,6 @@ class Mod_master_produk_adm extends CI_Model
 	}
 	//end datatable query master produk
 	
-	//for all data master produk detail
-	private function _get_data_produk_detail_query($term='', $id_produk) //term is value of $_REQUEST['search']
-	{
-		$column = array(
-				'tbl_stok.id_stok',
-				'tbl_stok.ukuran_produk',
-				'tbl_stok.berat_satuan',
-				'tbl_stok.stok_awal',
-				'tbl_stok.stok_sisa',
-				'tbl_stok.stok_minimum',
-				null,
-			);
-
-		$this->db->select(' tbl_stok.id_stok,
-							tbl_stok.ukuran_produk,
-							tbl_stok.berat_satuan,
-							tbl_stok.stok_awal,
-							tbl_stok.stok_sisa,
-							tbl_stok.stok_minimum,
-							tbl_stok.status');
-
-		$this->db->from('tbl_stok');
-		$this->db->join('tbl_gambar_produk', 'tbl_stok.id_produk = tbl_gambar_produk.id_produk','left');
-		$this->db->where('tbl_stok.id_produk', $id_produk);
-		$this->db->where('tbl_gambar_produk.jenis_gambar', "display");
-
-		$i = 0;
-		// loop column 
-		foreach ($this->column_search_detail as $item) 
-		{
-			// if datatable send POST for search
-			if($_POST['search']['value']) 
-			{
-				// first loop
-				if($i===0) 
-				{
-					// open bracket. query Where with OR clause better with bracket. because maybe can combine with other WHERE with AND.
-					$this->db->group_start();
-					$this->db->like($item, $_POST['search']['value']);
-				}
-				else
-				{
-					$this->db->or_like($item, $_POST['search']['value']);
-				}
-				//last loop
-				if(count($this->column_search_detail) - 1 == $i) 
-					$this->db->group_end(); //close bracket
-			}
-			$i++;
-		}
-
-		if(isset($_POST['order_detail'])) // here order processing
-		{
-			$this->db->order_by($this->column_order_detail[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);
-		} 
-		else if(isset($this->order_detail))
-		{
-			$order_detail = $this->order_detail;
-			$this->db->order_by(key($order_detail), $order_detail[key($order_detail)]);
-		}
-	}
-
-	function get_datatable_produk_detail($id_produk)
-	{
-		$term = $_REQUEST['search']['value'];
-		$this->_get_data_produk_detail_query($term, $id_produk);
-		
-		if($_REQUEST['length'] != -1)
-		$this->db->limit($_REQUEST['length'], $_REQUEST['start']);
-
-		$query = $this->db->get();
-		return $query->result();
-	}
-
-	function count_filtered_produk_detail($id_produk)
-	{
-		$term = $_REQUEST['search']['value'];
-		$this->_get_data_produk_detail_query($term, $id_produk);
-		$query = $this->db->get();
-		return $query->num_rows();
-	}
-
-	public function count_all_produk_detail($id_produk)
-	{
-		$this->db->from('tbl_stok');
-		$this->db->where('id_produk', $id_produk);
-		return $this->db->count_all_results();
-	}
-	//end datatable query master produk detail
-	
 	public function get_detail_produk_header($id_produk)
 	{
 		$this->db->select('
@@ -259,12 +151,7 @@ class Mod_master_produk_adm extends CI_Model
         }
 	}
 
-	public function get_data_kategori()
-	{
-		$query = $this->db->get('tbl_kategori_produk');
-		return $query->result();
-	}
-
+	
 	public function get_data_sub_kategori($id_kategori)
 	{
 		$this->db->select('id_sub_kategori, nama_sub_kategori');
@@ -274,22 +161,36 @@ class Mod_master_produk_adm extends CI_Model
 		return $query->result();
 	}
 
+
+
+
 	public function get_data_satuan()
 	{
-		$query = $this->db->get('tbl_satuan');
+		$query = $this->db->get('m_satuan');
+		return $query->result();
+	}
+
+	public function get_data_kategori()
+	{
+		$query = $this->db->get('m_kategori');
 		return $query->result();
 	}
 
 	public function get_akronim_kategori($id_kategori)
 	{
 		$this->db->select('akronim');
-		$this->db->from('tbl_kategori_produk');
-		$this->db->where('id_kategori', $id_kategori);
+		$this->db->from('m_kategori');
+		$this->db->where('id', $id_kategori);
 		$query = $this->db->get();
 
 		$hasil = $query->row();
 		return $hasil->akronim;
 	}
+
+
+
+
+
 
     public function get_kode_produk($akronim)
     {
