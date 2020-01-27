@@ -20,8 +20,12 @@
     					<form id="form">
     						<div class="form-group col-md-12">
     							<label>Nama : </label>
-    							<input type="text" class="form-control" id="nama" name="nama">
-    							<input type="hidden" class="form-control" id="id" name="id" value="">
+    							<input type="text" class="form-control" id="nama" name="nama" value="<?php if (isset($hasil_data)) {
+																																													echo $hasil_data->nama;
+																																												} ?>">
+    							<input type="hidden" class="form-control" id="id" name="id" value="<?php if (isset($hasil_data)) {
+																																												echo $hasil_data->id;
+																																											} ?>">
     							<span class="help-block"></span>
     						</div>
 
@@ -29,7 +33,12 @@
     							<label>Kategori : </label>
     							<select class="form-control select2" id="kategori" name="kategori">
     								<?php foreach ($data_kategori as $key => $value) : ?>
-    									<option value="<?= $value->id; ?>"> <?= $value->nama; ?> </option>
+    									<option value="<?= $value->id; ?>" <?php if (isset($hasil_data)) {
+																														if ($hasil_data->id_kategori == $value->id) {
+																															echo "selected";
+																														}
+																													} ?>><?= $value->nama ?>
+    									</option>
     								<?php endforeach ?>
     							</select>
     							<span class="help-block"></span>
@@ -39,7 +48,12 @@
     							<label>Satuan : </label>
     							<select class="form-control select2" id="satuan" name="satuan">
     								<?php foreach ($data_satuan as $key => $value) : ?>
-    									<option value="<?= $value->id; ?>"><?= $value->nama; ?></option>
+    									<option value="<?= $value->id; ?>" <?php if (isset($hasil_data)) {
+												if ($hasil_data->id_satuan == $value->id) {
+													echo "selected";
+												}
+											} ?>><?= $value->nama ?>
+    									</option>
     								<?php endforeach ?>
     							</select>
     							<span class="help-block"></span>
@@ -53,37 +67,55 @@
 
                 <div class="form-group col-md-4">
                   <label>Potongan Agen : </label>
-                  <input type="text" class="form-control numberinput" id="potongan" name="potongan" value="">
+                  <input type="text" class="form-control numberinput" id="potongan" name="potongan" 
+                    value="
+                      <?php if (isset($hasil_data)) {
+                       echo $hasil_data->potongan;
+                      } ?> ">
                   <span class="help-block"></span>
                 </div>
 
     						<div class="form-group col-md-12">
     							<label>Keterangan : </label>
-    							<textarea class="form-control" rows="3" placeholder="Keterangan ..." id="keterangan" name="keterangan"></textarea>
+    							<textarea class="form-control" rows="3" placeholder="Keterangan ..." id="keterangan" name="keterangan">
+                    <?php if (isset($hasil_data)) {
+										  echo $hasil_data->keterangan;
+										} ?>
+                  </textarea>
     							<span class="help-block"></span>
     						</div>
 
     						<div class="form-group col-md-4">
     							<label>Dimensi Panjang : </label>
-    							<input type="text" class="form-control numberinput" id="panjang" name="panjang" value="">
+    							<input type="text" class="form-control numberinput" id="panjang" name="panjang" 
+                    value="
+                      <?php if (isset($hasil_data)) {
+											 echo $hasil_data->panjang;
+											} ?> ">
     							<span class="help-block"></span>
     						</div>
 
     						<div class="form-group col-md-4">
     							<label>Dimensi Lebar : </label>
-    							<input type="text" class="form-control numberinput" id="lebar" name="lebar" value="">
+    							<input type="text" class="form-control numberinput" id="lebar" name="lebar" value="<?php if (isset($hasil_data)) {
+																																																				echo $hasil_data->lebar;
+																																																			} ?>">
     							<span class="help-block"></span>
     						</div>
 
     						<div class="form-group col-md-4">
     							<label>Jumlah Halaman : </label>
-    							<input type="text" class="form-control numberinput" id="jumlah_halaman" name="jumlah_halaman" value="">
+    							<input type="text" class="form-control numberinput" id="jumlah_halaman" name="jumlah_halaman" value="<?php if (isset($hasil_data)) {
+																																																													echo $hasil_data->jumlah_halaman;
+																																																												} ?>">
     							<span class="help-block"></span>
     						</div>
 
     						<div class="form-group col-md-8">
     							<label>Penerbit : </label>
-    							<input type="text" class="form-control" id="penerbit" name="penerbit" value="">
+    							<input type="text" class="form-control" id="penerbit" name="penerbit" value="<?php if (isset($hasil_data)) {
+											echo $hasil_data->penerbit;
+										} ?>">
     							<span class="help-block"></span>
     						</div>
 
@@ -92,7 +124,12 @@
     							<select class="form-control select2" id="tahun" name="tahun">
     								<option value="">Pilih Tahun</option>
     								<?php for ($i = 2019; $i <= date('Y') + 20; $i++) { ?>
-    									<option value="<?= $i; ?>"> <?= $i; ?></option>
+    									<option value="<?= $i; ?>" <?php if (isset($hasil_data)) {
+																										if ($i == $hasil_data->tahun) {
+																											echo "selected";
+																										}
+																									} ?>><?= $i; ?>
+    									</option>
     								<?php } ?>
     							</select>
     							<span class="help-block"></span>
@@ -129,13 +166,21 @@
     							</div>
 
     							<div class="form-group col-md-3">
-    								<img id="gambar<?= $i; ?>-img" src="#" alt="Preview Gambar" height="75" width="75" class="pull-right" />
+    								<?php if (isset($hasil_data)) { ?>
+    									<img id="gambar<?= $i; ?>-img" src="<?= base_url() . '/assets/img/produk/' . $hasil_data->foto; ?>" alt="Preview Gambar" height="75" width="75" class="pull-right" />
+    								<?php } else { ?>
+    									<img id="gambar<?= $i; ?>-img" src="#" alt="Preview Gambar" height="75" width="75" class="pull-right" />
+    								<?php } ?>
     							</div>
     						<?php } ?>
 
     						<div class="form-group col-md-12">
     							<div class="pull-right">
+    								<?php if (isset($hasil_data)) { ?>
+    									<button type="button" id="btnSave" class="btn btn-primary" onclick="save('update')"><i class="fa fa-save"></i> Simpan</button>
+    								<?php } else { ?>
     									<button type="button" id="btnSave" class="btn btn-primary" onclick="save('add')"><i class="fa fa-save"></i> Simpan</button>
+    								<?php } ?>
     							</div>
     							<div class="pull-left">
     								<a class="btn btn-md btn-danger" title="Kembali" onclick="javascript:history.back()"><i class="glyphicon glyphicon-menu-left"></i> Kembali</a>

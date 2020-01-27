@@ -47,6 +47,7 @@ if (isset($modal)) {
 <script src="<?php echo base_url('assets/') ?>datatables/jquery.dataTables.min.js"></script>
 <script src="<?php echo base_url('assets/') ?>datatables/dataTables.bootstrap.min.js"></script>
 <script src="<?php echo base_url('assets/') ?>js/sweetalert.min.js"></script>
+<script src="<?php echo base_url('assets/') ?>js/jquery-maskmoney.min.js"></script>
 <!-- load js per modul -->
 <?php
 if (isset($js)) {

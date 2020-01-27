@@ -396,7 +396,6 @@ class Template_view extends CI_Controller {
 				";
 			}
 		}
-
     }
 
     function getEditButton($urlEdit){
@@ -458,4 +457,45 @@ class Template_view extends CI_Controller {
 		}
     }
 
+    ////////////////////////////////////////////
+    function returnGetEditButton($urlEdit){
+
+      if(!$_SESSION['id_level_user']){
+        $id_level = "0";
+      }
+      else{
+        $id_level = $this->_ci->session->userdata('id_level_user');
+      }
+
+		if($id_level){
+			$queryButton = $this->_ci->db->query("
+			select
+				t_hak_akses.edit_button
+			from
+				m_menu,t_hak_akses
+			WHERE
+				m_menu.id_menu=t_hak_akses.id_menu
+				and t_hak_akses.id_level_user= '".$id_level."'
+				and m_menu.link_menu = 'admin/".$this->_ci->uri->segment(2)."'
+			");
+			$dataButton = $queryButton->row();
+			if($dataButton->edit_button == 1 ){
+				return '<a class="btn btn-sm btn-primary" href="'.$urlEdit.'" title="Edit"><i class="glyphicon glyphicon-pencil"></i></a>';
+			}
+		}
+    }
+
+    function returnGetDetailButton($urlDetail){
+
+      if(!$_SESSION['id_level_user']){
+        $id_level = "0";
+      }
+      else{
+        $id_level = $this->_ci->session->userdata('id_level_user');
+      }
+
+		if($id_level){
+			return '<a class="btn btn-sm btn-default" href="'.$urlDetail.'" title="Detail" id="btn_detail"><i class="glyphicon glyphicon-search"></i></a>';
+		}
+    }
 }

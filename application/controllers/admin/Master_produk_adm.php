@@ -119,6 +119,8 @@ class Master_produk_adm extends CI_Controller {
 		$tahun = clean_string($this->input->post('tahun'));
 		$aktif = trim(clean_string($this->input->post('aktif')));
 		$posting = clean_string($this->input->post('posting'));
+		$harga = clean_string($this->input->post('harga_raw'));
+		$potongan = clean_string($this->input->post('potongan'));
 
 
 		$namafileseo = $this->seoUrl($nama.' '.time());
@@ -150,6 +152,10 @@ class Master_produk_adm extends CI_Controller {
 				//clear img lib after resize
 				$this->image_lib->clear();
 
+				//unlink file upload, just image processed file only saved in server
+				$ifile = '/bookstore/assets/img/produk/'.$namafileseo.'.'.$ext;
+				unlink($_SERVER['DOCUMENT_ROOT'] .$ifile); // use server document root
+
 			} else {
 				//jika tidak ada file diupload, maka duplicate upload file pertama tiap loop
 				$this->konfigurasi_upload_produk($namafileseo);
@@ -164,6 +170,9 @@ class Master_produk_adm extends CI_Controller {
 				
 				//clear img lib after resize
 				$this->image_lib->clear();
+
+				$ifile = '/bookstore/assets/img/produk/'.$namafileseo.'.'.$ext;
+				unlink($_SERVER['DOCUMENT_ROOT'] .$ifile); // use server document root
 			}			
 		} //end loop
 		
@@ -187,7 +196,19 @@ class Master_produk_adm extends CI_Controller {
 			'gambar_3' => $arr_gambar[2]['nama_gambar']
 		);
 
+		$harga_potongan = (int)$harga * $potongan / 100;
+		$data_harga = [
+			'id_produk' => $id,
+			'harga_satuan' => $harga,
+			'created_at' => date('Y-m-d H:i:s'),
+			'potongan' => $potongan,
+			'harga_potongan' => $harga_potongan
+		];
+
+		//insert produk
 		$insert = $this->m_prod->insert_data_produk($data);
+		//insert harga
+		$insert_harga = $this->m_prod->insert_data_harga($data_harga);
 
 		if ($this->db->trans_status() === FALSE){
 			$this->db->trans_rollback();
@@ -291,28 +312,29 @@ class Master_produk_adm extends CI_Controller {
 		$no = $_POST['start'];
 		foreach ($list as $listProduk) {
 			$no++;
-			$link_detail = site_url('master_produk_adm/master_produk_detail/').$listProduk->id_produk;
+			$link_detail = site_url('admin/master_produk_adm/master_produk_detail/').$listProduk->id;
+			$link_edit = site_url('admin/master_produk_adm/edit/').$listProduk->id;
 			$row = array();
 			//loop value tabel db
-			$row[] = '<img src="./assets/img/produk/'.$listProduk->nama_gambar.'" alt="Gambar Produk" class="img_produk">';
-			$row[] = $listProduk->id_produk;
-			$row[] = $listProduk->nama_produk;
+			$row[] = '<img src="'.base_url().'/assets/img/produk/'.$listProduk->gambar_1.'" alt="Gambar Produk" class="img_produk" width="80" height="80">';
+			$row[] = $listProduk->id;
+			$row[] = $listProduk->nama;
 			$row[] = $listProduk->nama_kategori;
-			$row[] = $listProduk->nama_sub_kategori;
-			$row[] = $listProduk->harga;
+			$row[] = $listProduk->harga_satuan;
 			$row[] = $listProduk->nama_satuan;
-			$row[] = $listProduk->bahan_produk;
 			//add html for action button
-			if ($listProduk->status == '1') {
-				$row[] =
-				'<a class="btn btn-sm btn-default" href="'.$link_detail.'" title="Detail" id="btn_detail"><i class="glyphicon glyphicon-search"></i> Detail</a>
-				 <a class="btn btn-sm btn-primary" href="javascript:void(0)" title="Balas" onclick="editProduk('."'".$listProduk->id_produk."'".')"><i class="glyphicon glyphicon-pencil"></i> Edit</a>
-				 <a class="btn btn-sm btn-success btn_edit_status" href="javascript:void(0)" title="aktif" id="'.$listProduk->id_produk.'"><i class="fa fa-check"></i> Aktif</a>';
+			if ($listProduk->is_aktif == '1') {
+				$strVal = $this->template_view->returnGetDetailButton($link_detail);
+				$strVal .= $this->template_view->returnGetEditButton($link_edit);
+				$strVal .= '<a class="btn btn-sm btn-success btn_edit_status" href="javascript:void(0)" title="aktif" id="'.$listProduk->id.'"><i class="fa fa-check"></i> Aktif</a>';
+
+				$row[] = $strVal;
 			}else{
-				$row[] =
-				'<a class="btn btn-sm btn-default" href="'.$link_detail.'" title="Detail" id="btn_detail"><i class="glyphicon glyphicon-search"></i> Detail</a>
-				 <a class="btn btn-sm btn-primary" href="javascript:void(0)" title="Balas" onclick="editProduk('."'".$listProduk->id_produk."'".')"><i class="glyphicon glyphicon-pencil"></i> Edit</a>
-				 <a class="btn btn-sm btn-danger btn_edit_status" href="javascript:void(0)" title="nonaktif" id="'.$listProduk->id_produk.'"><i class="fa fa-times"></i> Nonaktif</a>';
+				$strVal = $this->template_view->returnGetDetailButton($link_detail);
+				$strVal .= $this->template_view->returnGetEditButton($link_edit);
+				$strVal .= '<a class="btn btn-sm btn-danger btn_edit_status" href="javascript:void(0)" title="nonaktif" id="'.$listProduk->id.'"><i class="fa fa-times"></i> Nonaktif</a>';
+
+				$row[] = $strVal;
 			}
 			
 			$data[] = $row;

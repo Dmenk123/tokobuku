@@ -47,7 +47,7 @@
                       <th>Kategori</th>
                       <th>Harga</th>
                       <th>Satuan</th>
-                      <th style="width: 240px; text-align: center;">#</th>
+                      <th style="text-align: center;">#</th>
                     </tr>
                   </thead>
                   <tbody>

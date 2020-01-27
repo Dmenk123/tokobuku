@@ -11,7 +11,7 @@
  Target Server Version : 100131
  File Encoding         : 65001
 
- Date: 26/01/2020 23:31:18
+ Date: 28/01/2020 00:22:07
 */
 
 SET NAMES utf8mb4;
@@ -112,6 +112,11 @@ CREATE TABLE `m_produk`  (
 ) ENGINE = InnoDB CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
+-- Records of m_produk
+-- ----------------------------
+INSERT INTO `m_produk` VALUES ('80e25eb7-56ed-46fc-a029-967eebb0d6f7', '1', '1', 'TEK00001', 'EBOOK 10 HARI MENGUASAI ROGO SUKMO', 'Ole Ole', 67.00, 80.00, 871, 'CV. Anugerah Jaya Sentosa', '2019', '2020-01-27 18:04:38', NULL, 1, 1, 'ebook-10-hari-menguasai-rogo-sukmo-1580144677-0.jpg', 'ebook-10-hari-menguasai-rogo-sukmo-1580144677-1.jpg', 'ebook-10-hari-menguasai-rogo-sukmo-1580144677-2.jpg', NULL);
+
+-- ----------------------------
 -- Table structure for m_satuan
 -- ----------------------------
 DROP TABLE IF EXISTS `m_satuan`;
@@ -149,7 +154,7 @@ CREATE TABLE `m_user`  (
 -- ----------------------------
 -- Records of m_user
 -- ----------------------------
-INSERT INTO `m_user` VALUES ('USR00001', 'masnur', 'kmJnZmZo', 1, NULL, 1, '2020-01-26 16:25:54', '2019-10-05 21:34:14', '2020-01-26 22:25:54');
+INSERT INTO `m_user` VALUES ('USR00001', 'masnur', 'kmJnZmZo', 1, NULL, 1, '2020-01-27 15:23:10', '2019-10-05 21:34:14', '2020-01-27 21:23:10');
 INSERT INTO `m_user` VALUES ('USR00002', 'agen', 'kmJnZmZo', 2, NULL, 1, '2019-12-03 08:42:33', '2019-11-09 19:36:13', '2020-01-21 15:03:27');
 INSERT INTO `m_user` VALUES ('USR00003', 'customer', 'kmJnZmZo', 3, NULL, 1, '2019-12-03 08:41:40', '2019-11-09 19:43:19', '2020-01-21 15:03:52');
 
@@ -203,6 +208,26 @@ INSERT INTO `t_hak_akses` VALUES (6, 1, 1, 1, 1);
 INSERT INTO `t_hak_akses` VALUES (4, 1, 0, 0, 0);
 INSERT INTO `t_hak_akses` VALUES (3, 1, 1, 1, 1);
 INSERT INTO `t_hak_akses` VALUES (2, 1, 1, 1, 1);
+
+-- ----------------------------
+-- Table structure for t_log_harga
+-- ----------------------------
+DROP TABLE IF EXISTS `t_log_harga`;
+CREATE TABLE `t_log_harga`  (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_produk` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+  `harga_satuan` double(20, 2) NULL DEFAULT 0.00,
+  `created_at` timestamp(0) NULL DEFAULT NULL,
+  `potongan` int(3) NULL DEFAULT NULL,
+  `harga_potongan` double(20, 2) NULL DEFAULT NULL,
+  `is_aktif` int(1) NULL DEFAULT 1,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Records of t_log_harga
+-- ----------------------------
+INSERT INTO `t_log_harga` VALUES (1, '80e25eb7-56ed-46fc-a029-967eebb0d6f7', 300000.00, '2020-01-27 18:04:38', 10, 30000.00, 1);
 
 -- ----------------------------
 -- Function structure for uuid_v4

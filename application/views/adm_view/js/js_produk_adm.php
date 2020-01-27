@@ -7,6 +7,10 @@
 	var table;
 
 	$(document).ready(function() {
+        $('.mask-currency').maskMoney({
+            precision: 0
+        });
+
 		//datatables
 		table = $('#tabelProduk').DataTable({
 
@@ -58,6 +62,10 @@
 		});
 	});
 
+    function hargaRaw() {  
+        var harga = $('#harga').maskMoney('unmasked')[0];
+        $('#harga_raw').val(harga);
+    } 
 
 	function reload_table() {
 		table.ajax.reload(null, false); //reload datatable ajax 
