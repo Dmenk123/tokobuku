@@ -134,45 +134,39 @@ class Master_produk_adm extends CI_Controller {
 		$akronim = $this->m_prod->get_akronim_kategori($kategori);
 		$kode = $this->m_prod->get_kode_produk($akronim);
 		
-		
 		//loop 3x berdasarkan upload field
 		for ($i = 0; $i <= 2; $i++) {
-			if (!empty($_FILES['gambar']['name'])) {
-				//load konfig upload
-				$this->konfigurasi_upload_produk($namafileseo);
-				$path = $_FILES['gambar']['name'][$i];
-				$ext = pathinfo($path, PATHINFO_EXTENSION);
-				//jika melakukan upload foto
-				if ($this->gbr_produk->do_upload('gambar' . $i)) {
-					$gbr = $this->gbr_produk->data(); //get file upload data
-					var_dump($this->gbr_produk->data());exit;
-					$this->konfigurasi_image_produk($gbr['file_name'], $namafileseo, $ext, $i);
-					$arr_gambar[] = ['nama_gambar' => $namafileseo . "-" . $i . "." . $ext];
-
-					//clear img lib after resize
-					$this->image_lib->clear();
-
-				} 
-				// else {
-				// 	//jika tidak ada file diupload, maka duplicate upload file pertama tiap loop
-				// 	$this->konfigurasi_upload_produk($namafileseo);
-				// 	$path = $_FILES['gambar']['name'][0];
-				// 	$ext = pathinfo($path, PATHINFO_EXTENSION);
-				// 	$this->gbr_produk->do_upload('gambar1');
-				// 	$gbr = $this->gbr_produk->data();
-				// 	//konfigurasi image lib
-				// 	$this->konfigurasi_image_produk($gbr['file_name'], $namafileseo, $ext, $i);
-				// 	$arr_gambar[] = ['nama_gambar' => $namafileseo . "-" . $i . "." . $ext];
-				// 	$this->image_lib->clear(); //clear img lib after resize
-				// }
-			}else{
-				$this->db->trans_rollback();
-				$this->session->set_flashdata('feedback_failed', 'Wajib Upload Gambar.');
-				$status = FALSE;
-			}
 			
-		} //end loop
+			//load konfig upload
+			$this->konfigurasi_upload_produk($namafileseo);
+			$path = $_FILES['gambar'.$i]['name'];
+			$ext = pathinfo($path, PATHINFO_EXTENSION);
+			//jika melakukan upload foto
+			if ($this->gbr_produk->do_upload('gambar'.$i)) {
+				$gbr = $this->gbr_produk->data(); //get file upload data
+				$this->konfigurasi_image_produk($gbr['file_name'], $namafileseo, $ext, $i);
+				$arr_gambar[] = ['nama_gambar' => $namafileseo . "-" . $i . "." . $ext];
 
+				//clear img lib after resize
+				$this->image_lib->clear();
+
+			} else {
+				//jika tidak ada file diupload, maka duplicate upload file pertama tiap loop
+				$this->konfigurasi_upload_produk($namafileseo);
+				$path = $_FILES['gambar0']['name'];
+				$ext = pathinfo($path, PATHINFO_EXTENSION);
+				$this->gbr_produk->do_upload('gambar0');
+				$gbr = $this->gbr_produk->data();
+				
+				//konfigurasi image lib
+				$this->konfigurasi_image_produk($gbr['file_name'], $namafileseo, $ext, $i);
+				$arr_gambar[] = ['nama_gambar' => $namafileseo . "-" . $i . "." . $ext];
+				
+				//clear img lib after resize
+				$this->image_lib->clear();
+			}			
+		} //end loop
+		
 		$data = array(
 			'id' => $id,
 			'id_kategori' => $kategori,
@@ -192,13 +186,7 @@ class Master_produk_adm extends CI_Controller {
 			'gambar_2' => $arr_gambar[1]['nama_gambar'],
 			'gambar_3' => $arr_gambar[2]['nama_gambar']
 		);
-
 		
-		/* echo "<pre>";
-		print_r ($data);
-		echo "</pre>";
-		exit; */
-
 		$insert = $this->m_prod->insert_data_produk($data);
 
 		if ($this->db->trans_status() === FALSE){

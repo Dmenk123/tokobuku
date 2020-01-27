@@ -142,7 +142,7 @@
     									<label>Foto : </label>
     								<?php endif ?>
 
-    								<input type="file" id="gambar<?= $i; ?>" class="gambar" name="gambar[]" accept=".png, .jpg, .jpeg" />
+    								<input type="file" id="gambar<?= $i; ?>" class="gambar" name="gambar<?=$i;?>" accept=".png, .jpg, .jpeg" />
     							</div>
 
     							<div class="form-group col-md-3">
