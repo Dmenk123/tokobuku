@@ -186,7 +186,7 @@ class Master_produk_adm extends CI_Controller {
 			'gambar_2' => $arr_gambar[1]['nama_gambar'],
 			'gambar_3' => $arr_gambar[2]['nama_gambar']
 		);
-		
+
 		$insert = $this->m_prod->insert_data_produk($data);
 
 		if ($this->db->trans_status() === FALSE){
@@ -284,7 +284,7 @@ class Master_produk_adm extends CI_Controller {
 	
 	// =========================================================================================================================
 
-	public function list_produk()
+	public function list()
 	{
 		$list = $this->m_prod->get_datatable_produk();
 		$data = array();

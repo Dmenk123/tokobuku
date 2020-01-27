@@ -4,27 +4,27 @@ class Mod_master_produk_adm extends CI_Model
 {
 	// declare array variable to search datatable
 	var $column_search = array(
-			'tbl_produk.id_produk',
-			'tbl_kategori_produk.nama_kategori',
+			'm_produk.id_produk',
+			'm_kategori.nama_kategori',
 			'tbl_sub_kategori_produk.nama_sub_kategori',
-			'tbl_produk.nama_produk',
-			'tbl_produk.harga',
+			'm_produk.nama_produk',
+			'm_produk.harga',
 			'tbl_satuan.nama_satuan',
-			'tbl_produk.bahan_produk',
+			'm_produk.bahan_produk',
 		);
 
 	var $column_order = array(
 			null,
-			'tbl_produk.id_produk',
-			'tbl_produk.nama_produk',
-			'tbl_kategori_produk.nama_kategori',
+			'm_produk.id_produk',
+			'm_produk.nama_produk',
+			'm_kategori.nama_kategori',
 			'tbl_sub_kategori_produk.nama_sub_kategori',
-			'tbl_produk.harga',
+			'm_produk.harga',
 			'tbl_satuan.nama_satuan',
-			'tbl_produk.bahan_produk',
+			'm_produk.bahan_produk',
 		);
 
-	var $order = array('tbl_produk.nama_produk' => 'asc'); 
+	var $order = array('m_produk.nama_produk' => 'asc'); 
 
 	public function __construct()
 	{
@@ -38,34 +38,34 @@ class Mod_master_produk_adm extends CI_Model
 	{
 		$column = array(
 				'tbl_gambar_produk.nama_gambar',
-				'tbl_produk.id_produk',
-				'tbl_kategori_produk.nama_kategori',
+				'm_produk.id_produk',
+				'm_kategori.nama_kategori',
 				'tbl_sub_kategori_produk.nama_sub_kategori',
-				'tbl_produk.nama_produk',
-				'tbl_produk.harga',
+				'm_produk.nama_produk',
+				'm_produk.harga',
 				'tbl_satuan.nama_satuan',
-				'tbl_produk.bahan_produk',
+				'm_produk.bahan_produk',
 				null,
 			);
 
 		$this->db->select('
 				tbl_gambar_produk.nama_gambar,
-				tbl_produk.id_produk,
-				tbl_kategori_produk.nama_kategori,
+				m_produk.id_produk,
+				m_kategori.nama_kategori,
 				tbl_sub_kategori_produk.nama_sub_kategori,
-				tbl_produk.nama_produk,
-				tbl_produk.harga,
+				m_produk.nama_produk,
+				m_produk.harga,
 				tbl_satuan.nama_satuan,
-				tbl_produk.bahan_produk,
-				tbl_produk.status,
+				m_produk.bahan_produk,
+				m_produk.status,
 			');
 
-		$this->db->from('tbl_produk');
-		$this->db->join('tbl_gambar_produk', 'tbl_produk.id_produk = tbl_gambar_produk.id_produk', 'left');
-		$this->db->join('tbl_kategori_produk', 'tbl_produk.id_kategori = tbl_kategori_produk.id_kategori', 'left');
-		$this->db->join('tbl_sub_kategori_produk', 'tbl_produk.id_sub_kategori = tbl_sub_kategori_produk.id_sub_kategori', 'left');
-		$this->db->join('tbl_satuan', 'tbl_produk.id_satuan = tbl_satuan.id_satuan', 'left');
-		//$this->db->where('tbl_produk.status', '1');
+		$this->db->from('m_produk');
+		$this->db->join('tbl_gambar_produk', 'm_produk.id_produk = tbl_gambar_produk.id_produk', 'left');
+		$this->db->join('m_kategori', 'm_produk.id_kategori = m_kategori.id_kategori', 'left');
+		$this->db->join('tbl_sub_kategori_produk', 'm_produk.id_sub_kategori = tbl_sub_kategori_produk.id_sub_kategori', 'left');
+		$this->db->join('tbl_satuan', 'm_produk.id_satuan = tbl_satuan.id_satuan', 'left');
+		//$this->db->where('m_produk.status', '1');
 		$this->db->where('tbl_gambar_produk.jenis_gambar', 'display');
 		
 		$i = 0;
@@ -126,7 +126,7 @@ class Mod_master_produk_adm extends CI_Model
 
 	public function count_all_produk()
 	{
-		$this->db->from('tbl_produk');
+		$this->db->from('m_produk');
 		return $this->db->count_all_results();
 	}
 	//end datatable query master produk
@@ -135,13 +135,13 @@ class Mod_master_produk_adm extends CI_Model
 	{
 		$this->db->select('
 				tbl_gambar_produk.nama_gambar,
-				tbl_produk.id_produk,
-				tbl_produk.nama_produk,
+				m_produk.id_produk,
+				m_produk.nama_produk,
 			');
 
-		$this->db->from('tbl_produk');
-		$this->db->join('tbl_gambar_produk', 'tbl_produk.id_produk = tbl_gambar_produk.id_produk', 'left');
-		$this->db->where('tbl_produk.id_produk', $id_produk);
+		$this->db->from('m_produk');
+		$this->db->join('tbl_gambar_produk', 'm_produk.id_produk = tbl_gambar_produk.id_produk', 'left');
+		$this->db->where('m_produk.id_produk', $id_produk);
 		$this->db->group_by('tbl_gambar_produk.id_produk');
 		
         $query = $this->db->get();
@@ -210,7 +210,7 @@ class Mod_master_produk_adm extends CI_Model
 
     public function update_data_produk($where, $data)
 	{
-		$this->db->update('tbl_produk', $data, $where);
+		$this->db->update('m_produk', $data, $where);
 	}
 
     public function insert_data_gambar($data)
@@ -257,26 +257,26 @@ class Mod_master_produk_adm extends CI_Model
 		$this->db->select('
 			tbl_gambar_produk.id_gambar,
 			tbl_gambar_produk.nama_gambar,
-			tbl_produk.id_produk,
-			tbl_kategori_produk.id_kategori,
-			tbl_kategori_produk.nama_kategori,
+			m_produk.id_produk,
+			m_kategori.id_kategori,
+			m_kategori.nama_kategori,
 			tbl_sub_kategori_produk.id_sub_kategori,
 			tbl_sub_kategori_produk.nama_sub_kategori,
-			tbl_produk.nama_produk,
-			tbl_produk.keterangan_produk,
-			tbl_produk.harga,
+			m_produk.nama_produk,
+			m_produk.keterangan_produk,
+			m_produk.harga,
 			tbl_satuan.id_satuan,
 			tbl_satuan.nama_satuan,
-			tbl_produk.bahan_produk,
+			m_produk.bahan_produk,
 		');
-		$this->db->from('tbl_produk');
-		$this->db->join('tbl_gambar_produk', 'tbl_produk.id_produk = tbl_gambar_produk.id_produk', 'left');
-		$this->db->join('tbl_kategori_produk', 'tbl_produk.id_kategori = tbl_kategori_produk.id_kategori', 'left');
-		$this->db->join('tbl_sub_kategori_produk', 'tbl_produk.id_sub_kategori = tbl_sub_kategori_produk.id_sub_kategori', 'left');
-		$this->db->join('tbl_satuan', 'tbl_produk.id_satuan = tbl_satuan.id_satuan', 'left');
-		$this->db->where('tbl_produk.status', '1');
+		$this->db->from('m_produk');
+		$this->db->join('tbl_gambar_produk', 'm_produk.id_produk = tbl_gambar_produk.id_produk', 'left');
+		$this->db->join('m_kategori', 'm_produk.id_kategori = m_kategori.id_kategori', 'left');
+		$this->db->join('tbl_sub_kategori_produk', 'm_produk.id_sub_kategori = tbl_sub_kategori_produk.id_sub_kategori', 'left');
+		$this->db->join('tbl_satuan', 'm_produk.id_satuan = tbl_satuan.id_satuan', 'left');
+		$this->db->where('m_produk.status', '1');
 		$this->db->where('tbl_gambar_produk.jenis_gambar', 'display');
-		$this->db->where('tbl_produk.id_produk', $id_produk);
+		$this->db->where('m_produk.id_produk', $id_produk);
 
 		$query = $this->db->get();
 		return $query->row();
@@ -295,7 +295,7 @@ class Mod_master_produk_adm extends CI_Model
 
 	public function update_status_produk($where, $data)
 	{
-		$this->db->update("tbl_produk", $data, $where);
+		$this->db->update("m_produk", $data, $where);
 	}
 
 	public function update_status_produk_detail($where, $data)

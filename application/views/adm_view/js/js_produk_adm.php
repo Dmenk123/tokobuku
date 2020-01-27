@@ -8,7 +8,7 @@
 
 	$(document).ready(function() {
 		//datatables
-		table = $('#tabelUser').DataTable({
+		table = $('#tabelProduk').DataTable({
 
 			"processing": true, //feature control the processing indicator
 			"serverSide": true, //feature control DataTables server-side processing mode
@@ -16,7 +16,7 @@
 
 			//load data for table content from ajax source
 			"ajax": {
-				"url": "<?php echo site_url('pengguna/list_pengguna') ?>",
+				"url": "<?php echo site_url('admin/master_produk_adm/list') ?>",
 				"type": "POST"
 			},
 
@@ -117,37 +117,37 @@
 		});
 	}
 
-				function delete_user(id) {
-					if (confirm('Are you sure delete this data?')) {
-						// ajax delete data to database
-						$.ajax({
-							url: "<?php echo site_url('pengguna/delete_pengguna') ?>/" + id,
-							type: "POST",
-							dataType: "JSON",
-							success: function(data) {
-								//if success reload ajax table
-								$('#modal_form').modal('hide');
-								alert(data.pesan);
-								reload_table();
-							},
-							error: function(jqXHR, textStatus, errorThrown) {
-								alert('Error deleting data');
-							}
-						});
-
-					}
+	function delete_user(id) {
+		if (confirm('Are you sure delete this data?')) {
+			// ajax delete data to database
+			$.ajax({
+				url: "<?php echo site_url('pengguna/delete_pengguna') ?>/" + id,
+				type: "POST",
+				dataType: "JSON",
+				success: function(data) {
+					//if success reload ajax table
+					$('#modal_form').modal('hide');
+					alert(data.pesan);
+					reload_table();
+				},
+				error: function(jqXHR, textStatus, errorThrown) {
+					alert('Error deleting data');
 				}
+			});
 
-				function readURL(input, id) {
-					var idImg = id + '-img';
-					if (input.files && input.files[0]) {
-						var reader = new FileReader();
-						console.log(reader);
-						reader.onload = function(e) {
-							$('#' + idImg).attr('src', e.target.result);
-						}
+		}
+	}
 
-						reader.readAsDataURL(input.files[0]);
-					}
-				}
+	function readURL(input, id) {
+		var idImg = id + '-img';
+		if (input.files && input.files[0]) {
+			var reader = new FileReader();
+			console.log(reader);
+			reader.onload = function(e) {
+				$('#' + idImg).attr('src', e.target.result);
+			}
+
+			reader.readAsDataURL(input.files[0]);
+		}
+	}
 </script>
