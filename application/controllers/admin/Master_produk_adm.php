@@ -63,14 +63,14 @@ class Master_produk_adm extends CI_Controller {
 		$this->gbr_produk->initialize($config);
 	}
 
-	private function konfigurasi_image_produk($filename)
+	private function konfigurasi_image_produk($filename, $newname, $ext, $urut)
 	{
 		//konfigurasi image lib
 	    $config['image_library'] = 'gd2';
 	    $config['source_image'] = './assets/img/produk/'.$filename;
 	    $config['create_thumb'] = FALSE;
 	    $config['maintain_ratio'] = FALSE;
-	    $config['new_image'] = './assets/img/produk/'.$filename;
+		$config['new_image'] = './assets/img/produk/' . $newname . "-" . $urut . "." . $ext;
 	    $config['overwrite'] = TRUE;
 	    $config['width'] = 450; //resize
 	    $config['height'] = 500; //resize
@@ -107,7 +107,7 @@ class Master_produk_adm extends CI_Controller {
 
 	public function add_data()
 	{
-		//$arr_valid = $this->_validate();
+		$arr_valid = $this->_validate();
 		$nama = trim(strtoupper(clean_string($this->input->post('nama'))));
 		$kategori = trim(clean_string($this->input->post('kategori')));
 		$satuan = trim(clean_string($this->input->post('satuan')));
@@ -130,78 +130,76 @@ class Master_produk_adm extends CI_Controller {
 		}
 
 		$this->db->trans_begin();
-
-		//load konfig upload
-		$this->konfigurasi_upload_produk($namafileseo);
+		$id = $this->m_global->gen_uuid();
+		$akronim = $this->m_prod->get_akronim_kategori($kategori);
+		$kode = $this->m_prod->get_kode_produk($akronim);
+		
+		
 		//loop 3x berdasarkan upload field
-		for ($i = 1; $i <= 3; $i++) {
-			//jika melakukan upload foto
-			if ($this->gbr_produk->do_upload('gambar' . $i)) {
-				$gbr = $this->gbr_produk->data(); //get file upload data
-				$config['image_library'] = 'gd2';
-				$config['source_image'] = './assets/img/produk/' . $gbr['file_name'];
-				$config['create_thumb'] = FALSE;
-				$config['maintain_ratio'] = FALSE;
-				$config['width'] = 450; //resize
-				$config['height'] = 500; //resize
-				$config['new_image'] = './assets/img/produk/' . $nmfile . "-det" . $i . "." . $ext;
-				$this->load->library('image_lib', $config);
-				$this->image_lib->initialize($config);
-				$this->image_lib->resize();
+		for ($i = 0; $i <= 2; $i++) {
+			if (!empty($_FILES['gambar']['name'])) {
+				//load konfig upload
+				$this->konfigurasi_upload_produk($namafileseo);
+				$path = $_FILES['gambar']['name'][$i];
+				$ext = pathinfo($path, PATHINFO_EXTENSION);
+				//jika melakukan upload foto
+				if ($this->gbr_produk->do_upload('gambar' . $i)) {
+					$gbr = $this->gbr_produk->data(); //get file upload data
+					var_dump($this->gbr_produk->data());exit;
+					$this->konfigurasi_image_produk($gbr['file_name'], $namafileseo, $ext, $i);
+					$arr_gambar[] = ['nama_gambar' => $namafileseo . "-" . $i . "." . $ext];
 
-				$arr_gambar[] = ['nama_gambar' => $nmfile . "-det" . $i . "." . $ext];
+					//clear img lib after resize
+					$this->image_lib->clear();
 
-				//clear img lib after resize
-				$this->image_lib->clear(); 
-
-				//unlink file upload, just image processed file only saved in server
-				$ifile = '/assets/img/produk/' . $gbr['file_name'];
-				unlink($_SERVER['DOCUMENT_ROOT'] . $ifile); // use server document root
-			} else {
-				//jika tidak ada file diupload, maka duplicate upload file pertama tiap loop
-				$this->gbr_produk->do_upload('gambar1');
-				$gbr = $this->gbr_produk->data();
-				//konfigurasi image lib
-				$config['image_library'] = 'gd2';
-				$config['source_image'] = './assets/img/produk/' . $gbr['file_name'];
-				$config['create_thumb'] = FALSE;
-				$config['maintain_ratio'] = FALSE;
-				$config['width'] = 450; //resize
-				$config['height'] = 500; //resize
-				$config['new_image'] = './assets/img/produk/' . $nmfile . "-det" . $i . "." . $ext;
-				$this->load->library('image_lib', $config);
-				$this->image_lib->initialize($config);
-				$this->image_lib->resize();
-
-				$arr_gambar[] = ['nama_gambar' => $nmfile . "-det" . $i . "." . $ext];
-				$this->image_lib->clear(); //clear img lib after resize
-
-				$ifile = '/assets/img/produk/' . $gbr['file_name'];
-				unlink($_SERVER['DOCUMENT_ROOT'] . $ifile); // use server document root
+				} 
+				// else {
+				// 	//jika tidak ada file diupload, maka duplicate upload file pertama tiap loop
+				// 	$this->konfigurasi_upload_produk($namafileseo);
+				// 	$path = $_FILES['gambar']['name'][0];
+				// 	$ext = pathinfo($path, PATHINFO_EXTENSION);
+				// 	$this->gbr_produk->do_upload('gambar1');
+				// 	$gbr = $this->gbr_produk->data();
+				// 	//konfigurasi image lib
+				// 	$this->konfigurasi_image_produk($gbr['file_name'], $namafileseo, $ext, $i);
+				// 	$arr_gambar[] = ['nama_gambar' => $namafileseo . "-" . $i . "." . $ext];
+				// 	$this->image_lib->clear(); //clear img lib after resize
+				// }
+			}else{
+				$this->db->trans_rollback();
+				$this->session->set_flashdata('feedback_failed', 'Wajib Upload Gambar.');
+				$status = FALSE;
 			}
+			
 		} //end loop
 
 		$data = array(
-			'id' => $nip,
-			'id_kategori' => $nama,
-			'id_satuan' => $jabatan,
-			'kode' => $alamat,
-			'nama' => $tempat_lahir,
-			'keterangan' => date('Y-m-d', strtotime($tahun.'-'.$bulan.'-'.$hari)),
-			'dimensi_panjang' => $jenkel,
-			'dimensi_lebar' => $nama_file_foto,
-			'jumlah_halaman' => $tipepeg,
-			'penerbit' => $tipepeg,
-			'tahun' => $tipepeg,
-			'created_at' => $tipepeg,
-			'is_aktif' => $tipepeg,
-			'is_posting' => $tipepeg,
-			'gambar_1' => $tipepeg,
-			'gambar_2' => $tipepeg,
-			'gambar_3' => $tipepeg
+			'id' => $id,
+			'id_kategori' => $kategori,
+			'id_satuan' => $satuan,
+			'kode' => $kode,
+			'nama' => $nama,
+			'keterangan' => $keterangan,
+			'dimensi_panjang' => $panjang,
+			'dimensi_lebar' => $lebar,
+			'jumlah_halaman' => $jumlah_halaman,
+			'penerbit' => $penerbit,
+			'tahun' => $tahun,
+			'created_at' => date('Y-m-d H:i:s'),
+			'is_aktif' => $aktif,
+			'is_posting' => $posting,
+			'gambar_1' => $arr_gambar[0]['nama_gambar'],
+			'gambar_2' => $arr_gambar[1]['nama_gambar'],
+			'gambar_3' => $arr_gambar[2]['nama_gambar']
 		);
 
-		$insert = $this->m_prod->save($data);
+		
+		/* echo "<pre>";
+		print_r ($data);
+		echo "</pre>";
+		exit; */
+
+		$insert = $this->m_prod->insert_data_produk($data);
 
 		if ($this->db->trans_status() === FALSE){
 			$this->db->trans_rollback();
@@ -227,63 +225,57 @@ class Master_produk_adm extends CI_Controller {
 		$data['inputerror'] = array();
 		$data['status'] = TRUE;
 
-		if ($this->input->post('nip') == '') {
-			$data['inputerror'][] = 'nip';
-            $data['error_string'][] = 'Wajib mengisi nip';
-            $data['status'] = FALSE;
-		}
-
 		if ($this->input->post('nama') == '') {
 			$data['inputerror'][] = 'nama';
             $data['error_string'][] = 'Wajib mengisi nama';
             $data['status'] = FALSE;
 		}
 
-		if ($this->input->post('jabatan') == null) {
-			$data['inputerror'][] = 'jabatan';
-            $data['error_string'][] = 'Wajib mengisi jabatan';
+		if ($this->input->post('kategori') == '') {
+			$data['inputerror'][] = 'kategori';
+            $data['error_string'][] = 'Wajib mengisi kategori';
             $data['status'] = FALSE;
 		}
 
-		if ($this->input->post('tempatlahir') == '') {
-			$data['inputerror'][] = 'tempatlahir';
-            $data['error_string'][] = 'Wajib mengisi tempatlahir';
+		if ($this->input->post('satuan') == null) {
+			$data['inputerror'][] = 'satuan';
+            $data['error_string'][] = 'Wajib mengisi satuan';
             $data['status'] = FALSE;
 		}
 
-		if ($this->input->post('hari') == '') {
-			$data['inputerror'][] = 'hari';
-            $data['error_string'][] = 'Wajib mengisi hari';
+		if ($this->input->post('keterangan') == '') {
+			$data['inputerror'][] = 'keterangan';
+            $data['error_string'][] = 'Wajib mengisi keterangan';
             $data['status'] = FALSE;
 		}
 
-		if ($this->input->post('bulan') == '') {
-			$data['inputerror'][] = 'bulan';
-            $data['error_string'][] = 'Wajib mengisi bulan';
+		if ($this->input->post('panjang') == '') {
+			$data['inputerror'][] = 'panjang';
+            $data['error_string'][] = 'Wajib mengisi panjang';
+            $data['status'] = FALSE;
+		}
+
+		if ($this->input->post('lebar') == '') {
+			$data['inputerror'][] = 'lebar';
+            $data['error_string'][] = 'Wajib mengisi lebar';
+            $data['status'] = FALSE;
+		}
+
+		if ($this->input->post('jumlah_halaman') == '') {
+			$data['inputerror'][] = 'jumlah_halaman';
+            $data['error_string'][] = 'Wajib mengisi jumlah halaman';
+            $data['status'] = FALSE;
+		}
+
+		if ($this->input->post('penerbit') == '') {
+			$data['inputerror'][] = 'penerbit';
+            $data['error_string'][] = 'Wajib mengisi penerbit';
             $data['status'] = FALSE;
 		}
 
 		if ($this->input->post('tahun') == '') {
 			$data['inputerror'][] = 'tahun';
             $data['error_string'][] = 'Wajib mengisi tahun';
-            $data['status'] = FALSE;
-		}
-
-		if ($this->input->post('alamat') == '') {
-			$data['inputerror'][] = 'alamat';
-            $data['error_string'][] = 'Wajib mengisi alamat';
-            $data['status'] = FALSE;
-		}
-
-		if ($this->input->post('jenkel') == '') {
-			$data['inputerror'][] = 'jenkel';
-            $data['error_string'][] = 'Wajib mengisi jenkel';
-            $data['status'] = FALSE;
-		}
-
-		if ($this->input->post('tipepeg') == '') {
-			$data['inputerror'][] = 'tipepeg';
-            $data['error_string'][] = 'Wajib mengisi tipe pegawai';
             $data['status'] = FALSE;
 		}
 			

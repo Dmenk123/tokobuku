@@ -187,30 +187,26 @@ class Mod_master_produk_adm extends CI_Model
 		return $hasil->akronim;
 	}
 
+	public function get_kode_produk($akronim)
+	{
+		$q = $this->db->query("select MAX(RIGHT(kode,5)) as kode_max from m_produk where kode like '%$akronim%'");
+		$kd = "";
+		if ($q->num_rows() > 0) {
+			foreach ($q->result() as $hasil) {
+				$tmp = ((int) $hasil->kode_max) + 1;
+				$kd = sprintf("%05s", $tmp);
+			}
+		} else {
+			$kd = "00001";
+		}
+		return "$akronim" . $kd;
+	}
 
+	public function insert_data_produk($data)
+	{
+		$this->db->insert('m_produk', $data);
+	}
 
-
-
-
-    public function get_kode_produk($akronim)
-    {
-            $q = $this->db->query("select MAX(RIGHT(id_produk,5)) as kode_max from tbl_produk where id_produk like '%$akronim%'");
-            $kd = "";
-            if($q->num_rows()>0){
-                foreach($q->result() as $hasil){
-                    $tmp = ((int)$hasil->kode_max)+1;
-                    $kd = sprintf("%05s", $tmp);
-                }
-            }else{
-                $kd = "00001";
-            }
-            return "$akronim".$kd;
-    }
-
-    public function insert_data_produk($data)
-    {
-    	$this->db->insert('tbl_produk', $data);
-    }
 
     public function update_data_produk($where, $data)
 	{
