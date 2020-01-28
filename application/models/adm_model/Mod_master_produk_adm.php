@@ -4,13 +4,11 @@ class Mod_master_produk_adm extends CI_Model
 {
 	// declare array variable to search datatable
 	var $column_search = array(
-			null,
 			'm_produk.id',
 			'm_produk.nama',
 			'm_kategori.nama',
 			't_log_harga.harga_satuan',
 			'm_satuan.nama',
-			null
 		);
 
 	var $column_order = array(
