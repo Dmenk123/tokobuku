@@ -119,6 +119,26 @@ class Mod_master_produk_adm extends CI_Model
 	}
 	//end datatable query master produk
 
+	public function get_data_produk($id_produk)
+	{
+		$this->db->select('
+			mp.*, mk.nama as nama_kategori, ms.nama as nama_satuan, tlh.harga_satuan, tlh.potongan
+		');
+		$this->db->from('m_produk as mp');
+		$this->db->join('m_kategori as mk', 'mp.id_kategori = mk.id', 'left');
+		$this->db->join('m_satuan as ms', 'mp.id_satuan = ms.id', 'left');
+		$this->db->join('t_log_harga tlh', 'mp.id = tlh.id_produk', 'left');
+		$this->db->where('tlh.is_aktif', '1');
+		$this->db->where('mp.id', $id_produk);
+
+		$query = $this->db->get()->row();
+		
+		if ($query) {
+			return $query;
+		}else{
+			return false;
+		}
+	}
 
 	
 	public function get_detail_produk_header($id_produk)
@@ -236,35 +256,7 @@ class Mod_master_produk_adm extends CI_Model
         }
     }
 	
-	public function get_data_produk($id_produk)
-	{
-		$this->db->select('
-			tbl_gambar_produk.id_gambar,
-			tbl_gambar_produk.nama_gambar,
-			m_produk.id_produk,
-			m_kategori.id_kategori,
-			m_kategori.nama_kategori,
-			tbl_sub_kategori_produk.id_sub_kategori,
-			tbl_sub_kategori_produk.nama_sub_kategori,
-			m_produk.nama_produk,
-			m_produk.keterangan_produk,
-			m_produk.harga,
-			tbl_satuan.id_satuan,
-			tbl_satuan.nama_satuan,
-			m_produk.bahan_produk,
-		');
-		$this->db->from('m_produk');
-		$this->db->join('tbl_gambar_produk', 'm_produk.id_produk = tbl_gambar_produk.id_produk', 'left');
-		$this->db->join('m_kategori', 'm_produk.id_kategori = m_kategori.id_kategori', 'left');
-		$this->db->join('tbl_sub_kategori_produk', 'm_produk.id_sub_kategori = tbl_sub_kategori_produk.id_sub_kategori', 'left');
-		$this->db->join('tbl_satuan', 'm_produk.id_satuan = tbl_satuan.id_satuan', 'left');
-		$this->db->where('m_produk.status', '1');
-		$this->db->where('tbl_gambar_produk.jenis_gambar', 'display');
-		$this->db->where('m_produk.id_produk', $id_produk);
-
-		$query = $this->db->get();
-		return $query->row();
-	}
+	
 
 	public function get_data_gbr_detail($id_produk)
 	{

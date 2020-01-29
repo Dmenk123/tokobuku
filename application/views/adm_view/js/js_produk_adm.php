@@ -20,7 +20,7 @@
 
 			//load data for table content from ajax source
 			"ajax": {
-				"url": "<?php echo site_url('admin/master_produk_adm/list') ?>",
+				"url": "<?php echo site_url('admin/master_produk_adm/list_data') ?>",
 				"type": "POST"
 			},
 

@@ -42,7 +42,7 @@ class Master_produk_adm extends CI_Controller {
 			// 'modal' => 'adm_view/modal/modalSetRoleAdm',
 			'js'	=> 'adm_view/js/js_produk_adm',
 			'modal' => false,
-			'view'	=> 'adm_view/v_master_produk'
+			'view'	=> 'adm_view/produk/v_master_produk'
 		];
 
 		$this->template_view->load_view($content, $data);
@@ -99,7 +99,7 @@ class Master_produk_adm extends CI_Controller {
 			// 'modal' => 'adm_view/modal/modalSetRoleAdm',
 			'js'	=> 'adm_view/js/js_produk_adm',
 			'modal' => false,
-			'view'	=> 'adm_view/v_add_master_produk'
+			'view'	=> 'adm_view/produk/v_add_master_produk'
 		];
 
 		$this->template_view->load_view($content, $data);
@@ -226,6 +226,81 @@ class Master_produk_adm extends CI_Controller {
 		));
 	}
 
+	public function edit($id_produk)
+	{
+		// $arr_valid = $this->_validate();
+		$id_user = $this->session->userdata('id_user');
+		$data_user = $this->m_user->get_detail_user($id_user);
+		$isi_notif = [];
+
+		$produk = $this->m_prod->get_data_produk($id_produk);
+		$data_kategori = $this->m_prod->get_data_kategori();
+		$data_satuan = $this->m_prod->get_data_satuan();
+
+		$data = array(
+			'data_user' => $data_user,
+			'isi_notif' => $isi_notif,
+			'data_satuan' => $data_satuan,
+			'data_kategori' => $data_kategori,
+			'data_produk' => $produk
+		);
+
+		$content = [
+			'css' => false,
+			// 'modal' => 'adm_view/modal/modalSetRoleAdm',
+			'js'	=> 'adm_view/js/js_produk_adm',
+			'modal' => false,
+			'view'	=> 'adm_view/produk/v_edit_master_produk'
+		];
+
+		$this->template_view->load_view($content, $data);
+	}
+
+	public function list_data()
+	{
+		$list = $this->m_prod->get_datatable_produk();
+		$data = array();
+		$no = $_POST['start'];
+		foreach ($list as $listProduk) {
+			$no++;
+			$link_detail = site_url('admin/master_produk_adm/master_produk_detail/') . $listProduk->id;
+			$link_edit = site_url('admin/master_produk_adm/edit/') . $listProduk->id;
+			$row = array();
+			//loop value tabel db
+			$row[] = '<img src="' . base_url() . '/assets/img/produk/' . $listProduk->gambar_1 . '" alt="Gambar Produk" class="img_produk" width="80" height="80">';
+			$row[] = $listProduk->id;
+			$row[] = $listProduk->nama;
+			$row[] = $listProduk->nama_kategori;
+			$row[] = $listProduk->harga_satuan;
+			$row[] = $listProduk->nama_satuan;
+			//add html for action button
+			if ($listProduk->is_aktif == '1') {
+				$strVal = $this->template_view->returnGetDetailButton($link_detail);
+				$strVal .= $this->template_view->returnGetEditButton($link_edit);
+				$strVal .= '<a class="btn btn-sm btn-success btn_edit_status" href="javascript:void(0)" title="aktif" id="' . $listProduk->id . '"><i class="fa fa-check"></i> Aktif</a>';
+
+				$row[] = $strVal;
+			} else {
+				$strVal = $this->template_view->returnGetDetailButton($link_detail);
+				$strVal .= $this->template_view->returnGetEditButton($link_edit);
+				$strVal .= '<a class="btn btn-sm btn-danger btn_edit_status" href="javascript:void(0)" title="nonaktif" id="' . $listProduk->id . '"><i class="fa fa-times"></i> Nonaktif</a>';
+
+				$row[] = $strVal;
+			}
+
+			$data[] = $row;
+		} //end loop
+
+		$output = array(
+			"draw" => $_POST['draw'],
+			"recordsTotal" => $this->m_prod->count_all_produk(),
+			"recordsFiltered" => $this->m_prod->count_filtered_produk(),
+			"data" => $data,
+		);
+		//output to json format
+		echo json_encode($output);
+	}
+
 
 	private function _validate()
 	{
@@ -303,121 +378,7 @@ class Master_produk_adm extends CI_Controller {
 	    return $string;
 	}
 
-	public function list()
-	{
-		$list = $this->m_prod->get_datatable_produk();
-		$data = array();
-		$no = $_POST['start'];
-		foreach ($list as $listProduk) {
-			$no++;
-			$link_detail = site_url('admin/master_produk_adm/master_produk_detail/') . $listProduk->id;
-			$link_edit = site_url('admin/master_produk_adm/edit/') . $listProduk->id;
-			$row = array();
-			//loop value tabel db
-			$row[] = '<img src="' . base_url() . '/assets/img/produk/' . $listProduk->gambar_1 . '" alt="Gambar Produk" class="img_produk" width="80" height="80">';
-			$row[] = $listProduk->id;
-			$row[] = $listProduk->nama;
-			$row[] = $listProduk->nama_kategori;
-			$row[] = $listProduk->harga_satuan;
-			$row[] = $listProduk->nama_satuan;
-			//add html for action button
-			if ($listProduk->is_aktif == '1') {
-				$strVal = $this->template_view->returnGetDetailButton($link_detail);
-				$strVal .= $this->template_view->returnGetEditButton($link_edit);
-				$strVal .= '<a class="btn btn-sm btn-success btn_edit_status" href="javascript:void(0)" title="aktif" id="' . $listProduk->id . '"><i class="fa fa-check"></i> Aktif</a>';
-
-				$row[] = $strVal;
-			} else {
-				$strVal = $this->template_view->returnGetDetailButton($link_detail);
-				$strVal .= $this->template_view->returnGetEditButton($link_edit);
-				$strVal .= '<a class="btn btn-sm btn-danger btn_edit_status" href="javascript:void(0)" title="nonaktif" id="' . $listProduk->id . '"><i class="fa fa-times"></i> Nonaktif</a>';
-
-				$row[] = $strVal;
-			}
-
-			$data[] = $row;
-		} //end loop
-
-		$output = array(
-			"draw" => $_POST['draw'],
-			"recordsTotal" => $this->m_prod->count_all_produk(),
-			"recordsFiltered" => $this->m_prod->count_filtered_produk(),
-			"data" => $data,
-		);
-		//output to json format
-		echo json_encode($output);
-	}
-
-	public function edit($id_produk)
-	{
-		$produk = $this->m_prod->get_data_produk($id_produk);
-		$gbrDetail = $this->m_prod->get_data_gbr_detail($id_produk);
-		
-		//assign variable dari row result
-		$id_prod = $produk->id_produk;
-		$id_gambar = $produk->id_gambar;
-		$id_kategori = $produk->id_kategori;
-		$nama_kategori = $produk->nama_kategori;
-		$id_sub_kategori = $produk->id_sub_kategori;
-		$nama_sub_kategori = $produk->nama_sub_kategori;
-		$nama_produk = $produk->nama_produk;
-		$nama_gambar = $produk->nama_gambar;
-		$keterangan_produk = $produk->keterangan_produk;
-		$harga = $produk->harga;
-		$id_satuan = $produk->id_satuan;
-		$nama_satuan = $produk->nama_satuan;
-		$bahan_produk = $produk->bahan_produk;
-
-		//loop u/ cari id gambar dari model
-		for ($i = 0; $i < 3; $i++) {
-			if (isset($gbrDetail[$i]['id_gambar'])) {
-				$idGbr[] = $gbrDetail[$i]['id_gambar'];
-				$namaGbr[] = $gbrDetail[$i]['nama_gambar'];
-			}
-		}
-		//set to "" bila data id_gambar belum di set
-		if (!isset($idGbr[0])) {
-			$idGbr[0] = "";
-		}
-		if (!isset($idGbr[1])) {
-			$idGbr[1] = "";
-		}
-		if (!isset($idGbr[2])) {
-			$idGbr[2] = "";
-		}
-		//set to "" bila data nama_gambar belum di set
-		if (!isset($namaGbr[0])) {
-			$namaGbr[0] = "";
-		}
-		if (!isset($namaGbr[1])) {
-			$namaGbr[1] = "";
-		}
-		if (!isset($namaGbr[2])) {
-			$namaGbr[2] = "";
-		}
-		//assign array untuk di parsing ke json
-		$data['id_gambar'] = $id_gambar;
-		$data['nama_gambar'] = $nama_gambar;
-		$data['id_gambar_detail1'] = $idGbr[0];
-		$data['id_gambar_detail2'] = $idGbr[1];
-		$data['id_gambar_detail3'] = $idGbr[2];
-		$data['nama_gambar_detail1'] = $namaGbr[0];
-		$data['nama_gambar_detail2'] = $namaGbr[1];
-		$data['nama_gambar_detail3'] = $namaGbr[2];
-		$data['id_produk'] = $id_prod;
-		$data['id_kategori'] = $id_kategori;
-		$data['nama_kategori'] = $nama_kategori;
-		$data['id_sub_kategori'] = $id_sub_kategori;
-		$data['nama_sub_kategori'] = $nama_sub_kategori;
-		$data['nama_produk'] = $nama_produk;
-		$data['keterangan_produk'] = $keterangan_produk;
-		$data['harga'] = $harga;
-		$data['id_satuan'] = $id_satuan;
-		$data['nama_satuan'] = $nama_satuan;
-		$data['bahan_produk'] = $bahan_produk;
-
-		echo json_encode($data);
-	}
+	
 	
 	// =========================================================================================================================
 
