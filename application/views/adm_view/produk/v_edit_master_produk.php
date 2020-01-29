@@ -129,8 +129,8 @@
     							<span class="help-block"></span>
     						</div>
 
+                            <?php $counter_cak = 1; ?>
     						<?php for ($i = 0; $i <= 2; $i++) { ?>
-    							<?php $counter_cak = 1; ?>
     							<div class="form-group col-md-9">
 
     								<?php if ($i == 0) : ?>
