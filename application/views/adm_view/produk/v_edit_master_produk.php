@@ -129,7 +129,7 @@
     							<span class="help-block"></span>
     						</div>
 
-                            <?php $counter_cak = 1; ?>
+    						<?php $counter_cak = 1; ?>
     						<?php for ($i = 0; $i <= 2; $i++) { ?>
     							<div class="form-group col-md-9">
 
@@ -152,7 +152,7 @@
     									<img id="gambar<?= $i; ?>-img" src="#" alt="Preview Gambar" height="75" width="75" class="pull-right" />
     								<?php } ?>
     							</div>
-								
+
     							<?php $counter_cak++; ?>
     						<?php } ?>
 
