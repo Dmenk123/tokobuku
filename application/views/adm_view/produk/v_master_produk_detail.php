@@ -1,12 +1,13 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Detail Produk
+        Detail 
+        <?= $this->template_view->nama_menu('judul_menu'); ?>
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i>Home</a></li>
         <li>Produk</li>
-        <li class="active">Detail Produk</li>
+        <li class="active">Detail <?= $this->template_view->nama_menu('judul_menu'); ?></li>
       </ol>
     </section>
 
@@ -16,35 +17,63 @@
         <div class="col-xs-12">
           <div class="box">
             <div class="box-header">
-              <button class="btn btn-success" title="Add Detail" onclick="addDetailProduk()"><i class="glyphicon glyphicon-plus"></i> Add Detail</button>
-              <button class="btn btn-default" title="Refresh" onclick="reload_table_detail()"><i class="glyphicon glyphicon-refresh"></i> Reload</button>
               <button class="btn btn-danger" title="Kembali" onclick="javascript:history.back()"><i class="glyphicon glyphicon-menu-left"></i> Kembali</button> 
             </div>
             <!-- /.box-header -->
             <div class="box-body">
               <div class="table-responsive"> 
-              <?php foreach ($hasil_header as $val ) : ?>
+             
                 <div class="col-xs-10">
-                  <h2 style="text-align: center;">Detail Produk : <?php echo $val->nama_produk; ?></h2>
-                  <h4 style="text-align: center;">Kode Produk : <?php echo $val->id_produk; ?></h4>
+                  <h2 style="text-align: center;"><?php echo $data_produk->nama; ?></h2>
+                  <h4 style="text-align: center;">Kode Produk : <?php echo $data_produk->kode; ?></h4>
                 </div>
                 <div class="col-xs-2">
-                  <img src="<?php echo config_item('assets');?>img/produk/<?php echo $val->nama_gambar; ?>" style="height: 50%; width: 50%; border: 1px solid;">
+                  <img src="<?php echo base_url('assets/img/produk/').$data_produk->gambar_1; ?>" style="height: 75%; width: 75%; border: 2px solid;">
                 </div>
-              <?php endforeach ?>
-              
+               
                 <table id="tabelProdukDetail" class="table table-bordered table-hover" cellspacing="0" width="100%">
                   <thead>
                     <tr>
-                      <th>No</th>
-                      <th>Ukuran Produk</th>
-                      <th>Berat Satuan</th>
-                      <th>Stok Awal</th>
-                      <th>Stok Sisa</th>
-                      <th>Stok Minimum</th>
-                      <th style="width: 160px; text-align: center;">Action</th>
+                      <th colspan="2">Detail Produk</th>
+                    </tr>
+                    <tr>
+                      <td>Nama</td>
+                      <td></td>
+                    </tr>
+                    <tr>
+                      <td>Satuan</td>
+                      <td></td>
+                    </tr>
+                    <tr>
+                      <td>Harga Satuan</td>
+                      <td></td>
+                    </tr>
+                    <tr>
+                      <td>Kategori</td>
+                      <td></td>
+                    </tr>
+                    <tr>
+                      <td>Dimensi Panjang x Lebar</td>
+                      <td></td>
+                    </tr>
+                    <tr>
+                      <td>Jumlah Halaman</td>
+                      <td></td>
+                    </tr>
+                    <tr>
+                      <td>Penerbit</td>
+                      <td></td>
+                    </tr>
+                    <tr>
+                      <td>Gambar Detail 1</td>
+                      <td></td>
+                    </tr>
+                    <tr>
+                      <td>Gambar Detail 2</td>
+                      <td></td>
                     </tr>
                   </thead>
+                  <tbody>
                   </tbody>
                 </table>
                </div>

@@ -226,6 +226,30 @@ class Master_produk_adm extends CI_Controller
 		));
 	}
 
+	public function detail($id_produk)
+	{
+		$id_user = $this->session->userdata('id_user');
+		$data_user = $this->m_user->get_detail_user($id_user);
+		$isi_notif = [];
+
+		$produk = $this->m_prod->get_data_produk($id_produk);
+		
+		$data = array(
+			'data_user' => $data_user,
+			'isi_notif' => $isi_notif,
+			'data_produk' => $produk
+		);
+
+		$content = [
+			'css' => false,
+			'js'	=> 'adm_view/js/js_produk_adm',
+			'modal' => false,
+			'view'	=> 'adm_view/produk/v_master_produk_detail'
+		];
+
+		$this->template_view->load_view($content, $data);
+	}
+
 	public function edit($id_produk)
 	{
 		// $arr_valid = $this->_validate();
@@ -366,7 +390,7 @@ class Master_produk_adm extends CI_Controller
 		$no = $_POST['start'];
 		foreach ($list as $listProduk) {
 			$no++;
-			$link_detail = site_url('admin/master_produk_adm/master_produk_detail/') . $listProduk->id;
+			$link_detail = site_url('admin/master_produk_adm/detail/') . $listProduk->id;
 			$link_edit = site_url('admin/master_produk_adm/edit/') . $listProduk->id;
 			$row = array();
 			//loop value tabel db
@@ -487,69 +511,6 @@ class Master_produk_adm extends CI_Controller
 	// =========================================================================================================================
 
 
-
-	public function list_produk_detail($idProduk)
-	{
-		$list = $this->m_prod->get_datatable_produk_detail($idProduk);
-		$data = array();
-		$no = $_POST['start'];
-		$nomor_urut = '1';
-		foreach ($list as $listProduk) {
-			$no++;
-			$row = array();
-			//loop value tabel db
-			$row[] = $nomor_urut;
-			$row[] = $listProduk->ukuran_produk;
-			$row[] = $listProduk->berat_satuan;
-			$row[] = $listProduk->stok_awal;
-			$row[] = $listProduk->stok_sisa;
-			$row[] = $listProduk->stok_minimum;
-			//add html for action button
-			if ($listProduk->status == '1') {
-				$row[] =
-					'<a class="btn btn-sm btn-primary" href="javascript:void(0)" title="Edit" onclick="editDetail(' . "'" . $listProduk->id_stok . "'" . ')"><i class="glyphicon glyphicon-pencil"></i> Edit</a>
-                 <a class="btn btn-sm btn-success btn_edit_status_det" href="javascript:void(0)" title="aktif" id="' . $listProduk->id_stok . '"><i class="fa fa-times"></i> Aktif</a>';
-			} else {
-				$row[] =
-					'<a class="btn btn-sm btn-primary" href="javascript:void(0)" title="Edit" onclick="editDetail(' . "'" . $listProduk->id_stok . "'" . ')"><i class="glyphicon glyphicon-pencil"></i> Edit</a>
-                 <a class="btn btn-sm btn-danger btn_edit_status_det" href="javascript:void(0)" title="nonaktif" id="' . $listProduk->id_stok . '"><i class="fa fa-check"></i> Nonaktif</a>';
-			}
-			$data[] = $row;
-			$nomor_urut++;
-		} //end loop
-
-		$output = array(
-			"draw" => $_POST['draw'],
-			"recordsTotal" => $this->m_prod->count_all_produk_detail($idProduk),
-			"recordsFiltered" => $this->m_prod->count_filtered_produk_detail($idProduk),
-			"data" => $data,
-		);
-		//output to json format
-		echo json_encode($output);
-	}
-
-	public function master_produk_detail($id)
-	{
-		$id_user = $this->session->userdata('id_user');
-		$data_user = $this->m_user->get_data_user($id_user);
-
-		$jumlah_notif = $this->m_user->email_notif_count($id_user);  //menghitung jumlah email masuk
-		$notif = $this->m_user->get_email_notif($id_user); //menampilkan isi email
-
-		$query_header = $this->m_prod->get_detail_produk_header($id);
-
-		$data = array(
-			'content' => 'view_list_detail_produk',
-			'modal' => 'modalDetailProdukAdm',
-			'js' => 'MasterProdukAdmJs',
-			'data_user' => $data_user,
-			'qty_notif' => $jumlah_notif,
-			'isi_notif' => $notif,
-			'hasil_header' => $query_header
-		);
-		$this->load->view('temp_adm', $data);
-	}
-
 	public function get_master_kategori()
 	{
 		$data = $this->m_prod->get_data_kategori();
@@ -586,149 +547,6 @@ class Master_produk_adm extends CI_Controller
 		echo json_encode($satuan);
 	}
 
-	public function add_data_produk_detail()
-	{
-		$size = $this->input->post('ukuranProdukDet');
-		$data = array(
-			'id_produk' => $this->input->post('idProduk'),
-			'ukuran_produk' => $size,
-			'berat_satuan' => trim($this->input->post('beratSatuanDet')),
-			'stok_awal' => trim($this->input->post('stokAwalDet')),
-			'stok_sisa' => trim($this->input->post('stokAwalDet')),
-			'stok_minimum' => trim($this->input->post('stokMinDet'))
-		);
-		//cek ukuran di db
-		$cek_size = $this->m_prod->cek_size_produk($size, $this->input->post('idProduk'));
-		if ($cek_size == $size) {
-			echo json_encode(array(
-				'status' => TRUE,
-				'pesan' => "Maaf untuk produk ukuran \"" . $size . "\" sudah ada"
-			));
-		} else {
-			$this->m_prod->insert_data_produk_detail($data);
-
-			echo json_encode(array(
-				'status' => TRUE,
-				'pesan' => "Data produk detail berhasil disimpan"
-			));
-		}
-	}
-
-	public function update_produk_detail()
-	{
-		$size = $this->input->post('ukuranProdukDet');
-		$data = array(
-			'id_produk' => $this->input->post('idProduk'),
-			'berat_satuan' => trim($this->input->post('beratSatuanDet')),
-			'stok_awal' => trim($this->input->post('stokAwalDet')),
-			'stok_minimum' => trim($this->input->post('stokMinDet'))
-		);
-		//cek ukuran di db
-		$this->m_prod->update_data_produk_detail(array('id_stok' => $this->input->post('idProdukDet')), $data);
-
-		echo json_encode(array(
-			'status' => TRUE,
-			'pesan' => "Data produk detail berhasil diupdate"
-		));
-	}
-
-
-
-	public function edit_data_produk_detail($id_stok)
-	{
-		$data = $this->m_prod->get_data_produk_detail($id_stok);
-		echo json_encode($data);
-	}
-
-	public function update_produk()
-	{
-		$timestamp = date('Y-m-d H:i:s');
-		$id_produk = $this->input->post('idProduk');
-		//get extension
-		$path = $_FILES['gambarDisplay']['name'];
-		$ext = pathinfo($path, PATHINFO_EXTENSION);
-		//replace space with dash
-		$nmfile = str_replace(" ", "-", strtolower(trim($this->input->post('namaProduk'))));
-
-		$data = array(
-			'id_kategori' => $this->input->post('kategoriProduk'),
-			'id_sub_kategori' => $this->input->post('subKategoriProduk'),
-			'nama_produk' => trim($this->input->post('namaProduk')),
-			'harga' => trim($this->input->post('hargaProduk')),
-			'id_satuan' => $this->input->post('satuanProduk'),
-			'keterangan_produk' => trim($this->input->post('keteranganProduk')),
-			'bahan_produk' => trim($this->input->post('bahanProduk')),
-			'modified' => $timestamp,
-			'status' => '1'
-		);
-		//update data (PROSES PERTAMA)
-		$this->m_prod->update_data_produk(array('id_produk' => $id_produk), $data);
-
-		//update data tabel gambar
-		//load konfig upload
-		$this->konfigurasi_upload_produk($nmfile);
-		//jika gbr display tdk kosong
-		if (!empty($_FILES['gambarDisplay']['name'])) {
-			//jika melakukan upload foto
-			if ($this->gbr_produk->do_upload('gambarDisplay')) {
-				//$this->gbr_produk->do_upload('gambarDisplay');
-				$gbrDisplay = $this->gbr_produk->data();
-				//inisiasi variabel u/ digunakan pada fungsi config img produk
-				$nama_file_produk = $gbrDisplay['file_name'];
-				//load config img produk
-				$this->konfigurasi_image_produk($nama_file_produk);
-				//data input array
-				$input_display = array(
-					'jenis_gambar' => 'display',
-					'nama_gambar' => $gbrDisplay['file_name'],
-				);
-				//clear img lib after resize
-				$this->image_lib->clear();
-				//save data (PROSES KEDUA)
-				$this->m_prod->update_data_gambar(array('id_gambar' => $this->input->post('idGbrDisplay')), $input_display);
-			} //end 
-		}
-		//insert data tabel gambar detail
-
-		$this->konfigurasi_upload_produk_detail(); //load config image detail
-		for ($i = 1; $i <= 3; $i++) {
-			if (!empty($_FILES['gambarDetail' . $i]['name'])) {
-				//get detail extension
-				$pathDet = $_FILES['gambarDetail' . $i]['name'];
-				$extDet = pathinfo($pathDet, PATHINFO_EXTENSION);
-
-				if ($this->gbr_detail->do_upload('gambarDetail' . $i)) {
-					$gbrDetail = $this->gbr_detail->data(); //get file upload data
-					$config['image_library'] = 'gd2';
-					$config['source_image'] = './assets/img/produk/img_detail/' . $gbrDetail['file_name'];
-					$config['create_thumb'] = FALSE;
-					$config['overwrite'] = TRUE;
-					$config['maintain_ratio'] = FALSE;
-					$config['width'] = 450; //resize
-					$config['height'] = 500; //resize
-					$config['new_image'] = './assets/img/produk/img_detail/' . $nmfile . "-det" . $i . "." . $extDet;
-					$this->load->library('image_lib', $config);
-					$this->image_lib->initialize($config);
-					$this->image_lib->resize();
-					$input_detail = array(
-						'jenis_gambar' => 'detail',
-						'nama_gambar' => $nmfile . "-det" . $i . "." . $extDet,
-					);
-					//save data (PROSES KETIGA)
-					$this->m_prod->update_data_gambar(array('id_gambar' => $this->input->post('idGbrDet' . $i)), $input_detail);
-					$this->image_lib->clear(); //clear img lib after resize
-					$ifile = '/e-commerce/assets/img/produk/img_detail/' . $gbrDetail['file_name'];
-					unlink($_SERVER['DOCUMENT_ROOT'] . $ifile); // use server document root
-				}
-			} //end isset files
-		} //end loop
-
-		echo json_encode(array(
-			'status' => TRUE,
-			'pesan' => "Data Produk " . $id_produk . " Berhasil diupdate"
-		));
-	}
-
 	public function edit_status_produk($id)
 	{
 		$input_status = $this->input->post('status');
@@ -753,25 +571,5 @@ class Master_produk_adm extends CI_Controller
 		echo json_encode($data);
 	}
 
-	public function edit_status_produk_detail($id)
-	{
-		$input_status = $this->input->post('status');
-		// jika aktif maka di set ke nonaktif / "0"
-		if ($input_status == " Aktif") {
-			$status = '0';
-		} elseif ($input_status == " Nonaktif") {
-			$status = '1';
-		}
-
-		$input = array(
-			'status' => $status
-		);
-		$this->m_prod->update_status_produk_detail(array('id_stok' => $id), $input);
-		$data = array(
-			'status' => TRUE,
-			'pesan' => "Status Produk berhasil diperbaharui.",
-		);
-
-		echo json_encode($data);
-	}
+	
 }//end of class Master_produk_admp.php
