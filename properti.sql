@@ -11,7 +11,7 @@
  Target Server Version : 100131
  File Encoding         : 65001
 
- Date: 28/01/2020 00:22:07
+ Date: 02/02/2020 00:00:26
 */
 
 SET NAMES utf8mb4;
@@ -101,6 +101,7 @@ CREATE TABLE `m_produk`  (
   `penerbit` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
   `tahun` varchar(4) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
   `created_at` datetime(0) NULL DEFAULT NULL,
+  `updated_at` datetime(0) NULL DEFAULT NULL,
   `deleted_at` datetime(0) NULL DEFAULT NULL,
   `is_aktif` int(1) NULL DEFAULT NULL,
   `is_posting` int(1) NULL DEFAULT NULL,
@@ -114,7 +115,7 @@ CREATE TABLE `m_produk`  (
 -- ----------------------------
 -- Records of m_produk
 -- ----------------------------
-INSERT INTO `m_produk` VALUES ('80e25eb7-56ed-46fc-a029-967eebb0d6f7', '1', '1', 'TEK00001', 'EBOOK 10 HARI MENGUASAI ROGO SUKMO', 'Ole Ole', 67.00, 80.00, 871, 'CV. Anugerah Jaya Sentosa', '2019', '2020-01-27 18:04:38', NULL, 1, 1, 'ebook-10-hari-menguasai-rogo-sukmo-1580144677-0.jpg', 'ebook-10-hari-menguasai-rogo-sukmo-1580144677-1.jpg', 'ebook-10-hari-menguasai-rogo-sukmo-1580144677-2.jpg', NULL);
+INSERT INTO `m_produk` VALUES ('9bbc71f3-668c-4fa0-b572-aae222caad4c', '1', '1', 'TEK00001', 'EBOOK 10 HARI MENGUASAI ROGO SUKMO', 'EBOOK 10 Hari Menguasai Rogo Sukmo', 40.00, 34.00, 289, 'CV. Anugerah Jaya Sentosa', '2020', '2020-02-01 13:10:30', NULL, NULL, 1, 1, 'ebook-10-hari-menguasai-rogo-sukmo-1580559029-0.jpeg', 'ebook-10-hari-menguasai-rogo-sukmo-1580559029-1.jpg', 'ebook-10-hari-menguasai-rogo-sukmo-1580559029-2.jpeg', NULL);
 
 -- ----------------------------
 -- Table structure for m_satuan
@@ -154,7 +155,7 @@ CREATE TABLE `m_user`  (
 -- ----------------------------
 -- Records of m_user
 -- ----------------------------
-INSERT INTO `m_user` VALUES ('USR00001', 'masnur', 'kmJnZmZo', 1, NULL, 1, '2020-01-27 15:23:10', '2019-10-05 21:34:14', '2020-01-27 21:23:10');
+INSERT INTO `m_user` VALUES ('USR00001', 'masnur', 'kmJnZmZo', 1, NULL, 1, '2020-02-01 12:58:39', '2019-10-05 21:34:14', '2020-02-01 18:58:39');
 INSERT INTO `m_user` VALUES ('USR00002', 'agen', 'kmJnZmZo', 2, NULL, 1, '2019-12-03 08:42:33', '2019-11-09 19:36:13', '2020-01-21 15:03:27');
 INSERT INTO `m_user` VALUES ('USR00003', 'customer', 'kmJnZmZo', 3, NULL, 1, '2019-12-03 08:41:40', '2019-11-09 19:43:19', '2020-01-21 15:03:52');
 
@@ -222,12 +223,12 @@ CREATE TABLE `t_log_harga`  (
   `harga_potongan` double(20, 2) NULL DEFAULT NULL,
   `is_aktif` int(1) NULL DEFAULT 1,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of t_log_harga
 -- ----------------------------
-INSERT INTO `t_log_harga` VALUES (1, '80e25eb7-56ed-46fc-a029-967eebb0d6f7', 300000.00, '2020-01-27 18:04:38', 10, 30000.00, 1);
+INSERT INTO `t_log_harga` VALUES (5, '9bbc71f3-668c-4fa0-b572-aae222caad4c', 200000.00, '2020-02-01 13:10:30', 10, 20000.00, 1);
 
 -- ----------------------------
 -- Function structure for uuid_v4
