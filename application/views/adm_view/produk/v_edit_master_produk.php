@@ -90,7 +90,6 @@
     						<div class="form-group col-md-4">
     							<label>Tahun : </label>
     							<select class="form-control select2" id="tahun" name="tahun">
-    								<option value="">Pilih Tahun</option>
     								<?php for ($i = 2019; $i <= date('Y') + 20; $i++) { ?>
     									<option value="<?= $i; ?>" <?php ($i == $data_produk->tahun) ? "selected" : ""; ?>><?= $i; ?>
     									</option>

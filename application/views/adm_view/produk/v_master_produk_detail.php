@@ -37,40 +37,42 @@
                       <th colspan="2">Detail Produk</th>
                     </tr>
                     <tr>
-                      <td>Nama</td>
-                      <td></td>
+                      <td width="20%"><strong>Nama</strong></td>
+                      <td> : <?= $data_produk->nama;?></td>
                     </tr>
                     <tr>
-                      <td>Satuan</td>
-                      <td></td>
+                      <td width="20%"><strong>Satuan</strong></td>
+                      <td> : <?= $data_produk->nama_satuan;?></td>
                     </tr>
                     <tr>
-                      <td>Harga Satuan</td>
-                      <td></td>
+                      <td width="20%"><strong>Harga Satuan</strong></td>
+                      <td> : <?= "Rp ".number_format($data_produk->harga_satuan,2,',','.');?></td>
                     </tr>
                     <tr>
                       <td>Kategori</td>
-                      <td></td>
+                      <td> : <?= $data_produk->nama_kategori;?></td>
                     </tr>
                     <tr>
                       <td>Dimensi Panjang x Lebar</td>
-                      <td></td>
+                      <td> : <?= $data_produk->dimensi_panjang.' x '.$data_produk->dimensi_lebar; ?></td>
                     </tr>
                     <tr>
                       <td>Jumlah Halaman</td>
-                      <td></td>
+                      <td> : <?= $data_produk->jumlah_halaman; ?></td>
                     </tr>
                     <tr>
                       <td>Penerbit</td>
-                      <td></td>
+                      <td> : <?= $data_produk->penerbit; ?></td>
                     </tr>
                     <tr>
                       <td>Gambar Detail 1</td>
-                      <td></td>
+                      <td>
+                        <img src="<?php echo base_url('assets/img/produk/').$data_produk->gambar_2; ?>" style="border: 2px solid;" width="80" height="80">
+                      </td>
                     </tr>
                     <tr>
                       <td>Gambar Detail 2</td>
-                      <td></td>
+                      <td><img src="<?php echo base_url('assets/img/produk/').$data_produk->gambar_3; ?>" style="border: 2px solid;" width="80" height="80"></td>
                     </tr>
                   </thead>
                   <tbody>
