@@ -3,34 +3,75 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Product_listing extends CI_Controller {
 
-	/**
-	 * Index Page for this controller.
-	 *
-	 * Maps to the following URL
-	 * 		http://example.com/index.php/welcome
-	 *	- or -
-	 * 		http://example.com/index.php/welcome/index
-	 *	- or -
-	 * Since this controller is set as the default controller in
-	 * config/routes.php, it's displayed at http://example.com/
-	 *
-	 * So any other public methods not prefixed with an underscore will
-	 * map to /index.php/welcome/<method_name>
-	 * @see https://codeigniter.com/user_guide/general/urls.html
-	 */
-
 	function __construct() {
 		parent::__construct();
 		$this->load->helper(array('url'));
-		$this->load->library(array('session', 'form_validation', 'upload', 'user_agent', 'email'));
+		$this->load->library(array('session', 'form_validation', 'upload', 'user_agent', 'email', 'pagination'));
         $this->load->helper(array('url', 'form', 'text', 'html', 'security', 'file', 'directory', 'number', 'date', 'download'));
+        $this->load->model(['mod_global', 'mod_produk']);
+
 	}
 
 	public function index()
-	{
-		$this->load->view('header');
-		$this->load->view('v_listing');
+	{	
+		if (!isset($per_page)) {
+			$per_page = 5; //default per page
+		}else{
+			$per_page = $this->input->get('per_page');
+		}
+
+		$total_row = $this->mod_produk->total_records();
+		
+		$this->paging_config($per_page, $total_row);
+		$str_links = $this->pagination->create_links();
+		$arr_links = explode('&nbsp', $str_links);
+		$page = $this->uri->segment(4);
+		$order = 'created_at DESC';
+
+		$select = "m_produk.*, m_kategori.nama as nama_kategori, m_satuan.nama as nama_satuan, t_log_harga.harga_satuan, t_log_harga.potongan";
+		$join = array(
+			["table" => "m_kategori", "on" => "m_produk.id_kategori = m_kategori.id"],
+			["table" => "m_satuan", "on"  => "m_produk.id_satuan = m_satuan.id"],
+			["table" => "t_log_harga", "on" => "m_produk.id = t_log_harga.id_produk"]
+		);
+		$produk = $this->mod_global->get_data($select, 'm_produk', ['m_produk.is_aktif' => 1], $join, $order, $per_page, $page);
+		
+		/*echo "<pre>";
+		print_r ($str_links);
+		echo "</pre>";
+		exit;
+	*/	
+		$data = [
+			'produk' => $produk,
+			'links' => explode('&nbsp', $str_links),
+			'total_baris' => $total_row,
+		];
+
+		$this->load->view('v_navbar', $data);
+		// $this->load->view('header');
+		$this->load->view('v_listing', $data);
 		$this->load->view('footer');
+	}
+
+	public function paging_config($per_page, $total_row)
+	{
+		//set array for pagination library
+		$config = array();
+		$config["base_url"] = base_url() . "product_listing/index/";
+        $config["total_rows"] = $total_row;
+        $config["per_page"] = $per_page;
+        //beri tambahan path ketika next page
+        $config['prefix'] = '/page/';
+        //tampilkan url string pada next page
+        $config['reuse_query_string'] = TRUE;
+        $config['query_string_segment'] = 'page';
+        $config['use_page_numbers'] = TRUE;
+        $config['num_links'] = $total_row;
+        $config['cur_tag_open'] = '&nbsp <a class="current">';
+        $config['cur_tag_close'] = '</a>';
+        $config['next_link'] = 'Next';
+        $config['prev_link'] = 'Previous';
+        $this->pagination->initialize($config);
 	}
 
 }

@@ -21,14 +21,14 @@ class Home extends CI_Controller {
 		);
 		$produk = $this->mod_global->get_data($select, 'm_produk', ['m_produk.is_aktif' => 1], $join);
 		
-		$data_header = [
+		$data = [
 			'produk' => $produk,
 			//'kategori' => $kategori
 		];
 
-		$this->load->view('v_navbar', $data_header);
+		$this->load->view('v_navbar', $data);
 		$this->load->view('header');
-		$this->load->view('v_home', $data_header);
+		$this->load->view('v_home', $data);
 		$this->load->view('footer');
 	}
 

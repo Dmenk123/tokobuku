@@ -8,7 +8,7 @@ class Mod_global extends CI_Model
 		return $q->uuid;
 	}
 
-	public function get_data($select, $table, $where=FALSE, $join = array())
+	public function get_data($select, $table, $where=FALSE, $join = array(), $order=FALSE, $limit=FALSE, $start=FALSE)
 	{
 		$this->db->select($select);
 		$this->db->from($table);
@@ -20,6 +20,14 @@ class Mod_global extends CI_Model
 		foreach($join as $j) :
 			$this->db->join($j["table"], $j["on"],'left');
 		endforeach;
+
+		if ($order) {
+			$this->db->order_by($order);
+		}
+
+		if ($limit) {
+			$this->db->limit($limit, $start);
+		}
 		
 		$query = $this->db->get();
 		return $query->result();

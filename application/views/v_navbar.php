@@ -11,10 +11,10 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <link href="apple-touch-icon.png" rel="apple-touch-icon">
     <link href="favicon.png" rel="icon">
-    <meta name="author" content="Nghia Minh Luong">
+    <meta name="author" content="Mas NUR">
     <meta name="keywords" content="Default Description">
     <meta name="description" content="Default keyword">
-    <title>Sky - Product Listing</title>
+    <title>Rahasia Sukses</title>
     <!-- Fonts-->
     <link href="https://fonts.googleapis.com/css?family=Archivo+Narrow:300,400,700%7CMontserrat:300,400,500,600,700,800,900" rel="stylesheet">
     <link rel="stylesheet" href="<?php echo base_url();?>assets/plugins/font-awesome/css/font-awesome.min.css">
@@ -102,18 +102,12 @@
           </div>
           <div class="navigation__column center">
                 <ul class="main-menu menu">
-                  <li class="menu-item menu-item-has-children dropdown"><a href="index.html">Home</a>
-                        <ul class="sub-menu">
-                          <li class="menu-item"><a href="index.html">Homepage #1</a></li>
-                          <li class="menu-item"><a href="#">Homepage #2</a></li>
-                          <li class="menu-item"><a href="#">Homepage #3</a></li>
-                        </ul>
-                  </li>
-                  <li class="menu-item menu-item-has-children has-mega-menu"><a href="#">Produk Kami</a>
+                  <li class="menu-item menu-item-has-children dropdown"><a href="<?=base_url('home'); ?>">Home</a></li>
+                  <li class="menu-item menu-item-has-children has-mega-menu"><a href="<?= base_url('product_listing'); ?>">Produk Kami</a>
                     <div class="mega-menu">
                       <div class="mega-wrap">
                         <div class="mega-column">
-                          <h4 class="mega-heading">Daftar Produk Ebook Kami</h4>
+                          <h4 class="mega-heading">List Ebook Kami</h4>
                           <ul class="mega-item">
                             <?php foreach ($produk as $keys => $val): ?>
                                 <?php $no = $keys+1; ?>
@@ -124,23 +118,8 @@
                       </div>
                     </div>
                   </li>
-                  <li class="menu-item menu-item-has-children dropdown"><a href="#">News</a>
-                        <ul class="sub-menu">
-                          <li class="menu-item menu-item-has-children dropdown"><a href="blog-grid.html">Blog-grid</a>
-                                <ul class="sub-menu">
-                                  <li class="menu-item"><a href="blog-grid.html">Blog Grid 1</a></li>
-                                  <li class="menu-item"><a href="blog-grid-2.html">Blog Grid 2</a></li>
-                                </ul>
-                          </li>
-                          <li class="menu-item"><a href="blog-list.html">Blog List</a></li>
-                        </ul>
-                  </li>
-                  <li class="menu-item menu-item-has-children dropdown"><a href="#">Contact</a>
-                        <ul class="sub-menu">
-                          <li class="menu-item"><a href="contact-us.html">Contact Us #1</a></li>
-                          <li class="menu-item"><a href="contact-us.html">Contact Us #2</a></li>
-                        </ul>
-                  </li>
+                  <li class="menu-item menu-item-has-children dropdown"><a href="#">News</a></li>
+                  <li class="menu-item menu-item-has-children dropdown"><a href="#">Contact</a></li>
                 </ul>
           </div>
           <div class="navigation__column right">

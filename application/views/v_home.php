@@ -32,16 +32,17 @@
                         <img src="<?= base_url('assets/img/produk/').$val->gambar_2;?>" alt="">
                         <img src="<?= base_url('assets/img/produk/').$val->gambar_3;?>" alt="">
                       </div>
-                      <select class="ps-rating ps-shoe__rating">
-                        <option value="1">1</option>
-                        <option value="1">2</option>
-                        <option value="1">3</option>
-                      </select>
                     </div>
-                    <div class="ps-shoe__detail"><a class="ps-shoe__name" href="product-detai.html"><?= $val->nama;?></a>
-                      <p class="ps-shoe__categories"><a href="#"><?= $val->nama_kategori; ?></a></p><span class="ps-shoe__price">
-                        <del>£220</del> 
-                        <?= $val->harga_satuan;?></span>
+                    <div class="ps-shoe__detail"><a class="ps-shoe__name" href="product-detail.html"><?= $val->nama;?></a>
+                      <p class="ps-shoe__categories">
+                        <a href="#"><?= $val->nama_kategori; ?></a>
+                      </p>
+                      <div>
+                        <span>
+                          <del><?= "Rp ".number_format(((int)$val->harga_satuan+(int)20000),0,',','.');?></del> 
+                          <?= "Rp ".number_format($val->harga_satuan,0,',','.');?>
+                        </span>
+                      </div>
                     </div>
                   </div>
                 </div>
