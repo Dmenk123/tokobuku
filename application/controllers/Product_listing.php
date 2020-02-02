@@ -15,7 +15,7 @@ class Product_listing extends CI_Controller {
 	public function index()
 	{	
 		if (!isset($per_page)) {
-			$per_page = 5; //default per page
+			$per_page = 2; //default per page
 		}else{
 			$per_page = $this->input->get('per_page');
 		}
@@ -26,8 +26,20 @@ class Product_listing extends CI_Controller {
 		$str_links = $this->pagination->create_links();
 		$arr_links = explode('&nbsp', $str_links);
 		$page = $this->uri->segment(4);
-		$order = 'created_at DESC';
 
+		if ($this->input->get('sort')) {
+			$sort = $this->db->escape_str($this->input->get('sort'));
+			$arr_sort = explode('_', $sort);
+			if ($arr_sort[0] == 'harga') {
+				$flag_str = 'harga_satuan';
+			}else{
+				$flag_str = 'nama';
+			}
+			$order = $flag_str.' '.$arr_sort[1];
+		}else{
+			$order = 'created_at DESC';
+		}
+		
 		$select = "m_produk.*, m_kategori.nama as nama_kategori, m_satuan.nama as nama_satuan, t_log_harga.harga_satuan, t_log_harga.potongan";
 		$join = array(
 			["table" => "m_kategori", "on" => "m_produk.id_kategori = m_kategori.id"],
@@ -68,9 +80,9 @@ class Product_listing extends CI_Controller {
         $config['use_page_numbers'] = TRUE;
         $config['num_links'] = $total_row;
         $config['cur_tag_open'] = '&nbsp <a class="current">';
-        $config['cur_tag_close'] = '</a>';
+        $config['cur_tag_close'] = '</a> &nbsp ';
         $config['next_link'] = 'Next';
-        $config['prev_link'] = 'Previous';
+        $config['prev_link'] = 'Prev';
         $this->pagination->initialize($config);
 	}
 

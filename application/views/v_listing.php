@@ -5,11 +5,20 @@
           <div class="ps-product-action">
             
             <div class="ps-product__filter">
-              <select class="ps-select selectpicker">
-                <option value="1">Urutkan</option>
-                <option value="2">Nama</option>
-                <option value="3">Harga (Kecil ke Besar)</option>
-                <option value="3">Harga (Besar ke Kecil)</option>
+              <select class="ps-select selectpicker" id="sorting">
+                <option value="">Urutkan</option>
+                <option value="nama_asc" <?php if($this->input->get('sort') == 'nama_asc') { echo "selected"; } ?>>
+                  Nama (A -> Z)
+                </option>
+                <option value="nama_desc" <?php if($this->input->get('sort') == 'nama_desc') { echo "selected"; } ?>>
+                  Nama (Z -> A)
+                </option>
+                <option value="harga_asc" <?php if($this->input->get('sort') == 'harga_asc') { echo "selected"; } ?>>
+                  Harga (Kecil ke Besar)
+                </option>
+                <option value="harga_desc" <?php if($this->input->get('sort') == 'harga_desc') { echo "selected"; } ?>>
+                  Harga (Besar ke Kecil)
+                </option>
               </select>
             </div>
 
@@ -35,7 +44,7 @@
                 <div class="ps-shoe mb-30">
                   <div class="ps-shoe__thumbnail">
                     <div class="ps-badge"><span>New</span></div>
-                    <div class="ps-badge ps-badge--sale ps-badge--2nd"><span>-35%</span></div></a><img src="<?= base_url('assets/img/produk/').$val->gambar_1;?>" alt=""><a class="ps-shoe__overlay" href="product-detail.html"></a>
+                    <div class="ps-badge ps-badge--sale ps-badge--2nd"><span>-35%</span></div></a><img src="<?= base_url('assets/img/produk/').$val->gambar_1;?>" alt=""><a class="ps-shoe__overlay" href="<?=base_url('product_detail/index/').$val->id; ?>"></a>
                   </div>
                   <div class="ps-shoe__content">
                     <div class="ps-shoe__variants">
@@ -105,4 +114,12 @@
         </div>
       </div>
     </main>
+
+    <script>
+      $(document).ready(function() {
+        $('#sorting').change(function(event) {
+            window.location.href = "<?= base_url('product_listing/index/page/1?sort='); ?>"+$(this).val();
+        });
+      });
+    </script>
      

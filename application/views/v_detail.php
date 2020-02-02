@@ -14,17 +14,21 @@
               <div class="ps-product__thumbnail">
                 <div class="ps-product__preview">
                   <div class="ps-product__variants">
-                    <div class="item"><img src="images/shoe-detail/1.jpg" alt=""></div>
-                    <div class="item"><img src="images/shoe-detail/2.jpg" alt=""></div>
-                    <div class="item"><img src="images/shoe-detail/3.jpg" alt=""></div>
-                    <div class="item"><img src="images/shoe-detail/3.jpg" alt=""></div>
-                    <div class="item"><img src="images/shoe-detail/3.jpg" alt=""></div>
-                  </div><a class="popup-youtube ps-product__video" href="http://www.youtube.com/watch?v=0O2aH4XLbto"><img src="images/shoe-detail/1.jpg" alt=""><i class="fa fa-play"></i></a>
+                    <div class="item"><img src="<?= base_url('assets/img/produk/').$produk_data[0]->gambar_1;?>" alt=""></div>
+                    <div class="item"><img src="<?= base_url('assets/img/produk/').$produk_data[0]->gambar_2;?>" alt=""></div>
+                    <div class="item"><img src="<?= base_url('assets/img/produk/').$produk_data[0]->gambar_3;?>" alt=""></div>
+                  </div>
                 </div>
                 <div class="ps-product__image">
-                  <div class="item"><img class="zoom" src="images/shoe-detail/1.jpg" alt="" data-zoom-image="images/shoe-detail/1.jpg"></div>
-                  <div class="item"><img class="zoom" src="images/shoe-detail/2.jpg" alt="" data-zoom-image="images/shoe-detail/2.jpg"></div>
-                  <div class="item"><img class="zoom" src="images/shoe-detail/3.jpg" alt="" data-zoom-image="images/shoe-detail/3.jpg"></div>
+                  <div class="item">
+                    <img class="zoom" src="<?= base_url('assets/img/produk/').$produk_data[0]->gambar_1;?>" alt="" data-zoom-image="<?= base_url('assets/img/produk/').$produk_data[0]->gambar_1;?>">
+                  </div>
+                  <div class="item">
+                    <img class="zoom" src="<?= base_url('assets/img/produk/').$produk_data[0]->gambar_2;?>" alt="" data-zoom-image="<?= base_url('assets/img/produk/').$produk_data[0]->gambar_2;?>">
+                  </div>
+                  <div class="item">
+                    <img class="zoom" src="<?= base_url('assets/img/produk/').$produk_data[0]->gambar_3;?>" alt="" data-zoom-image="<?= base_url('assets/img/produk/').$produk_data[0]->gambar_3;?>">
+                  </div>
                 </div>
               </div>
               <div class="ps-product__thumbnail--mobile">
@@ -32,54 +36,17 @@
                 <div class="ps-product__preview owl-slider" data-owl-auto="true" data-owl-loop="true" data-owl-speed="5000" data-owl-gap="20" data-owl-nav="true" data-owl-dots="false" data-owl-item="3" data-owl-item-xs="3" data-owl-item-sm="3" data-owl-item-md="3" data-owl-item-lg="3" data-owl-duration="1000" data-owl-mousedrag="on"><img src="images/shoe-detail/1.jpg" alt=""><img src="images/shoe-detail/2.jpg" alt=""><img src="images/shoe-detail/3.jpg" alt=""></div>
               </div>
               <div class="ps-product__info">
-                <div class="ps-product__rating">
-                  <select class="ps-rating">
-                    <option value="1">1</option>
-                    <option value="1">2</option>
-                    <option value="1">3</option>
-                    <option value="1">4</option>
-                    <option value="2">5</option>
-                  </select><a href="#">(Read all 8 reviews)</a>
-                </div>
-                <h1>Air strong  training</h1>
-                <p class="ps-product__category"><a href="#"> Men shoes</a>,<a href="#"> Nike</a>,<a href="#"> Jordan</a></p>
-                <h3 class="ps-product__price">£ 115 <del>£ 330</del></h3>
+                <h1><?= $produk_data[0]->nama; ?></h1>
+                <p class="ps-product__category"><a href="#"> <?= $produk_data[0]->nama_kategori; ?> </a></p>
+                <h3 class="ps-product__price">
+                  <del><?= "Rp ".number_format(((int)$produk_data[0]->harga_satuan+(int)20000),0,',','.');?></del> 
+                  <?= "Rp ".number_format($produk_data[0]->harga_satuan,0,',','.');?>
+                </h3>
                 <div class="ps-product__block ps-product__quickview">
-                  <h4>QUICK REVIEW</h4>
-                  <p>The Nike Free RN 2017 Men's Running Sky weighs less than previous versions and features an updated knit material…</p>
+                  <h4>Deskripsi Produk</h4>
+                  <p><?= $produk_data[0]->keterangan; ?></p>
                 </div>
-                <div class="ps-product__block ps-product__style">
-                  <h4>CHOOSE YOUR STYLE</h4>
-                  <ul>
-                    <li><a href="product-detail.html"><img src="images/shoe/sidebar/1.jpg" alt=""></a></li>
-                    <li><a href="product-detail.html"><img src="images/shoe/sidebar/2.jpg" alt=""></a></li>
-                    <li><a href="product-detail.html"><img src="images/shoe/sidebar/3.jpg" alt=""></a></li>
-                    <li><a href="product-detail.html"><img src="images/shoe/sidebar/2.jpg" alt=""></a></li>
-                  </ul>
-                </div>
-                <div class="ps-product__block ps-product__size">
-                  <h4>CHOOSE SIZE<a href="#">Size chart</a></h4>
-                  <select class="ps-select selectpicker">
-                    <option value="1">Select Size</option>
-                    <option value="2">4</option>
-                    <option value="3">4.5</option>
-                    <option value="3">5</option>
-                    <option value="3">6</option>
-                    <option value="3">6.5</option>
-                    <option value="3">7</option>
-                    <option value="3">7.5</option>
-                    <option value="3">8</option>
-                    <option value="3">8.5</option>
-                    <option value="3">9</option>
-                    <option value="3">9.5</option>
-                    <option value="3">10</option>
-                  </select>
-                  <div class="form-group">
-                    <input class="form-control" type="number" value="1">
-                  </div>
-                </div>
-                <div class="ps-product__shopping"><a class="ps-btn mb-10" href="cart.html">Add to cart<i class="ps-icon-next"></i></a>
-                  <div class="ps-product__actions"><a class="mr-10" href="whishlist.html"><i class="ps-icon-heart"></i></a><a href="compare.html"><i class="ps-icon-share"></i></a></div>
+                <div class="ps-product__shopping"><a class="ps-btn mb-10" href="cart.html">Tambah Ke Belanja<i class="ps-icon-next"></i></a>
                 </div>
               </div>
               <div class="clearfix"></div>
