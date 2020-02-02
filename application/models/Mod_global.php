@@ -8,13 +8,18 @@ class Mod_global extends CI_Model
 		return $q->uuid;
 	}
 
-	public function get_data($table, $where=FALSE)
+	public function get_data($select, $table, $where=FALSE, $join = array())
 	{
-		$this->db->select('*');
+		$this->db->select($select);
 		$this->db->from($table);
+		
 		if ($where) {
 			$this->db->where($where);
 		}
+
+		foreach($join as $j) :
+			$this->db->join($j["table"], $j["on"],'left');
+		endforeach;
 		
 		$query = $this->db->get();
 		return $query->result();

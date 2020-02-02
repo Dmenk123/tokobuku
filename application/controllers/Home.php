@@ -13,16 +13,22 @@ class Home extends CI_Controller {
 
 	public function index()
 	{
-		$produk = $this->mod_global->get_data('m_produk', ['is_aktif' => 1]);
-		$kategori = $this->mod_global->get_data('m_kategori');
-
+		$select = "m_produk.*, m_kategori.nama as nama_kategori, m_satuan.nama as nama_satuan, t_log_harga.harga_satuan, t_log_harga.potongan";
+		$join = array(
+			["table" => "m_kategori", "on" => "m_produk.id_kategori = m_kategori.id"],
+			["table" => "m_satuan", "on"  => "m_produk.id_satuan = m_satuan.id"],
+			["table" => "t_log_harga", "on" => "m_produk.id = t_log_harga.id_produk"]
+		);
+		$produk = $this->mod_global->get_data($select, 'm_produk', ['m_produk.is_aktif' => 1], $join);
+		
 		$data_header = [
 			'produk' => $produk,
-			'kategori' => $kategori
+			//'kategori' => $kategori
 		];
 
-		$this->load->view('header', $data_header);
-		$this->load->view('v_home');
+		$this->load->view('v_navbar', $data_header);
+		$this->load->view('header');
+		$this->load->view('v_home', $data_header);
 		$this->load->view('footer');
 	}
 
