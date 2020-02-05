@@ -18,21 +18,15 @@ class Product_detail extends CI_Controller {
 			["table" => "m_satuan", "on"  => "m_produk.id_satuan = m_satuan.id"],
 			["table" => "t_log_harga", "on" => "m_produk.id = t_log_harga.id_produk"]
 		);
-		$produk_navbar = $this->mod_global->get_data($select, 'm_produk', ['m_produk.is_aktif' => 1], $join);
+		
 		$produk = $this->mod_global->get_data($select, 'm_produk', ['m_produk.is_aktif' => 1 , 'm_produk.id' => $id_produk] , $join);
-		/*echo "<pre>";
-		print_r ($produk);
-		echo "</pre>";
-		exit;*/
-		$data_navbar = [
-			'produk' => $produk_navbar
-		];
 
+		
 		$data = [
 			'produk_data' => $produk
 		];
 
-		$this->load->view('v_navbar', $data_navbar);
+		$this->load->view('v_navbar');
 		//$this->load->view('header');
 		$this->load->view('v_detail', $data);
 		$this->load->view('footer');

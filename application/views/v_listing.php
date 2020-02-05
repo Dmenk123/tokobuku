@@ -104,14 +104,15 @@
         <div class="ps-sidebar" data-mh="product-listing">
           <aside class="ps-widget--sidebar ps-widget--filter">
             <div class="ps-widget__header">
-              <h3>Category</h3>
+              <h3>Filter Harga</h3>
             </div>
             <div class="ps-widget__content">
-              <div class="ac-slider" data-default-min="300" data-default-max="2000" data-max="3450" data-step="50" data-unit="$"></div>
-              <p class="ac-slider__meta">Price:<span class="ac-slider__value ac-slider__min"></span>-<span class="ac-slider__value ac-slider__max"></span></p><a class="ac-slider__filter ps-btn" href="#">Filter</a>
+              <div class="ac-slider" data-default-min="10000" data-default-max="5000000" data-max="5000000" data-step="10000" data-unit="Rp"></div>
+              <p class="ac-slider__meta">Harga :<span class="ac-slider__value ac-slider__min"></span>-<span class="ac-slider__value ac-slider__max"></span></p><a class="ac-slider__filter ps-btn" href="#">Filter</a>
             </div>
           </aside>
         </div>
+
       </div>
     </main>
 

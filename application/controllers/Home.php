@@ -26,7 +26,7 @@ class Home extends CI_Controller {
 			//'kategori' => $kategori
 		];
 
-		$this->load->view('v_navbar', $data);
+		$this->load->view('v_navbar');
 		$this->load->view('header');
 		$this->load->view('v_home', $data);
 		$this->load->view('footer');

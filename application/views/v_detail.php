@@ -116,12 +116,13 @@
           </div>
         </div>
       </div>
-      <div class="ps-section ps-section--top-sales ps-owl-root pt-40 pb-80">
+
+      <!-- <div class="ps-section ps-section--top-sales ps-owl-root pt-40 pb-80">
         <div class="ps-container">
           <div class="ps-section__header mb-50">
             <div class="row">
                   <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12 ">
-                    <h3 class="ps-section__title" data-mask="Related item">- YOU MIGHT ALSO LIKE</h3>
+                    <h3 class="ps-section__title" data-mask="Related item">- Produk Sejenis Lainnya</h3>
                   </div>
                   <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 ">
                     <div class="ps-owl-actions"><a class="ps-prev" href="#"><i class="ps-icon-arrow-right"></i>Prev</a><a class="ps-next" href="#">Next<i class="ps-icon-arrow-left"></i></a></div>
@@ -265,5 +266,6 @@
             </div>
           </div>
         </div>
-      </div>
+      </div> -->
+    
     </main>

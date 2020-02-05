@@ -550,14 +550,14 @@
                     var $this = $(this),
                         values = ui.values;
 
-                    min.text('$' + values[0]);
-                    max.text('$' + values[1]);
+                    min.text('Rp. ' + values[0]);
+                    max.text('Rp. ' + values[1]);
                 }
             });
 
             var values = el.slider("option", "values");
-            min.text('$' + values[0]);
-            max.text('$' + values[1]);
+            min.text('Rp. ' + values[0]);
+            max.text('Rp. ' + values[1]);
         }
         else {
             return false;

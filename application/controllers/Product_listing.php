@@ -59,7 +59,7 @@ class Product_listing extends CI_Controller {
 			'total_baris' => $total_row,
 		];
 
-		$this->load->view('v_navbar', $data);
+		$this->load->view('v_navbar');
 		// $this->load->view('header');
 		$this->load->view('v_listing', $data);
 		$this->load->view('footer');
