@@ -122,6 +122,20 @@
                     alert(data.pesan);
                     $("#btnRegister").prop("disabled", false);
                     window.location.href = "<?php echo site_url('home'); ?>";
+                }else{
+                  if (data.flag_captcha) {
+                    alert(data.pesan);
+                    $("#btnRegister").prop("disabled", false);
+                  }else{
+                    for (var i = 0; i < data.inputerror.length; i++) {
+                      if (data.inputerror[i] != 'jabatan') {
+                        $('[name="' + data.inputerror[i] + '"]').parent().addClass('has-error');
+                        $('[name="' + data.inputerror[i] + '"]').next().text(data.error_string[i]);
+                      } else {
+                        $($('#jabatan').data('select2').$container).addClass('has-error');
+                      }
+                    }
+                  }
                 }
             },
             error: function (e) {

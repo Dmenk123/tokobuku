@@ -6,7 +6,7 @@ class Register extends CI_Controller {
 	function __construct() {
 		parent::__construct();
 		$this->load->helper(array('url'));
-		$this->load->library(array('session', 'form_validation', 'upload', 'user_agent', 'email', 'pagination'));
+		$this->load->library(array('session', 'form_validation', 'upload', 'user_agent', 'email', 'pagination', 'enkripsi'));
         $this->load->helper(array('url', 'form', 'text', 'html', 'security', 'file', 'directory', 'number', 'date', 'download'));
         $this->load->model(['mod_global']);
 	}
@@ -53,9 +53,8 @@ class Register extends CI_Controller {
 		return $image;
 	}
 
-	public function refresh_captcha()
+	public function refresh_captcha() 
 	{
-        // Captcha configuration
         $options = array(
 			'img_path' => 'assets/img/captcha_img/',
 			'img_url' => base_url().'assets/img/captcha_img/',
@@ -100,65 +99,85 @@ class Register extends CI_Controller {
 	{
 		if ($this->input->post('reg_captcha') == $this->session->userdata('captchaCode')) 
 		{
-			$username = $this->input->post('reg_username'); 
-			$nama = $this->input->post('reg_nama'); 
-			$nama_blkg = $this->input->post('reg_nama_blkg'); 
-			$telp = $this->input->post('reg_telp'); 
-			$email = $this->input->post('reg_email'); 
-			$password = $this->input->post('reg_password'); 
-			$re_password = $this->input->post('reg_re_password'); 
-			$captcha = $this->input->post('reg_captcha'); 
+			$username = clean_string($this->input->post('reg_username')); 
+			$nama = clean_string($this->input->post('reg_nama')); 
+			$nama_blkg = clean_string($this->input->post('reg_nama_blkg')); 
+			$telp = clean_string($this->input->post('reg_telp')); 
+			$email = clean_string($this->input->post('reg_email')); 
+			$password = clean_string($this->input->post('reg_password')); 
+			$re_password = clean_string($this->input->post('reg_re_password')); 
+			$hash_password = $this->enkripsi->encrypt($password);
+			
+			$arr_valid = $this->_validate();
+			if ($arr_valid['status'] == FALSE) {
+				echo json_encode($arr_valid);
+				return;
+			}
+
+			if ($password != $re_password) {
+				echo json_encode(array(
+					"status" => FALSE,
+					'pesan' => 'Maaf Password harus Sama',
+					'flag_captcha' => TRUE
+				));
+				return;
+			}
+
+			$id_user = $this->mod_global->getKodeUser();
 
 			//data input array
 			$input = array(
-				'id_user' => $this->m_reg->getKodeUser(),
-				'email' => trim($this->input->post('reg_email')),
-				'password' => $password,
-				'fname_user' => trim(strtoupper($this->input->post('reg_nama'))),
-				'lname_user' => trim(strtoupper($this->input->post('reg_nama_blkg'))),
-				'alamat_user' => trim(strtoupper($this->input->post('reg_alamat'))),
-				'tgl_lahir_user' => $tgl_lahir,
-				'no_telp_user' => trim(strtoupper($this->input->post('reg_telp'))),
-				'id_provinsi' => $this->input->post('reg_provinsi'),
-				'id_kota' => $this->input->post('reg_kota'),
-				'id_kecamatan' => $this->input->post('reg_kecamatan'),
-				'id_kelurahan' => $this->input->post('reg_kelurahan'),
-				'kode_pos' => trim(strtoupper($this->input->post('reg_kode_pos'))),
-				'id_level_user' => 2,
-				'foto_user' => $gbr['file_name'],
-				'timestamp' => $timestamp 
+				'id_user' => $id_user,
+				'username' => $username,
+				'password' => $hash_password,
+				'id_level_user' => '3',
+				'status' => '1',
+				'created_at' => date('Y-m-d H:i:s')
 			);
 
             //save to db
-	        $this->m_reg->add_data_register($input);
+	        $this->mod_global->insert_data('m_user', $input);
 
-	        $data_login = array(
-				'data_email'=> trim($this->input->post('reg_email')),
-				'data_password'=>$password,
+	        $detail = array(
+				'id_user'=> $id_user,
+				'nama_lengkap_user'=> $nama.','.$nama_blkg,
+				'no_telp_user' => $telp,
+				'email' => $email
 			);
-			$result = $this->m_log->login($data_login);
+			//save to db
+	        $this->mod_global->insert_data('m_user_detail', $detail);
+
+	        //login
+	        $data_login = [
+	        	'data_username' => $username,
+	        	'data_password' => $hash_password
+	        ];
+
+			$result = $this->mod_global->login($data_login);
 
 			if ($login = $result[0]) 
 			{
 				$this->session->set_userdata(
 					array(
 						'id_user' => $login['id_user'],
-						'email' => $login['email'],
+						'username' => $login['username'],
 						'password' => $login['password'],
 						'id_level_user' => $login['id_level_user'],
-						'fname_user' => $login['fname_user'],
 						'logged_in' => true,
-					));
-				$this->m_log->set_lastlogin($login['id_user']);
+					)
+				);
+				$this->m_global->set_lastlogin($login['id_user']);
 				echo json_encode(array(
 					"status" => TRUE,
-					"pesan" => 'Selamat datang '.$login['fname_user'].' Akun anda berhasil dibuat'
+					"pesan" => 'Selamat datang '.$login['username'].' Akun anda berhasil dibuat'
 				));
-			}	
+			}
+			
 		} else {
 			echo json_encode(array(
 				"status" => FALSE,
-				'pesan' => 'Maaf terjadi kesalahan pada penulisan captcha'
+				'pesan' => 'Maaf terjadi kesalahan pada penulisan captcha',
+				'flag_captcha' => TRUE
 			));
 		}
 	}
@@ -181,7 +200,6 @@ class Register extends CI_Controller {
 			$data['error_string'][] = 'Wajib mengisi nama';
 			$data['status'] = FALSE;
 		}
-
 
 		if ($this->input->post('reg_telp') == '') {
 			$data['inputerror'][] = 'reg_telp';

@@ -32,4 +32,38 @@ class Mod_global extends CI_Model
 		$query = $this->db->get();
 		return $query->result();
 	}
+
+	function getKodeUser(){
+	    $q = $this->db->query("select MAX(RIGHT(id_user,5)) as kode_max from m_user");
+	    $kd = "";
+	    if($q->num_rows()>0){
+	        foreach($q->result() as $k){
+	            $tmp = ((int)$k->kode_max)+1;
+	            $kd = sprintf("%05s", $tmp);
+	        }
+	    }else{
+	        $kd = "00001";
+	    }
+	    return "USR".$kd;
+    }
+
+    public function insert_data($table, $data)
+    {
+    	$this->db->insert($table, $data);
+    }
+
+    public function login($data){
+		$this->db->select('*');
+		$this->db->from('m_user');
+		$this->db->where('username', $data['data_email']);
+		$this->db->where('password', $data['data_password']);
+		$this->db->where('status', '1');
+		$query = $this->db->get();
+		return $query->result_array();
+	}
+
+	public function set_lastlogin($id){
+		$this->db->where('id_user',$id)
+				->update('m_user',array('last_login'=>date('Y-m-d H:i:s')));			
+	}
 }
