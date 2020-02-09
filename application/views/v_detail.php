@@ -42,7 +42,7 @@
                   <del><?= "Rp ".number_format(((int)$produk_data[0]->harga_satuan+(int)20000),0,',','.');?></del> 
                   <?= "Rp ".number_format($produk_data[0]->harga_satuan,0,',','.');?>
                 </h3>
-                <div class="ps-product__shopping"><a class="ps-btn mb-10" href="cart.html">Tambah Ke Belanja<i class="ps-icon-next"></i></a>
+                <div class="ps-product__shopping"><a class="ps-btn mb-10" href="#" onclick="addToCart('<?= $produk_data[0]->id; ?>')">Tambah Ke Keranjang<i class="ps-icon-next"></i></a>
                 </div>
               </div>
               <div class="clearfix"></div>
@@ -269,3 +269,53 @@
       </div> -->
     
     </main>
+
+    <script>
+    var baseUrl = "<?= base_url(); ?>";
+    function addToCart(id) {
+      swal({
+            title: "Tambah ke Keranjang Belanja",
+            text: "Apakah Anda Yakin",
+            icon: "warning",
+            buttons: [
+              'Tidak',
+              'Ya'
+            ],
+            dangerMode: false,
+          }).then(function(isConfirm) {
+            if (isConfirm) {
+              $.ajax({
+                url: baseUrl + 'cart/add_to_cart/' + id,
+                type: 'POST',
+                dataType: "JSON",
+                success: function (data) {
+                  swal({
+                      title: "Apakah Ingin Lanjut Belanja",
+                      text: "Apakah Anda Yakin",
+                      icon: "warning",
+                      buttons: [
+                        'Tidak',
+                        'Ya'
+                      ],
+                      dangerMode: false,
+                    }).then(function(isConfirm) {
+                      if (isConfirm) {
+                        swal("Silahkan Belanja", 'Terima Kasih, Silahkan Berbelanja Lagi', "success").then(function() {
+                            window.location.href = baseUrl + 'home';
+                        });
+                      } else {
+                        swal("Keranjang Belanja", 'Anda Diarahkan Ke Keranjang Belanja', "success").then(function() {
+                            window.location.href = baseUrl + 'cart';
+                        });
+                      }
+                  });
+                }
+              });
+            } else {
+              swal("Batal", "Batal Menambahkan ke Keranjang", "error");
+            }
+        });
+    }
+
+
+    </script>
