@@ -97,57 +97,120 @@ class Register extends CI_Controller {
 
 	public function add_register()
 	{
-		if ($this->input->post('reg_captcha') == $this->session->userdata('captchaCode')) 
+		$username = clean_string($this->input->post('reg_username')); 
+		$nama = clean_string($this->input->post('reg_nama')); 
+		$nama_blkg = clean_string($this->input->post('reg_nama_blkg')); 
+		$telp = clean_string($this->input->post('reg_telp')); 
+		$email = clean_string($this->input->post('reg_email')); 
+		$password = clean_string($this->input->post('reg_password')); 
+		$re_password = clean_string($this->input->post('reg_re_password')); 
+		$hash_password = $this->enkripsi->encrypt($password);
+		
+		$arr_valid = $this->_validate();
+		if ($arr_valid['status'] == FALSE) {
+			echo json_encode($arr_valid);
+			return;
+		}
+
+		if ($this->input->post('reg_captcha') != $this->session->userdata('captchaCode')) 
 		{
-			$username = clean_string($this->input->post('reg_username')); 
-			$nama = clean_string($this->input->post('reg_nama')); 
-			$nama_blkg = clean_string($this->input->post('reg_nama_blkg')); 
-			$telp = clean_string($this->input->post('reg_telp')); 
-			$email = clean_string($this->input->post('reg_email')); 
-			$password = clean_string($this->input->post('reg_password')); 
-			$re_password = clean_string($this->input->post('reg_re_password')); 
+			echo json_encode(array(
+				"status" => FALSE,
+				'pesan' => 'Maaf terjadi kesalahan pada penulisan captcha',
+				'flag_captcha' => TRUE
+			));
+			return;
+		}
+
+		if ($password != $re_password) {
+			echo json_encode(array(
+				"status" => FALSE,
+				'pesan' => 'Maaf Password harus Sama',
+				'flag_captcha' => TRUE
+			));
+			return;
+		}
+
+		$id_user = $this->mod_global->getKodeUser();
+
+		//data input array
+		$input = array(
+			'id_user' => $id_user,
+			'username' => $username,
+			'password' => $hash_password,
+			'id_level_user' => '3',
+			'status' => '1',
+			'created_at' => date('Y-m-d H:i:s')
+		);
+
+        //save to db
+        $this->mod_global->insert_data('m_user', $input);
+
+        $detail = array(
+			'id_user'=> $id_user,
+			'nama_lengkap_user'=> $nama.','.$nama_blkg,
+			'no_telp_user' => $telp,
+			'email' => $email
+		);
+		//save to db
+        $this->mod_global->insert_data('m_user_detail', $detail);
+
+        //login
+        $data_login = [
+        	'data_username' => $username,
+        	'data_password' => $hash_password
+        ];
+
+		$result = $this->mod_global->login($data_login);
+
+		if ($login = $result[0]) 
+		{
+			$this->session->set_userdata(
+				array(
+					'id_user' => $login['id_user'],
+					'username' => $login['username'],
+					'password' => $login['password'],
+					'id_level_user' => $login['id_level_user'],
+					'logged_in' => true,
+				)
+			);
+			$this->mod_global->set_lastlogin($login['id_user']);
+			echo json_encode(array(
+				"status" => TRUE,
+				"pesan" => 'Selamat datang '.$login['username'].' Akun anda berhasil dibuat'
+			));
+		}
+	}
+
+	public function login()
+	{
+		$data = array();
+		$data['error_string'] = array();
+		$data['inputerror'] = array();
+		$data['status'] = TRUE;
+
+		$username = clean_string($this->input->post('username_login')); 
+		$password = clean_string($this->input->post('password_login'));
+
+		if ($this->input->post('username_login') == '') {
+			$data['inputerror'][] = 'username_login';
+			$data['error_string'][] = 'Wajib mengisi username';
+			$data['status'] = FALSE;
+		}
+
+		if ($this->input->post('password_login') == '') {
+			$data['inputerror'][] = 'password_login';
+			$data['error_string'][] = 'Wajib mengisi password';
+			$data['status'] = FALSE;
+		}
+
+		if ($data['status'] == FALSE) {
+			echo json_encode($data);
+			return;
+		}else{
 			$hash_password = $this->enkripsi->encrypt($password);
-			
-			$arr_valid = $this->_validate();
-			if ($arr_valid['status'] == FALSE) {
-				echo json_encode($arr_valid);
-				return;
-			}
 
-			if ($password != $re_password) {
-				echo json_encode(array(
-					"status" => FALSE,
-					'pesan' => 'Maaf Password harus Sama',
-					'flag_captcha' => TRUE
-				));
-				return;
-			}
-
-			$id_user = $this->mod_global->getKodeUser();
-
-			//data input array
-			$input = array(
-				'id_user' => $id_user,
-				'username' => $username,
-				'password' => $hash_password,
-				'id_level_user' => '3',
-				'status' => '1',
-				'created_at' => date('Y-m-d H:i:s')
-			);
-
-            //save to db
-	        $this->mod_global->insert_data('m_user', $input);
-
-	        $detail = array(
-				'id_user'=> $id_user,
-				'nama_lengkap_user'=> $nama.','.$nama_blkg,
-				'no_telp_user' => $telp,
-				'email' => $email
-			);
-			//save to db
-	        $this->mod_global->insert_data('m_user_detail', $detail);
-
-	        //login
+			//login
 	        $data_login = [
 	        	'data_username' => $username,
 	        	'data_password' => $hash_password
@@ -155,8 +218,9 @@ class Register extends CI_Controller {
 
 			$result = $this->mod_global->login($data_login);
 
-			if ($login = $result[0]) 
+			if ($result) 
 			{
+				$login = $result[0];
 				$this->session->set_userdata(
 					array(
 						'id_user' => $login['id_user'],
@@ -166,19 +230,18 @@ class Register extends CI_Controller {
 						'logged_in' => true,
 					)
 				);
-				$this->m_global->set_lastlogin($login['id_user']);
+				$this->mod_global->set_lastlogin($login['id_user']);
 				echo json_encode(array(
 					"status" => TRUE,
-					"pesan" => 'Selamat datang '.$login['username'].' Akun anda berhasil dibuat'
+					"pesan" => 'Selamat datang '.$login['username']
+				));
+			}else{
+				echo json_encode(array(
+					"status" => FALSE,
+					"pesan" => 'Username / Password Anda Salah',
+					'flag_alert'=> TRUE
 				));
 			}
-			
-		} else {
-			echo json_encode(array(
-				"status" => FALSE,
-				'pesan' => 'Maaf terjadi kesalahan pada penulisan captcha',
-				'flag_captcha' => TRUE
-			));
 		}
 	}
 

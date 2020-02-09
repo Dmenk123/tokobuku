@@ -12,8 +12,7 @@ class Product_listing extends CI_Controller {
 
 	}
 
-	public function index()
-	{	
+	public function index()	{	
 		if (!isset($per_page)) {
 			$per_page = 2; //default per page
 		}else{
@@ -46,13 +45,14 @@ class Product_listing extends CI_Controller {
 			["table" => "m_satuan", "on"  => "m_produk.id_satuan = m_satuan.id"],
 			["table" => "t_log_harga", "on" => "m_produk.id = t_log_harga.id_produk"]
 		);
+
 		$produk = $this->mod_global->get_data($select, 'm_produk', ['m_produk.is_aktif' => 1], $join, $order, $per_page, $page);
 		
-		/*echo "<pre>";
-		print_r ($str_links);
-		echo "</pre>";
-		exit;
-	*/	
+		/*  echo "<pre>";
+			print_r ($str_links);
+			echo "</pre>";
+			exit; 
+		*/	
 		$data = [
 			'produk' => $produk,
 			'links' => explode('&nbsp', $str_links),
@@ -85,5 +85,4 @@ class Product_listing extends CI_Controller {
         $config['prev_link'] = 'Prev';
         $this->pagination->initialize($config);
 	}
-
 }

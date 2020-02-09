@@ -16,7 +16,7 @@
          <form id="form_register" method="POST" name="formRegister" enctype="multipart/form-data">   
             <div class="form-group">
                <label for="Nama Depan">Username*</label>
-               <input type="text" class="form-control" id="regUsername" name="reg_username">
+               <input typ e="text" class="form-control" id="regUsername" name="reg_username">
                <span class="help-block"></span>
             </div>
             <div class="form-group">
@@ -76,7 +76,7 @@
          <p class="lead">Sudah memiliki akun ?</p>
          <p class="text-muted">Silahkan mengisi email dan password anda pada form yang tersedia untuk mulai belanja.</p>
          <hr>
-         <form id="form_login2" action="#">
+         <form id="form_login" action="#">
             <div class="form-group">
                <label for="username">Username</label>
                <input type="text" class="form-control" id="username_login" name="username_login" placeholder="username">
@@ -87,7 +87,7 @@
             </div>
          </form>   
          <div class="text-center">
-            <button class="btn btn-primary" onclick="login_proc2()"><i class="fa fa-sign-in"></i> Log in</button>
+            <button class="btn btn-primary" onclick="login_proc()"><i class="fa fa-sign-in" id="btnLogin"></i> Log in</button>
          </div>
       </div><!-- /.box -->
    </div><!-- /.col -->
@@ -127,6 +127,7 @@
                     alert(data.pesan);
                     $("#btnRegister").prop("disabled", false);
                   }else{
+                    $("#btnRegister").prop("disabled", false);
                     for (var i = 0; i < data.inputerror.length; i++) {
                       if (data.inputerror[i] != 'jabatan') {
                         $('[name="' + data.inputerror[i] + '"]').parent().addClass('has-error');
@@ -146,4 +147,46 @@
         
     });
   });
+
+  function login_proc() {
+    $("#btnLogin").prop("disabled", true);
+    var form = $('#form_login')[0];
+    var data = new FormData(form);
+    $.ajax({
+        type: "POST",
+        enctype: 'multipart/form-data',
+        url: "<?php echo site_url('register/login'); ?>",
+        data: data,
+        dataType: "JSON",
+        processData: false, // false, it prevent jQuery form transforming the data into a query string
+        contentType: false, 
+        cache: false,
+        timeout: 600000,
+        success: function (data) {
+            if (data.status) {
+                alert(data.pesan);
+                $("#btnLogin").prop("disabled", false);
+                window.location.href = "<?php echo site_url('home'); ?>";
+            }else{
+              if (data.flag_alert) {
+                alert(data.pesan);
+              }else{
+                $("#btnLogin").prop("disabled", false);
+                for (var i = 0; i < data.inputerror.length; i++) {
+                  if (data.inputerror[i] != 'jabatan') {
+                    $('[name="' + data.inputerror[i] + '"]').parent().addClass('has-error');
+                    $('[name="' + data.inputerror[i] + '"]').next().text(data.error_string[i]);
+                  } else {
+                    $($('#jabatan').data('select2').$container).addClass('has-error');
+                  }
+                }
+              }              
+            }
+        },
+        error: function (e) {
+            console.log("ERROR : ", e);
+            $("#btnRegister").prop("disabled", false);
+        }
+    });
+  }
 </script>

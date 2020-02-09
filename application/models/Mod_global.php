@@ -55,7 +55,7 @@ class Mod_global extends CI_Model
     public function login($data){
 		$this->db->select('*');
 		$this->db->from('m_user');
-		$this->db->where('username', $data['data_email']);
+		$this->db->where('username', $data['data_username']);
 		$this->db->where('password', $data['data_password']);
 		$this->db->where('status', '1');
 		$query = $this->db->get();
