@@ -35,7 +35,10 @@
                       <h3 class="mt-40"> Upload Bukti Transfer</h3>
                       <div class="form-group form-group--inline">
                         <label>Upload Bukti</label>
-                        <input type="file" class="form-control-file" name="bukti" id="bukti">
+                        <input type="file" class="form-control-file" name="bukti" id="bukti" accept=".png, .jpg, .jpeg">
+                      </div>
+                      <div class="form-group">
+                        <img id="bukti-img" src="" alt="" height="360" width="300" class="pull-right" />
                       </div>
                     </div>
                   </div>
@@ -89,5 +92,25 @@
         $('#detail_cart').load("<?php echo site_url('checkout/load_cart'); ?>");
         // Load summary cart
         $('.summary_cart').load("<?php echo site_url('checkout/load_summary'); ?>");
+
+        $("#bukti").change(function() {
+          //console.log(this);
+          var id = this.id;
+          readURL(this, id);
+        });
       });
+
+      function readURL(input, id) {
+        var idImg = id + '-img';
+        // console.log(idImg);
+        if (input.files && input.files[0]) {
+          var reader = new FileReader();
+          console.log(reader);
+          reader.onload = function(e) {
+            $('#' + idImg).attr('src', e.target.result);
+          }
+
+          reader.readAsDataURL(input.files[0]);
+        }
+      }
     </script>
