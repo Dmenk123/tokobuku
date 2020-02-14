@@ -14,7 +14,7 @@ class Product_listing extends CI_Controller {
 
 	public function index()	{	
 		if (!isset($per_page)) {
-			$per_page = 2; //default per page
+			$per_page = 10; //default per page
 		}else{
 			$per_page = $this->input->get('per_page');
 		}

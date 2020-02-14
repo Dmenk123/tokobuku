@@ -1,31 +1,47 @@
 <main class="ps-main">
       <div class="ps-checkout pt-80 pb-80">
         <div class="ps-container">
-          <form class="ps-checkout__form" action="do_action" method="post">
+          <!-- flashdata -->
+          <?php if ($this->session->flashdata('feedback_success')) { ?>
+          <div class="alert alert-success alert-dismissible">
+          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+          <h4><i class="icon fa fa-check"></i> Berhasil!</h4>
+          <?= $this->session->flashdata('feedback_success') ?>
+          </div>
+
+          <?php } elseif ($this->session->flashdata('feedback_failed')) { ?>
+          <div class="alert alert-danger alert-dismissible">
+          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+          <h4><i class="icon fa fa-remove"></i> Gagal!</h4>
+          <?= $this->session->flashdata('feedback_failed') ?>
+          </div>
+          <?php } ?>
+          <!-- end flashdata -->
+          <form action="<?= base_url('checkout/add_data');?>" method="post" enctype="multipart/form-data" class="ps-checkout__form">
             <div class="row">
                   <div class="col-lg-7 col-md-7 col-sm-12 col-xs-12 ">
                     <div class="ps-checkout__billing">
                       <h3>Detail Pembelian</h3>
-                            <div class="form-group form-group--inline">
-                              <label>Nama Depan<span>*</span>
-                              </label>
-                              <input class="form-control" type="text" name="fname" id="fname" value="<?= $nama_depan; ?>">
-                            </div>
-                            <div class="form-group form-group--inline">
-                              <label>Nama Belakang<span>*</span>
-                              </label>
-                              <input class="form-control" type="text" name="lname" id="lname" value="<?= $nama_belakang; ?>">
-                            </div>
-                            <div class="form-group form-group--inline">
-                              <label>Email<span>*</span>
-                              </label>
-                              <input class="form-control" type="email" name="email" id="email" value="<?= $userdata->email; ?>">
-                            </div>
-                            <div class="form-group form-group--inline">
-                              <label>No. Telepon<span>*</span>
-                              </label>
-                              <input class="form-control" type="text" name="telp" id="telp" value="<?= $userdata->no_telp_user; ?>">
-                            </div>
+                      <div class="form-group form-group--inline">
+                        <label>Nama Depan<span>*</span>
+                        </label>
+                        <input class="form-control" type="text" name="fname" id="fname" value="<?= $nama_depan; ?>">
+                      </div>
+                      <div class="form-group form-group--inline">
+                        <label>Nama Belakang
+                        </label>
+                        <input class="form-control" type="text" name="lname" id="lname" value="<?= $nama_belakang; ?>">
+                      </div>
+                      <div class="form-group form-group--inline">
+                        <label>Email<span>*</span>
+                        </label>
+                        <input class="form-control" type="email" name="email" id="email" value="<?= $userdata->email; ?>">
+                      </div>
+                      <div class="form-group form-group--inline">
+                        <label>No. Telepon<span>*</span>
+                        </label>
+                        <input class="form-control" type="text" name="telp" id="telp" value="<?= $userdata->no_telp_user; ?>">
+                      </div>
                       <h3 class="mt-40"> Informasi Tambahan</h3>
                       <div class="form-group form-group--inline textarea">
                         <label>Catatan Pemesanan</label>
@@ -34,7 +50,7 @@
 
                       <h3 class="mt-40"> Upload Bukti Transfer</h3>
                       <div class="form-group form-group--inline">
-                        <label>Upload Bukti</label>
+                        <label>Upload Bukti</label><span>*</span>
                         <input type="file" class="form-control-file" name="bukti" id="bukti" accept=".png, .jpg, .jpeg">
                       </div>
                       <div class="form-group">
