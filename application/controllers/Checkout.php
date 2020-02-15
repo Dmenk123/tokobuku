@@ -104,10 +104,10 @@ class Checkout extends CI_Controller {
 		$email = clean_string($this->input->post('email')); 
 		$telepon = clean_string($this->input->post('telepon')); 
 		$catatan = clean_string($this->input->post('catatan'));
-		$namafileseo = $this->seoUrl($nama . ' ' . time());
+		$namafileseo = $this->seoUrl($fname . ' ' . time());
 
 		$this->db->trans_begin();
-		$id = $this->m_global->gen_uuid();
+		$id = $this->mod_global->gen_uuid();
 
 		if ($arr_valid['status'] == FALSE) {
 			// echo json_encode($arr_valid);
@@ -139,23 +139,58 @@ class Checkout extends CI_Controller {
 
 		$data = array(
 			'id' => $id,
-			'id_kategori' => $kategori,
-			'id_satuan' => $satuan,
-			'kode' => $kode,
-			'nama' => $nama,
-			'keterangan' => $keterangan,
-			'dimensi_panjang' => $panjang,
-			'dimensi_lebar' => $lebar,
-			'jumlah_halaman' => $jumlah_halaman,
-			'penerbit' => $penerbit,
-			'tahun' => $tahun,
-			'created_at' => date('Y-m-d H:i:s'),
-			'is_aktif' => $aktif,
-			'is_posting' => $posting,
-			'gambar_1' => $arr_gambar[0]['nama_gambar'],
-			'gambar_2' => $arr_gambar[1]['nama_gambar'],
-			'gambar_3' => $arr_gambar[2]['nama_gambar']
+			'id_user' => $this->session->userdata('id_user'),
+			'harga_total' => $this->cart->total(),
+			'is_konfirm' => 0,
+			'nama_depan' => $fname,
+			'nama_belakang' => $lname,
+			'email' => $email,
+			'telepon' => $telepon,
+			'catatan' => $catatan,
+			'bukti' => $arr_gambar['nama_gambar'],
+			'created_at' => date('Y-m-d H:i:s')
 		);
+
+		$ins_header = $this->mod_global->insert_data('t_checkout', $data);
+
+		foreach ($this->cart->contents() as $items) {
+			$subtotal = $items['price'] * (int)$items['qty'];
+			$data_det = [
+				'id_checkout' => $id,
+				'id_produk' => $items['id'],
+				'id_satuan' => $items['options']['Id_satuan_produk'],
+				'qty' => $items['qty'],
+				'harga_satuan' => $items['price'],
+				'harga_subtotal' => $subtotal,
+				'id_agen' => 'AGN001'
+			];
+
+			$ins_det = $this->mod_global->insert_data('t_checkout_detail', $data_det);
+		}
+
+		if ($this->db->trans_status() === FALSE) {
+			$this->db->trans_rollback();
+			$this->session->set_flashdata('feedback_failed', 'Gagal Melakukan Checkout.');
+			redirect('checkout');
+		} else {
+			$this->db->trans_commit();
+			
+			foreach ($this->cart->contents() as $listcart) {
+				$this->hapus_cart($listcart['rowid']);
+			}
+
+			$this->session->set_flashdata('feedback_success', 'Berhasil Checkout');
+			redirect('home');
+		}
+		
+    }
+
+    function hapus_cart($rowid){ 
+        $data_cart = array(
+            'rowid' => $rowid, 
+            'qty' => 0, 
+        );
+        $this->cart->update($data_cart);
     }
 
     private function konfigurasi_upload_bukti($nmfile)

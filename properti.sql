@@ -11,7 +11,7 @@
  Target Server Version : 100131
  File Encoding         : 65001
 
- Date: 11/02/2020 23:44:28
+ Date: 15/02/2020 23:40:59
 */
 
 SET NAMES utf8mb4;
@@ -160,7 +160,7 @@ CREATE TABLE `m_user`  (
 INSERT INTO `m_user` VALUES ('USR00001', 'masnur', 'kmJnZmZo', 1, NULL, 1, '2020-02-02 14:21:34', '2019-10-05 21:34:14', '2020-02-02 20:21:34');
 INSERT INTO `m_user` VALUES ('USR00002', 'agen', 'kmJnZmZo', 2, NULL, 1, '2019-12-03 08:42:33', '2019-11-09 19:36:13', '2020-01-21 15:03:27');
 INSERT INTO `m_user` VALUES ('USR00003', 'customer', 'kmJnZmZo', 3, NULL, 1, '2019-12-03 08:41:40', '2019-11-09 19:43:19', '2020-01-21 15:03:52');
-INSERT INTO `m_user` VALUES ('USR00004', 'coba', 'hX2fmaWl', 3, NULL, 1, '2020-02-11 16:17:08', '2020-02-07 13:28:03', '2020-02-11 22:17:08');
+INSERT INTO `m_user` VALUES ('USR00004', 'coba', 'hX2fmaWl', 3, NULL, 1, '2020-02-15 17:11:36', '2020-02-07 13:28:03', '2020-02-15 23:11:36');
 
 -- ----------------------------
 -- Table structure for m_user_detail
@@ -188,6 +188,54 @@ INSERT INTO `m_user_detail` VALUES (1, 'USR00001', 'Masnur Ganteng', 'Jl. Harapa
 INSERT INTO `m_user_detail` VALUES (2, 'USR00002', 'Agen', 'aifudf nisduf sidufis ndudrs', '1945-10-09', 'L', '0819218129121', 'kepsek-1573302973.jpg', 'kepsek-1573302973_thumb.jpg', NULL);
 INSERT INTO `m_user_detail` VALUES (3, 'USR00003', 'Customer', 'asfsd', '1963-02-14', 'L', '121312', 'keuangan-1573303398.jpg', 'keuangan-1573303398_thumb.jpg', NULL);
 INSERT INTO `m_user_detail` VALUES (8, 'USR00004', 'coba,cobalah', NULL, '1970-01-01', NULL, '121212', 'user_default.png', 'user_default_thumb.png', 'coba@gmail.com');
+
+-- ----------------------------
+-- Table structure for t_checkout
+-- ----------------------------
+DROP TABLE IF EXISTS `t_checkout`;
+CREATE TABLE `t_checkout`  (
+  `id` varchar(50) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+  `id_user` varchar(10) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+  `harga_total` double(20, 2) NULL DEFAULT NULL,
+  `is_konfirm` int(1) NULL DEFAULT 0,
+  `nama_depan` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+  `nama_belakang` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+  `email` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+  `telepon` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+  `catatan` text CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL,
+  `bukti` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+  `created_at` datetime(0) NULL DEFAULT NULL,
+  `updated_at` datetime(0) NULL DEFAULT NULL,
+  `deleted_at` datetime(0) NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Records of t_checkout
+-- ----------------------------
+INSERT INTO `t_checkout` VALUES ('cafbbb17-4686-4635-87d0-2f591929efc3', 'USR00004', 2850000.00, 0, 'coba', 'cobalah', 'coba@gmail.com', '', '', 'coba-1581784821-.jpg', '2020-02-15 17:40:22', NULL, NULL);
+
+-- ----------------------------
+-- Table structure for t_checkout_detail
+-- ----------------------------
+DROP TABLE IF EXISTS `t_checkout_detail`;
+CREATE TABLE `t_checkout_detail`  (
+  `id` bigint(50) NOT NULL AUTO_INCREMENT,
+  `id_checkout` varchar(50) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+  `id_produk` varchar(50) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+  `id_satuan` int(12) NULL DEFAULT NULL,
+  `qty` int(12) NULL DEFAULT NULL,
+  `harga_satuan` double(20, 2) NULL DEFAULT NULL,
+  `harga_subtotal` double(20, 2) NULL DEFAULT NULL,
+  `id_agen` varchar(10) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Records of t_checkout_detail
+-- ----------------------------
+INSERT INTO `t_checkout_detail` VALUES (1, 'cafbbb17-4686-4635-87d0-2f591929efc3', '93bb84ec-dd68-4c25-8465-c4493d36e533', 1, 5, 250000.00, 1250000.00, 'AGN001');
+INSERT INTO `t_checkout_detail` VALUES (2, 'cafbbb17-4686-4635-87d0-2f591929efc3', '9bbc71f3-668c-4fa0-b572-aae222caad4c', 1, 8, 200000.00, 1600000.00, 'AGN001');
 
 -- ----------------------------
 -- Table structure for t_hak_akses
