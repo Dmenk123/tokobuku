@@ -91,4 +91,13 @@ class Mod_global extends CI_Model
 		$this->db->where('id_user',$id)
 				->update('m_user',array('last_login'=>date('Y-m-d H:i:s')));			
 	}
+
+	public function cek_sesi_agen($kode_agen)
+	{
+		$this->db->select('*');
+		$this->db->from('m_user');
+		$this->db->where('kode_agen', $kode_agen);
+		$query = $this->db->get();
+		return $query->row();
+	}
 }

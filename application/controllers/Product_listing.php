@@ -12,7 +12,22 @@ class Product_listing extends CI_Controller {
 
 	}
 
-	public function index()	{	
+	public function list_produk($uri='')
+	{
+		if ($uri != '') {
+			$param_sess = $uri;
+			$cek_sess = $this->mod_global->cek_sesi_agen($param_sess);
+			
+			if ($cek_sess) {
+				$this->session->unset_userdata('kode_agen');
+				$this->session->set_userdata(
+					array(
+						'kode_agen' => $cek_sess->kode_agen
+					)
+				);
+			}
+		}
+
 		if (!isset($per_page)) {
 			$per_page = 10; //default per page
 		}else{

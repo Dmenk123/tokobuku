@@ -95,7 +95,7 @@
           <div class="navigation__column center">
                 <ul class="main-menu menu">
                   <li class="menu-item menu-item-has-children dropdown"><a href="<?=base_url('home'); ?>">Home</a></li>
-                  <li class="menu-item menu-item-has-children has-mega-menu"><a href="<?= base_url('product_listing'); ?>">Produk Kami</a>
+                  <li class="menu-item menu-item-has-children has-mega-menu"><a href="<?= base_url('product_listing/list_produk'); ?>">Produk Kami</a>
                   </li>
                   <li class="menu-item menu-item-has-children dropdown"><a href="#">News</a></li>
                   <li class="menu-item menu-item-has-children dropdown"><a href="#">Contact</a></li>
