@@ -1,4 +1,6 @@
-
+<?php
+var_dump($this->session->all_userdata());
+?>
     <main class="ps-main">
       <div class="ps-products-wrap pt-80 pb-80">
         <div class="ps-products" data-mh="product-listing">
@@ -44,7 +46,7 @@
                 <div class="ps-shoe mb-30">
                   <div class="ps-shoe__thumbnail">
                     <div class="ps-badge"><span>New</span></div>
-                    <div class="ps-badge ps-badge--sale ps-badge--2nd"><span>-35%</span></div></a><img src="<?= base_url('assets/img/produk/').$val->gambar_1;?>" alt=""><a class="ps-shoe__overlay" href="<?=base_url('product_detail/index/').$val->id; ?>"></a>
+                    <div class="ps-badge ps-badge--sale ps-badge--2nd"><span>-35%</span></div></a><img src="<?= base_url('assets/img/produk/').$val->gambar_1;?>" alt=""><a class="ps-shoe__overlay" href="<?=base_url('product_detail/detail/').$val->id; ?>"></a>
                   </div>
                   <div class="ps-shoe__content">
                     <div class="ps-shoe__variants">

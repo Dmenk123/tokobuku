@@ -58,6 +58,8 @@ if (isset($js)) {
 <script src="<?php echo site_url('assets'); ?>/jsModul/modal.js"></script>
 
 <script>
+	var baseUrl = "<?= base_url();?>";
+
 	$(document).ready(function() {
 		//update dt_read after click
 		$(document).on('click', '.linkNotif', function() {
@@ -96,6 +98,34 @@ if (isset($js)) {
     $('input.numberinput').bind('keypress', function(e) {
       return (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57) && e.which != 46) ? false : true;
     });
+
+    function logout_proc() {
+		swal({
+	      	title: "Logout",
+	      	text: "Apakah Anda Yakin ingin Logout!",
+	      	icon: "warning",
+	      	buttons: [
+	        	'Tidak',
+	        	'Ya'
+	      	],
+	      	dangerMode: true,
+	    	}).then(function(isConfirm) {
+	      		if (isConfirm) {
+	        		$.ajax({
+						url: baseUrl + 'admin/login/logout_proc',
+						type: 'POST',
+						dataType: "JSON",
+						success: function (data) {
+							swal("Logout", 'Anda berhasil logout', "success").then(function() {
+							    window.location.href = baseUrl + 'home';
+							});
+						}
+					});
+	      		} else {
+	        		swal("Batal", "Aksi dibatalkan", "error");
+	     	 	}
+			});
+	}
 </script>
 
 </body>

@@ -74,7 +74,7 @@ class Cart extends CI_Controller {
             $output .='
             	<tr>
                   <td>
-                  	<a class="ps-product__preview" href="'.base_url('product_detail/index/'.$items['id'].'').'" target="_blank">
+                  	<a class="ps-product__preview" href="'.base_url('product_detail/detail/'.$items['id'].'').'" target="_blank">
                   	<img width="100" height="100" class="mr-15" src="'.site_url("assets/img/produk/$link_img").'" alt=""> '.$items['name'].'
                   	</a>
                   </td>

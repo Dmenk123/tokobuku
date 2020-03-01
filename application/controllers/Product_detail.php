@@ -10,7 +10,7 @@ class Product_detail extends CI_Controller {
         $this->load->model('mod_global');
 	}
 
-	public function index($id_produk)
+	public function detail($id_produk)
 	{
 		$select = "m_produk.*, m_kategori.nama as nama_kategori, m_satuan.nama as nama_satuan, t_log_harga.harga_satuan, t_log_harga.potongan";
 		$join = array(
