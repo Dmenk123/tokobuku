@@ -11,7 +11,7 @@
  Target Server Version : 100131
  File Encoding         : 65001
 
- Date: 02/03/2020 00:20:39
+ Date: 03/03/2020 00:34:29
 */
 
 SET NAMES utf8mb4;
@@ -163,7 +163,7 @@ CREATE TABLE `m_user`  (
 INSERT INTO `m_user` VALUES ('USR00001', 'masnur', 'hX2fmaWl', 1, NULL, 1, '2020-02-17 09:29:53', '2019-10-05 21:34:14', '2020-02-17 15:29:53', NULL);
 INSERT INTO `m_user` VALUES ('USR00002', 'agen', 'hX2fmaWl', 2, NULL, 1, '2019-12-03 08:42:33', '2019-11-09 19:36:13', '2020-02-17 15:37:28', 'Ioa2fmaCuS');
 INSERT INTO `m_user` VALUES ('USR00003', 'customer', 'hX2fmaWl', 3, NULL, 1, '2019-12-03 08:41:40', '2019-11-09 19:43:19', '2020-02-17 15:29:42', NULL);
-INSERT INTO `m_user` VALUES ('USR00004', 'coba', 'hX2fmaWl', 3, NULL, 1, '2020-03-01 18:00:38', '2020-02-07 13:28:03', '2020-03-02 00:00:38', NULL);
+INSERT INTO `m_user` VALUES ('USR00004', 'coba', 'hX2fmaWl', 3, NULL, 1, '2020-03-02 18:32:48', '2020-02-07 13:28:03', '2020-03-03 00:32:48', NULL);
 
 -- ----------------------------
 -- Table structure for m_user_detail
@@ -210,15 +210,17 @@ CREATE TABLE `t_checkout`  (
   `created_at` datetime(0) NULL DEFAULT NULL,
   `updated_at` datetime(0) NULL DEFAULT NULL,
   `deleted_at` datetime(0) NULL DEFAULT NULL,
+  `status` int(1) NULL DEFAULT 1 COMMENT '1: aktif, 0: nonaktif',
+  `kode_ref` varchar(8) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL COMMENT 'kode referensi',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of t_checkout
 -- ----------------------------
-INSERT INTO `t_checkout` VALUES ('09fe5a96-a6f8-4e8e-aebf-33150a829b4c', 'USR00004', 5000000.00, 0, 'coba', 'cobalah', 'coba@gmail.com', '', '', 'coba-1581928536-.jpg', '2020-02-17 09:35:36', NULL, NULL);
-INSERT INTO `t_checkout` VALUES ('3d80cebc-5130-48dd-9c1c-29badd14d438', 'USR00004', 500000.00, 0, 'coba', 'cobalah', 'coba@gmail.com', '', '', 'coba-1583082087-.jpg', '2020-03-01 18:01:28', NULL, NULL);
-INSERT INTO `t_checkout` VALUES ('cafbbb17-4686-4635-87d0-2f591929efc3', 'USR00004', 2850000.00, 0, 'coba', 'cobalah', 'coba@gmail.com', '', '', 'coba-1581784821-.jpg', '2020-02-15 17:40:22', NULL, NULL);
+INSERT INTO `t_checkout` VALUES ('09fe5a96-a6f8-4e8e-aebf-33150a829b4c', 'USR00004', 5000000.00, 0, 'coba', 'cobalah', 'coba@gmail.com', '', '', 'coba-1581928536-.jpg', '2020-02-17 09:35:36', NULL, NULL, 0, NULL);
+INSERT INTO `t_checkout` VALUES ('3d80cebc-5130-48dd-9c1c-29badd14d438', 'USR00004', 500000.00, 0, 'coba', 'cobalah', 'coba@gmail.com', '', '', 'coba-1583082087-.jpg', '2020-03-01 18:01:28', NULL, NULL, 1, NULL);
+INSERT INTO `t_checkout` VALUES ('cafbbb17-4686-4635-87d0-2f591929efc3', 'USR00004', 2850000.00, 0, 'coba', 'cobalah', 'coba@gmail.com', '', '', 'coba-1581784821-.jpg', '2020-02-15 17:40:22', NULL, NULL, 0, NULL);
 
 -- ----------------------------
 -- Table structure for t_checkout_detail

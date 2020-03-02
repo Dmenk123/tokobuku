@@ -57,6 +57,8 @@
      <script type="text/javascript" src="<?php echo base_url();?>assets/plugins/revolution/js/extensions/revolution.extension.kenburn.min.js"></script>
     <script type="text/javascript" src="<?php echo base_url();?>assets/plugins/revolution/js/extensions/revolution.extension.migration.min.js"></script>
     <script type="text/javascript" src="<?php echo base_url('assets/') ?>js/sweetalert.min.js"></script>
+    <script type="text/javascript" src="<?php echo base_url('assets/') ?>datatables/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="<?php echo base_url('assets/') ?>datatables/dataTables.bootstrap.min.js"></script>
     <!-- Custom scripts-->
     <script type="text/javascript" src="<?php echo base_url();?>assets/js/main.js"></script>
     <!--HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries-->

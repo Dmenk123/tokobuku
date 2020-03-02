@@ -44,15 +44,16 @@
                        <thead>
                           <tr>
                              <th style="text-align: center;">Tanggal</th>
-                             <th style="text-align: center;">Kode</th>
-                             <th style="text-align: center;">Metode</th>
+                            <!--  <th style="text-align: center;">Kode</th>
+                             <th style="text-align: center;">Metode</th> -->
                              <th style="text-align: center;">Harga Total</th>
-                             <th style="text-align: center;">Ekspedisi</th>
+                             <!-- <th style="text-align: center;">Ekspedisi</th>
                              <th style="width: 100px; text-align: center;">Paket</th>
                              <th style="text-align: center;">ETD</th>
-                             <th style="text-align: center;">Ongkir</th>
-                             <th style="text-align: center;">Ongkos Total</th>
+                             <th style="text-align: center;">Ongkir</th> -->
+                            <!--  <th style="text-align: center;">Ongkos Total</th> -->
                              <th style="text-align: center;">Kode Ref</th>
+                             <th style="text-align: center;">Jumlah Item</th>
                              <th style="width: 200px; text-align: center;">Aksi</th>
                           </tr>
                        </thead>
@@ -69,49 +70,24 @@
 </main>
 
 <script>
-var baseUrl = "<?= base_url(); ?>";
-function addToCart(id) {
-  swal({
-        title: "Tambah ke Keranjang Belanja",
-        text: "Apakah Anda Yakin",
-        icon: "warning",
-        buttons: [
-          'Tidak',
-          'Ya'
+  $(document).ready(function() {
+    //datatable
+    table = $('#tabelCheckoutHistory').DataTable({
+        "processing": true, //feature control the processing indicator
+        "serverSide": true, //feature control DataTables server-side processing mode
+        "order":[[ 0, 'desc' ]], //index for order, 0 is first column
+        //load data for table content from ajax source
+        "ajax": {
+            "url": "<?php echo base_url('profile/list_checkout_history') ?>",
+            "type": "POST" 
+        },
+        //set column definition initialisation properties
+        "columnDefs": [
+            {
+                "targets": [-1], //last column
+                "orderable": false, //set not orderable
+            },
         ],
-        dangerMode: false,
-      }).then(function(isConfirm) {
-        if (isConfirm) {
-          $.ajax({
-            url: baseUrl + 'cart/add_to_cart/' + id,
-            type: 'POST',
-            dataType: "JSON",
-            success: function (data) {
-              swal({
-                  title: "Apakah Ingin Lanjut Belanja",
-                  text: "Apakah Anda Yakin",
-                  icon: "warning",
-                  buttons: [
-                    'Tidak',
-                    'Ya'
-                  ],
-                  dangerMode: false,
-                }).then(function(isConfirm) {
-                  if (isConfirm) {
-                    swal("Silahkan Belanja", 'Terima Kasih, Silahkan Berbelanja Lagi', "success").then(function() {
-                        window.location.href = baseUrl + 'home';
-                    });
-                  } else {
-                    swal("Keranjang Belanja", 'Anda Diarahkan Ke Keranjang Belanja', "success").then(function() {
-                        window.location.href = baseUrl + 'cart';
-                    });
-                  }
-              });
-            }
-          });
-        } else {
-          swal("Batal", "Batal Menambahkan ke Keranjang", "error");
-        }
     });
-}
+  });
 </script>
