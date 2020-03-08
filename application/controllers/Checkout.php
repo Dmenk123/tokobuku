@@ -148,10 +148,16 @@ class Checkout extends CI_Controller {
 			'telepon' => $telepon,
 			'catatan' => $catatan,
 			'bukti' => $arr_gambar['nama_gambar'],
-			'created_at' => date('Y-m-d H:i:s')
+			'created_at' => date('Y-m-d H:i:s'),
+			'kode_ref' => $this->incrementalHash()
 		);
 
 		$ins_header = $this->mod_global->insert_data('t_checkout', $data);
+		if ($this->session->userdata('kode_agen') != null) {
+			$kode_agen = $this->session->userdata('kode_agen');
+		}else{
+			$kode_agen = null;
+		}
 
 		foreach ($this->cart->contents() as $items) {
 			$subtotal = $items['price'] * (int)$items['qty'];
@@ -162,7 +168,7 @@ class Checkout extends CI_Controller {
 				'qty' => $items['qty'],
 				'harga_satuan' => $items['price'],
 				'harga_subtotal' => $subtotal,
-				'id_agen' => 'AGN001'
+				'id_agen' => $kode_agen
 			];
 
 			$ins_det = $this->mod_global->insert_data('t_checkout_detail', $data_det);
@@ -264,5 +270,20 @@ class Checkout extends CI_Controller {
 		$string = preg_replace("/[\s_]/", "-", $string);
 		return $string;
 	}
+
+	public function incrementalHash($len = 5){
+  		$charset = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+	  	$base = strlen($charset);
+	  	$result = '';
+
+  		$now = explode(' ', microtime())[1];
+  		while ($now >= $base){
+    		$i = $now % $base;
+    		$result = $charset[$i] . $result;
+    		$now /= $base;
+  		}
+
+  		return substr($result, -5);
+	}		
 
 }
