@@ -65,4 +65,5 @@ class Login extends CI_Controller {
 		$str_dec = $this->enkripsi->decrypt($data->password);
 		echo $str_dec;
 	}
+	
 }

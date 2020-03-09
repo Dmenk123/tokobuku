@@ -53,7 +53,7 @@ class Profile extends CI_Controller {
 		$data = array();
 		$no =$_POST['start'];
 		foreach ($list as $listCheckout) {
-			$link_detail = site_url('profil/checkout_detail/').$listCheckout->id;
+			$link_detail = site_url('profile/checkout_detail/').$listCheckout->id;
 			$no++;
 			$row = array();
 			//loop value tabel db
@@ -63,8 +63,9 @@ class Profile extends CI_Controller {
 			$row[] = $listCheckout->jml;
 
 			//add html for action button
-			$row[] ='<a class="btn btn-sm btn-success" href="'.$link_detail.'" title="Checkout Detail" id="btn_detail" onclick=""><i class="fa fa-info-circle"></i> '.$listCheckout->jml.' Items</a>
-					<a class="btn btn-sm btn-danger" href="javascript:void(0)" title="nonaktif" onclick="nonaktifCheckout('."'".$listCheckout->id."'".')"><i class="fa fa-times"></i> Nonaktif</a>';
+			$row[] ='
+				<a class="btn btn-sm btn-success" href="'.$link_detail.'" title="Checkout Detail" id="btn_detail" onclick=""><i class="fa fa-info-circle"></i> '.$listCheckout->jml.' Items</a>
+				<a class="btn btn-sm btn-danger" href="javascript:void(0)" title="nonaktif" onclick="nonaktifCheckout('."'".$listCheckout->id."'".')"><i class="fa fa-times"></i> Nonaktif</a>';
 
 			$data[] = $row;
 		}//end loop
@@ -77,6 +78,31 @@ class Profile extends CI_Controller {
 					);
 		//output to json format
 		echo json_encode($output);
+	}
+
+	public function checkout_detail($id)
+	{
+		$id_user = $this->session->userdata('id_user');
+
+		//userdata
+		$select = "m_user.*, m_user_detail.nama_lengkap_user, m_user_detail.alamat_user, m_user_detail.no_telp_user, m_user_detail.email, m_user_detail.gambar_user";
+		$join = array(
+			["table" => "m_user_detail", "on" => "m_user.id_user = m_user_detail.id_user"]
+		);
+
+		//data user
+		$userdata = $this->mod_global->get_data($select, 'm_user', ['m_user.status' => 1, 'm_user.id_user' => $id_user], $join);
+		//data checkout
+		$ckt_detail = $this->mod_profile->get_data_checkout_det($id);
+
+		$data = [
+			'data_user' => $userdata,
+			'data_checkout' => $ckt_detail
+		];
+
+		$this->load->view('v_navbar');
+		$this->load->view('v_checkout_detail', $data);
+		$this->load->view('footer');
 	}
 
 }
