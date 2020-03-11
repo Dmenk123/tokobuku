@@ -18,17 +18,16 @@
     				<!-- /.box-header -->
     				<div class="box-body">
     					<div class="table-responsive">
-    						<?php foreach ($hasil_header as $val) : ?>
-    							<div class="col-xs-12">
-    								<h4 style="text-align: center;"><strong>Detail Penjualan</strong></h4>
-    							</div>
-    							<div class="col-xs-6">
-    								<h4 style="text-align: left;">Customer :<?php $nm = explode(',', $data_checkout->nama_lengkap_user); echo $nm[0] . ' ' . $nm[1]; ?></h4>
-    							</div>
-    							<div class="col-xs-6">
-    								<h4 style="text-align: right;">Tanggal Transaksi: <?php echo date('d-m-Y', strtotime($val->created_at)); ?></h4>
-    							</div>
-    						<?php endforeach ?>
+    						<div class="col-xs-12">
+    							<h4 style="text-align: center;"><strong>Detail Penjualan</strong></h4>
+    						</div>
+    						<div class="col-xs-6">
+    							<h4 style="text-align: left;">Customer :<?php $nm = explode(',', $hasil_header->nama_lengkap_user);
+																													echo $nm[0] . ' ' . $nm[1]; ?></h4>
+    						</div>
+    						<div class="col-xs-6">
+    							<h4 style="text-align: right;">Tanggal Transaksi: <?php echo date('d-m-Y', strtotime($hasil_header->created_at)); ?></h4>
+    						</div>
     						<hr>
     						<table id="tabelDetail" class="table table-bordered table-hover" cellspacing="0" width="100%">
     							<thead>
@@ -37,35 +36,36 @@
     									<th style="width: 50px; text-align: center;">Kode</th>
     									<th style="width: 30px; text-align: center;">Jumlah</th>
     									<th style="width: 30px; text-align: center;">Satuan</th>
-											<th style="width: 100px; text-align: center;">Harga</th>
-											<th style="width: 100px; text-align: center;">Total</th>
-    									<th style="text-align: center;">Keterangan</th>
+    									<th style="width: 100px; text-align: center;">Harga</th>
+    									<th style="width: 100px; text-align: center;">Total</th>
+    									<th style="text-align: center;">Agen</th>
     								</tr>
     							</thead>
     							<tbody>
     								<?php if ($hasil_data) : ?>
-    									<?php $no = 1; ?>
-    									<tr>
-    										<td><?php echo '<img src="' . base_url() . '/assets/img/bukti_verifikasi/' . $hasil_data->gambar_bukti . '" width="50" height="50">'; ?></td>
-    										<td><?php echo $hasil_data->id_trans_masuk; ?></td>
-    										<td><?php echo $hasil_data->qty; ?></td>
-    										<td><?php echo $hasil_data->nama_satuan; ?></td>
-    										<?php if ($sts == 'finish') { ?>
+    									<?php foreach ($hasil_data as $key => $val) { ?>
+    										<?php $no = 1; ?>
+    										<tr>
+    											<td><?php echo '<img src="' . base_url() . '/assets/img/produk/' . $val->gambar_1 . '" width="50" height="50">'; ?></td>
+    											<td><?php echo $val->kode_produk; ?></td>
+    											<td><?php echo $val->qty; ?></td>
+    											<td><?php echo $val->nama_satuan; ?></td>
     											<td>
     												<div>
     													<span class="pull-left">Rp. </span>
-    													<span class="pull-right"><?= number_format($hasil_data->harga_satuan, 2, ",", "."); ?></span>
+    													<span class="pull-right"><?= number_format($val->harga_satuan, 2, ",", "."); ?></span>
     												</div>
     											</td>
     											<td>
     												<div>
     													<span class="pull-left">Rp. </span>
-    													<span class="pull-right"><?= number_format($hasil_data->harga_total, 2, ",", "."); ?></span>
+    													<span class="pull-right"><?= number_format($val->harga_subtotal, 2, ",", "."); ?></span>
     												</div>
     											</td>
-    										<?php } ?>
-    										<td><?php echo $hasil_data->keterangan; ?></td>
-    									</tr>
+    											<td><?php echo $val->id_agen; ?></td>
+    										</tr>
+    									<?php } ?>
+
     								<?php endif ?>
     							</tbody>
     						</table>

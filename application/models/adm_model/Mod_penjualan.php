@@ -125,7 +125,7 @@ class Mod_penjualan extends CI_Model
 
 	public function get_detail($id, $status)
 	{
-		$this->db->select('tcd.*, tmd.id as id_detail, tmd.id_trans_masuk, tmd.keterangan, tmd.satuan, tmd.qty, ts.nama as nama_satuan');
+		$this->db->select('tcd.*, mp.kode as kode_produk,mp.nama as nama_produk, ms.nama as nama_satuan, mp.gambar_1');
 		$this->db->from('t_checkout_detail tcd');
 		$this->db->join('t_checkout tc', 'tcd.id_checkout = tc.id', 'left');
 		$this->db->join('m_produk mp', 'tcd.id_produk = mp.id', 'left');

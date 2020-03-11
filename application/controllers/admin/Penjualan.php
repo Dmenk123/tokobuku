@@ -51,7 +51,7 @@ class Penjualan extends CI_Controller
 		$no = $_POST['start'];
 		foreach ($list as $datalist) {
 			$nm = explode(',', $datalist->nama_lengkap_user);
-			$link_edit = site_url('penjualan/penjualan_edit/') . $datalist->id;
+			$link_edit = site_url('admin/penjualan/penjualan_edit/') . $datalist->id;
 			$no++;
 			$row = array();
 			// $row[] = $datalist->id;
@@ -69,10 +69,10 @@ class Penjualan extends CI_Controller
 			$cek_kunci = FALSE;
 
 			if ($cek_kunci) {
-				$link_detail = site_url('penjualan/penjualan_detail/') . $datalist->id.'/'.$status;
+				$link_detail = site_url('admin/penjualan/penjualan_detail/') . $datalist->id.'/'.$status;
 				$row[] = '<a class="btn btn-sm btn-success" href="' . $link_detail . '" title="Detail" id="btn_detail" onclick=""><i class="glyphicon glyphicon-info-sign"></i></a>';
 			} else {
-				$link_detail = site_url('penjualan/penjualan_detail/') . $datalist->id.'/'.$status;
+				$link_detail = site_url('admin/penjualan/penjualan_detail/') . $datalist->id.'/'.$status;
 				$row[] = '
 							<a class="btn btn-sm btn-success" href="' . $link_detail . '" title="Detail" id="btn_detail" onclick=""><i class="glyphicon glyphicon-info-sign"></i></a>
 							<a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="deletePenerimaan(' . "'" . $datalist->id . "'" . ')"><i class="glyphicon glyphicon-trash"></i></a>
@@ -94,17 +94,24 @@ class Penjualan extends CI_Controller
 
 	public function penjualan_detail($id, $status)
 	{
+		$isi_notif = [];
 		$id_user = $this->session->userdata('id_user');
-		$query_user = $this->prof->get_detail_pengguna($id_user);
+		$query_user = $this->m_user->get_detail_user($id_user);
 
 		$query_header = $this->m_jual->get_detail_header($id, $status);
 		$query = $this->m_jual->get_detail($id, $status);
-		
+
 		$data = array(
+			'isi_notif' => $isi_notif,
 			'data_user' => $query_user,
 			'hasil_header' => $query_header,
 			'hasil_data' => $query
 		);
+		
+		/* echo "<pre>";
+		print_r ($data);
+		echo "</pre>";
+		exit; */
 
 		$content = [
 			'css' 	=> null,

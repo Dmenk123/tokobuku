@@ -1,17 +1,17 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : lokal
+ Source Server         : localhost
  Source Server Type    : MySQL
- Source Server Version : 100131
+ Source Server Version : 100129
  Source Host           : localhost:3306
  Source Schema         : properti
 
  Target Server Type    : MySQL
- Target Server Version : 100131
+ Target Server Version : 100129
  File Encoding         : 65001
 
- Date: 09/03/2020 00:04:47
+ Date: 11/03/2020 17:31:38
 */
 
 SET NAMES utf8mb4;
@@ -85,6 +85,8 @@ INSERT INTO `m_menu` VALUES (5, 0, 'Data Master', 'Data Master', ' ', 'fa fa-dat
 INSERT INTO `m_menu` VALUES (6, 5, 'Master Produk', 'Master Produk', 'admin/master_produk_adm', '', 1, 2, 1, 1, 1, 1);
 INSERT INTO `m_menu` VALUES (7, 5, 'Mster Agen', 'Mster Agen', 'master_agen', '', 1, 2, 2, 1, 1, 1);
 INSERT INTO `m_menu` VALUES (8, 5, 'Master Konten', 'Master Konten', 'master_konten', '', 1, 2, 3, 1, 1, 1);
+INSERT INTO `m_menu` VALUES (9, 0, 'Transaksi', 'Transaksi', ' ', 'fa fa-exchange', 1, 1, 3, 0, 0, 0);
+INSERT INTO `m_menu` VALUES (10, 9, 'Penjualan', 'Penjualan', 'admin/penjualan', '', 1, 2, 1, 1, 1, 1);
 
 -- ----------------------------
 -- Table structure for m_produk
@@ -160,10 +162,10 @@ CREATE TABLE `m_user`  (
 -- ----------------------------
 -- Records of m_user
 -- ----------------------------
-INSERT INTO `m_user` VALUES ('USR00001', 'masnur', 'hX2fmaWl', 1, NULL, 1, '2020-02-17 09:29:53', '2019-10-05 21:34:14', '2020-02-17 15:29:53', NULL);
+INSERT INTO `m_user` VALUES ('USR00001', 'masnur', 'hX2fmaWl', 1, NULL, 1, '2020-03-11 11:24:03', '2019-10-05 21:34:14', '2020-03-11 17:24:03', NULL);
 INSERT INTO `m_user` VALUES ('USR00002', 'agen', 'hX2fmaWl', 2, NULL, 1, '2019-12-03 08:42:33', '2019-11-09 19:36:13', '2020-02-17 15:37:28', 'Ioa2fmaCuS');
 INSERT INTO `m_user` VALUES ('USR00003', 'customer', 'hX2fmaWl', 3, NULL, 1, '2019-12-03 08:41:40', '2019-11-09 19:43:19', '2020-02-17 15:29:42', NULL);
-INSERT INTO `m_user` VALUES ('USR00004', 'coba', 'hX2fmaWl', 3, NULL, 1, '2020-03-08 16:59:09', '2020-02-07 13:28:03', '2020-03-08 22:59:09', NULL);
+INSERT INTO `m_user` VALUES ('USR00004', 'coba', 'hX2fmaWl', 3, NULL, 1, '2020-03-09 09:40:21', '2020-02-07 13:28:03', '2020-03-09 15:40:21', NULL);
 
 -- ----------------------------
 -- Table structure for m_user_detail
@@ -210,7 +212,7 @@ CREATE TABLE `t_checkout`  (
   `created_at` datetime(0) NULL DEFAULT NULL,
   `updated_at` datetime(0) NULL DEFAULT NULL,
   `deleted_at` datetime(0) NULL DEFAULT NULL,
-  `status` int(1) NULL DEFAULT 1 COMMENT '1: aktif, 0: nonaktif',
+  `status` int(1) NULL DEFAULT 1 COMMENT '1: aktif, 0: nonaktif, 2: dibatalkan(expired)',
   `kode_ref` varchar(8) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL COMMENT 'kode referensi',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;
@@ -276,6 +278,8 @@ INSERT INTO `t_hak_akses` VALUES (5, 1, 0, 0, 0);
 INSERT INTO `t_hak_akses` VALUES (6, 1, 1, 1, 1);
 INSERT INTO `t_hak_akses` VALUES (7, 1, 1, 1, 1);
 INSERT INTO `t_hak_akses` VALUES (8, 1, 1, 1, 1);
+INSERT INTO `t_hak_akses` VALUES (9, 1, 0, 0, 0);
+INSERT INTO `t_hak_akses` VALUES (10, 1, 1, 1, 1);
 INSERT INTO `t_hak_akses` VALUES (4, 1, 0, 0, 0);
 INSERT INTO `t_hak_akses` VALUES (3, 1, 1, 1, 1);
 INSERT INTO `t_hak_akses` VALUES (2, 1, 1, 1, 1);
