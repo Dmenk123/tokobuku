@@ -43,7 +43,7 @@ class Profile extends CI_Controller {
 				//jika lebih dari 3 hari otomatis di nonaktifkan
 				$exp =  date('Y-m-d H:i:s', strtotime($cek->created_at. '+ 3 days'));
 				if (strtotime(date('Y-m-d H:i:s')) > strtotime($exp)) {
-					$this->db->query("UPDATE t_checkout SET status = '0' WHERE id = '".$cek->id."' ");
+					$this->db->query("UPDATE t_checkout SET status = '2' WHERE id = '".$cek->id."' ");
 				}
 			}
 		}
