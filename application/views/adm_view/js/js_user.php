@@ -1,6 +1,6 @@
 <!-- DataTables -->
-<script src="<?=config_item('assets')?>plugins/datatables/jquery.dataTables.min.js"></script>
-<script src="<?=config_item('assets')?>plugins/datatables/dataTables.bootstrap.min.js"></script>
+<script src="<?=base_url('assets/')?>plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="<?=base_url('assets/')?>plugins/datatables/dataTables.bootstrap.min.js"></script>
 
 <script type="text/javascript">
 	var save_method; //for save method string

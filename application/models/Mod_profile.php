@@ -21,7 +21,7 @@ class Mod_profile extends CI_Model
 
 		$this->db->select('
 			t_checkout.*,
-			t_checkout_detail.id,
+			t_checkout_detail.id as ckt_id_det,
 			t_checkout_detail.harga_satuan,
 			t_checkout_detail.harga_subtotal,
 			m_produk.nama as nama_produk,
@@ -98,4 +98,32 @@ class Mod_profile extends CI_Model
 		$this->db->where('id_user', $id_user);
 		return $this->db->count_all_results();
 	}
+
+
+	public function get_data_checkout_det($id)
+	{
+		$this->db->select('
+			t_checkout.*,
+			t_checkout_detail.id,
+			t_checkout_detail.harga_satuan,
+			t_checkout_detail.harga_subtotal,
+			t_checkout_detail.qty,
+			m_produk.nama as nama_produk,
+			m_produk.kode as kode_produk,
+			m_satuan.nama as nama_satuan,
+			m_user_detail.nama_lengkap_user
+		');
+
+		$this->db->from('t_checkout');
+		$this->db->join('t_checkout_detail', 't_checkout.id = t_checkout_detail.id_checkout', 'left');
+		$this->db->join('m_produk', 't_checkout_detail.id_produk = m_produk.id', 'left');
+		$this->db->join('m_satuan', 't_checkout_detail.id_satuan = m_satuan.id', 'left');
+		$this->db->join('m_user_detail', 't_checkout.id_user = m_user_detail.id_user', 'left');
+		$this->db->where('t_checkout.status', "1");
+		$this->db->where('t_checkout.id', $id);
+		
+		$query = $this->db->get();
+		return $query->result();
+	}
+	
 }
