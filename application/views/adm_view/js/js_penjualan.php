@@ -34,7 +34,7 @@
 			],
 			//load data for table content from ajax source
 			"ajax": {
-				"url": "<?php echo site_url('admin/penjualan/list_penjualan/0/') ?>" + bulan + "/" + tahun,
+				"url": "<?php echo site_url('admin/penjualan/list_penjualan/1/') ?>" + bulan + "/" + tahun,
 				"type": "POST"
 			},
 
