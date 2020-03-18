@@ -1,6 +1,6 @@
-<?php
+<!-- <?php
 var_dump($this->session->all_userdata());
-?>
+?> -->
     <main class="ps-main">
       <div class="ps-products-wrap pt-80 pb-80">
         <div class="ps-products" data-mh="product-listing">

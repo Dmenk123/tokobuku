@@ -59,7 +59,7 @@ class Penjualan extends CI_Controller
 			$row[] = $nm[0] . ' ' . $nm[1];
 			$row[] = $datalist->email;
 			$row[] = "Rp. " . number_format($datalist->harga_total, 0, ",", ".");
-			if ($datalist->status == 0) {
+			if ($datalist->status == 1) {
 				$row[] = '<span style="color:red">Belum Di Verifikasi</span>';
 			} else {
 				$row[] = '<span style="color:green">Sudah Di Verifikasi</span>';

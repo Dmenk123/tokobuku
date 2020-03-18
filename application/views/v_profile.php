@@ -13,7 +13,6 @@
               <div class="col-md-9">
                  <p><strong>Nama Lengkap :</strong> <?php echo $value->nama_lengkap_user; ?> 
                     <br><strong>Email :</strong> <?php echo $value->email; ?>
-                    <!-- <br><strong>Alamat :</strong> <?php echo $value->alamat_user.", ".$value->nama_kelurahan." - ".$value->nama_kecamatan.", ".$value->nama_kota." - ".$value->nama_provinsi; ?> -->
                     <br><strong>Alamat :</strong> <?php echo $value->alamat_user; ?>
                     <br><strong>Nomor Telp :</strong> <?php echo $value->no_telp_user; ?>
                     <br><strong>Terakhir Login :</strong> <?php echo $value->last_login; ?>
@@ -44,14 +43,7 @@
                        <thead>
                           <tr>
                              <th style="text-align: center;">Tanggal</th>
-                            <!--  <th style="text-align: center;">Kode</th>
-                             <th style="text-align: center;">Metode</th> -->
                              <th style="text-align: center;">Harga Total</th>
-                             <!-- <th style="text-align: center;">Ekspedisi</th>
-                             <th style="width: 100px; text-align: center;">Paket</th>
-                             <th style="text-align: center;">ETD</th>
-                             <th style="text-align: center;">Ongkir</th> -->
-                            <!--  <th style="text-align: center;">Ongkos Total</th> -->
                              <th style="text-align: center;">Kode Ref</th>
                              <th style="text-align: center;">Jumlah Item</th>
                              <th style="width: 200px; text-align: center;">Aksi</th>
@@ -75,6 +67,7 @@
     table = $('#tabelCheckoutHistory').DataTable({
         "processing": true, //feature control the processing indicator
         "serverSide": true, //feature control DataTables server-side processing mode
+		  "responsive": true,
         "order":[[ 0, 'desc' ]], //index for order, 0 is first column
         //load data for table content from ajax source
         "ajax": {

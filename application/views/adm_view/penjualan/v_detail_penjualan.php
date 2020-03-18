@@ -23,7 +23,7 @@
     						</div>
     						<div class="col-xs-6">
     							<h4 style="text-align: left;">Customer :<?php $nm = explode(',', $hasil_header->nama_lengkap_user);
-																													echo $nm[0] . ' ' . $nm[1]; ?></h4>
+																		echo $nm[0] . ' ' . $nm[1]; ?></h4>
     						</div>
     						<div class="col-xs-6">
     							<h4 style="text-align: right;">Tanggal Transaksi: <?php echo date('d-m-Y', strtotime($hasil_header->created_at)); ?></h4>
@@ -32,19 +32,24 @@
     						<table id="tabelDetail" class="table table-bordered table-hover" cellspacing="0" width="100%">
     							<thead>
     								<tr>
-    									<th style="width: 10px; text-align: center;">Gambar</th>
-    									<th style="width: 50px; text-align: center;">Kode</th>
-    									<th style="width: 30px; text-align: center;">Jumlah</th>
-    									<th style="width: 30px; text-align: center;">Satuan</th>
-    									<th style="width: 100px; text-align: center;">Harga</th>
-    									<th style="width: 100px; text-align: center;">Total</th>
-    									<th style="text-align: center;">Agen</th>
+    									<th style="width: 5%; text-align: center;">Gambar</th>
+    									<th style="width: 5%; text-align: center;">Kode</th>
+    									<th style="width: 5%; text-align: center;">Jumlah</th>
+    									<th style="width: 5%; text-align: center;">Satuan</th>
+    									<th style="width: 15%; text-align: center;">Harga</th>
+    									<th style="width: 20%; text-align: center;">Total</th>
+    									<th style="width: 10%; text-align: center;">User Agen</th>
+    									<th style="width: 10%; text-align: center;">Nama Agen</th>
+    									<th style="width: 15%; text-align: center;">Laba Agen</th>
     								</tr>
     							</thead>
     							<tbody>
     								<?php if ($hasil_data) : ?>
     									<?php foreach ($hasil_data as $key => $val) { ?>
-    										<?php $no = 1; ?>
+    										<?php
+											$no = 1;
+											$nm = explode(',', $val->fullname_agen);
+											?>
     										<tr>
     											<td><?php echo '<img src="' . base_url() . '/assets/img/produk/' . $val->gambar_1 . '" width="50" height="50">'; ?></td>
     											<td><?php echo $val->kode_produk; ?></td>
@@ -62,10 +67,47 @@
     													<span class="pull-right"><?= number_format($val->harga_subtotal, 2, ",", "."); ?></span>
     												</div>
     											</td>
-    											<td><?php echo $val->id_agen; ?></td>
+    											<td><?php echo $val->username_agen; ?></td>
+    											<?php if (count($nm) > 1) { ?>
+    												<td><?php echo $nm[0] . ' ' . $nm[1]; ?></td>
+    											<?php } else { ?>
+    												<td><?php echo $nm[0]; ?></td>
+    											<?php } ?>
+    											<td>
+    												<div>
+    													<span class="pull-left">Rp. </span>
+    													<span class="pull-right"><?= number_format($val->harga_potongan, 2, ",", "."); ?></span>
+    												</div>
+    											</td>
     										</tr>
     									<?php } ?>
-
+    									<tr>
+    										<td colspan="7" align="center"><strong>Total Penjualan (Bruto) / Omzet</strong></td>
+    										<td colspan="2">
+    											<div>
+    												<span class="pull-left">Rp. </span>
+    												<span class="pull-right"><?= number_format(($val->harga_subtotal * $val->qty), 2, ",", "."); ?></span>
+    											</div>
+    										</td>
+    									</tr>
+    									<tr>
+    										<td colspan="7" align="center"><strong>Total Laba Agen</strong></td>
+    										<td colspan="2">
+    											<div>
+    												<span class="pull-left">Rp. </span>
+    												<span class="pull-right"><?= number_format(($val->harga_potongan * $val->qty), 2, ",", "."); ?></span>
+    											</div>
+    										</td>
+    									</tr>
+    									<tr>
+    										<td colspan="7" align="center"><strong>Total Penjualan (Nett)</strong></td>
+    										<td colspan="2">
+    											<div>
+    												<span class="pull-left">Rp. </span>
+    												<span class="pull-right"><?= number_format((($val->harga_subtotal * $val->qty) - ($val->harga_potongan * $val->qty)), 2, ",", "."); ?></span>
+    											</div>
+    										</td>
+    									</tr>
     								<?php endif ?>
     							</tbody>
     						</table>
