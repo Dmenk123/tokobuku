@@ -111,6 +111,38 @@
     								<?php endif ?>
     							</tbody>
     						</table>
+
+    						<hr>
+    						<h3>Bukti Pembayaran</h3>
+    						<form class="form-horizontal" id="formVerify">
+    							<table id="tabelVerify" class="table table-bordered table-hover" cellspacing="0" width="100%">
+    								<tr>
+    									<th>
+    										<?php echo '<img src="' . base_url() . '/assets/img/bukti_transfer/' . $val->bukti . '" width="400" height="400">'; ?>
+    										<input type="hidden" name="bukti_upload" value="<?= $val->bukti; ?>">
+    									</th>
+    								</tr>
+    								<tr>
+    									<td>Tanggal Upload : </td>
+    									<td>
+    										<strong><?= date('d-m-Y H:i:s', strtotime($val->tgl_checkout)); ?></strong>
+    										<input type="hidden" name="id_checkout" value="<?= $val->id_checkoutnya; ?>">
+    									</td>
+    								</tr>
+    								<tr>
+    									<td>Kode Referensi : </td>
+    									<td>
+    										<strong><?= $val->kode_ref; ?></strong>
+    										<input type="hidden" name="kode_ref" value="<?= $val->kode_ref; ?>">
+    									</td>
+    								</tr>
+    							</table>
+
+    							<div style="padding-top: 30px; padding-bottom: 10px;text-align:center;">
+    								<button type="button" class="btn btn-sm btn-primary" title="Verifikasi" onclick="verify()"> Verifikasi </button>
+    							</div>
+    						</form>
+							<hr>
     						<div style="padding-top: 30px; padding-bottom: 10px;">
     							<a class="btn btn-sm btn-danger" title="Kembali" onclick="javascript:history.back()"><i class="glyphicon glyphicon-menu-left"></i> Kembali</a>
     							<?php $id = $this->uri->segment(3); ?>
