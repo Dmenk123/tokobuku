@@ -104,7 +104,9 @@ class Checkout extends CI_Controller {
 		$email = clean_string($this->input->post('email')); 
 		$telepon = clean_string($this->input->post('telepon')); 
 		$catatan = clean_string($this->input->post('catatan'));
-		$namafileseo = $this->seoUrl($fname . ' ' . time());
+		$namafileseo = $this->seoUrl('Bukti-'.$fname . ' ' . time());
+		$sum_diskon = 0;
+		$sum_laba_agen = 0;
 
 		$this->db->trans_begin();
 		$id = $this->mod_global->gen_uuid();
@@ -122,8 +124,8 @@ class Checkout extends CI_Controller {
 		$ext = pathinfo($path, PATHINFO_EXTENSION);
 		if ($this->bukti_tf->do_upload('bukti')) {
 			$gbr = $this->bukti_tf->data(); //get file upload data
-			$this->konfigurasi_image_bukti($gbr['file_name'], $namafileseo, $ext, $i);
-			$arr_gambar = ['nama_gambar' => $namafileseo . "-" . $i . "." . $ext];
+			$this->konfigurasi_image_bukti($gbr['file_name'], $namafileseo, $ext);
+			$arr_gambar = ['nama_gambar' => $namafileseo . "." . $ext];
 
 			//clear img lib after resize
 			$this->image_lib->clear();
@@ -152,15 +154,27 @@ class Checkout extends CI_Controller {
 			'kode_ref' => $this->incrementalHash()
 		);
 
+		foreach ($this->cart->contents() as $items) {
+			$sum_laba_agen += (int)$items['options']['Laba_agen'];
+			$sum_diskon += (int)$items['options']['Harga_diskon'];
+		}
+
+		$data['laba_agen_total'] = $sum_laba_agen;
+		$data['diskon_total'] = $sum_diskon;	
+
 		$ins_header = $this->mod_global->insert_data('t_checkout', $data);
+
 		if ($this->session->userdata('kode_agen') != null) {
 			$kode_agen = $this->session->userdata('kode_agen');
 		}else{
 			$kode_agen = null;
 		}
-
+		
 		foreach ($this->cart->contents() as $items) {
 			$subtotal = $items['price'] * (int)$items['qty'];
+			$laba_agen_subtotal = $items['options']['Laba_agen'] * (int)$items['qty'];
+			$diskon_subtotal = $items['options']['Harga_diskon'] * (int)$items['qty'];
+
 			$data_det = [
 				'id_checkout' => $id,
 				'id_produk' => $items['id'],
@@ -168,6 +182,10 @@ class Checkout extends CI_Controller {
 				'qty' => $items['qty'],
 				'harga_satuan' => $items['price'],
 				'harga_subtotal' => $subtotal,
+				'laba_agen' => $items['options']['Laba_agen'],
+				'laba_agen_subtotal' => $laba_agen_subtotal,
+				'harga_diskon' => $items['options']['Harga_diskon'],
+				'harga_diskon_subtotal' => $diskon_subtotal,
 				'id_agen' => $kode_agen
 			];
 
@@ -214,14 +232,14 @@ class Checkout extends CI_Controller {
 		$this->bukti_tf->initialize($config);
 	}
 
-	private function konfigurasi_image_bukti($filename, $newname, $ext, $urut)
+	private function konfigurasi_image_bukti($filename, $newname, $ext)
 	{
 		//konfigurasi image lib
 		$config['image_library'] = 'gd2';
 		$config['source_image'] = './assets/img/bukti_transfer/' . $filename;
 		$config['create_thumb'] = FALSE;
 		$config['maintain_ratio'] = FALSE;
-		$config['new_image'] = './assets/img/bukti_transfer/' . $newname . "-" . $urut . "." . $ext;
+		$config['new_image'] = './assets/img/bukti_transfer/' . $newname .  "." . $ext;
 		$config['overwrite'] = TRUE;
 		$config['width'] = 450; //resize
 		$config['height'] = 500; //resize

@@ -2,10 +2,15 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 class Mod_global extends CI_Model
 {
-	public function gen_uuid($value='')
+	public function gen_uuid()
 	{
-		$q = $this->db->query("SELECT uuid_v4() as uuid")->row();
-		return $q->uuid;
+		$data = openssl_random_pseudo_bytes(16);
+		assert(strlen($data) == 16);
+
+	    $data[6] = chr(ord($data[6]) & 0x0f | 0x40); // set version to 0100
+	    $data[8] = chr(ord($data[8]) & 0x3f | 0x80); // set bits 6-7 to 10
+
+	    return vsprintf('%s%s-%s-%s-%s-%s%s%s', str_split(bin2hex($data), 4));
 	}
 
 	public function get_data($select, $table, $where=FALSE, $join = array(), $order=FALSE, $limit=FALSE, $start=FALSE)

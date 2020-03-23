@@ -70,7 +70,15 @@ class Profile extends CI_Controller {
 			$row[] = date('d-m-Y', strtotime($listCheckout->created_at));
 			$row[] = "Rp. ".number_format($listCheckout->harga_total,0,",",".");
 			$row[] = $listCheckout->kode_ref;
-			$row[] = $listCheckout->jml;
+			// $row[] = $listCheckout->jml;
+			if ($listCheckout->status == '1') {
+				$row[] = '<span style="text-align:center;color:green;"> <strong>On Progress</strong></span>';
+			}else if($listCheckout->status == '2') {
+				$row[] = '<span style="text-align:center;color:red;"> <strong>Expired/Dibatalkan</strong></span>';
+			}else{
+				$row[] = '<span style="text-align:center;color:blue;"> <strong>Selesai</strong></span>';
+			}
+			
 
 			//add html for action button
 			$row[] ='

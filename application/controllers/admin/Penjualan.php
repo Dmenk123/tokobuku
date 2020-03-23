@@ -100,6 +100,7 @@ class Penjualan extends CI_Controller
 
 		$query_header = $this->m_jual->get_detail_header($id, $status);
 		$query = $this->m_jual->get_detail($id, $status);
+		echo $this->db->last_query();exit;
 
 		$data = array(
 			'isi_notif' => $isi_notif,

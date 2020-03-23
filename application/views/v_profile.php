@@ -45,8 +45,8 @@
 											<th style="text-align: center;">Tanggal</th>
 											<th style="text-align: center;">Harga Total</th>
 											<th style="text-align: center;">Kode Ref</th>
-											<th style="text-align: center;">Jumlah Item</th>
-											<th style="width: 200px; text-align: center;">Aksi</th>
+											<th style="text-align: center;">Status</th>
+											<th style="width: 10%; text-align: center;">Aksi</th>
 										</tr>
 									</thead>
 									<tbody>

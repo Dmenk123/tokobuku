@@ -46,7 +46,7 @@ class Product_listing extends CI_Controller {
 		$join = array(
 			["table" => "m_kategori", "on" => "m_produk.id_kategori = m_kategori.id"],
 			["table" => "m_satuan", "on"  => "m_produk.id_satuan = m_satuan.id"],
-			["table" => "t_log_harga", "on" => "m_produk.id = t_log_harga.id_produk"]
+			["table" => "t_log_harga", "on" => "m_produk.id = t_log_harga.id_produk and t_log_harga.is_aktif = '1'"]
 		);
 
 		$produk = $this->mod_global->get_data($select, 'm_produk', ['m_produk.is_aktif' => 1], $join, $order, $per_page, $page);
