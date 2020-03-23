@@ -12,8 +12,9 @@ class Profile extends CI_Controller {
 
 	public function index()
 	{
-		$id_user = $this->session->userdata('id_user');
-
+		$arr_komisi = [];
+		$id_user = clean_string($this->session->userdata('id_user'));
+		
 		//userdata
 		$select = "m_user.*, m_user_detail.nama_lengkap_user, m_user_detail.alamat_user, m_user_detail.no_telp_user, m_user_detail.email, m_user_detail.gambar_user";
 		$join = array(
@@ -21,9 +22,15 @@ class Profile extends CI_Controller {
 		);
 		
 		$userdata = $this->mod_global->get_data($select, 'm_user', ['m_user.status' => 1 , 'm_user.id_user' => $id_user] , $join);
-		
+
+		if ($this->session->userdata('id_level_user') == '2') {
+			$id_agen = $this->mod_profile->get_id_agen($id_user);
+			$arr_komisi = $this->list_komisi_history($id_agen);
+		}
+
 		$data = [
-			'data_user' => $userdata
+			'data_user' => $userdata,
+			'data_komisi' => $arr_komisi
 		];
 
 		$this->load->view('v_navbar');
@@ -64,20 +71,48 @@ class Profile extends CI_Controller {
 
 			//add html for action button
 			$row[] ='
-				<a class="btn btn-sm btn-success" href="'.$link_detail.'" title="Checkout Detail" id="btn_detail" onclick=""><i class="fa fa-info-circle"></i> '.$listCheckout->jml.' Items</a>
-				<a class="btn btn-sm btn-danger" href="javascript:void(0)" title="nonaktif" onclick="nonaktifCheckout('."'".$listCheckout->id."'".')"><i class="fa fa-times"></i> Nonaktif</a>';
+				<a class="btn btn-sm btn-success" href="'.$link_detail.'" title="Checkout Detail" id="btn_detail" onclick=""><i class="fa fa-info-circle"></i> '.$listCheckout->jml.' Items</a>';
 
 			$data[] = $row;
 		}//end loop
 
 		$output = array(
-						"draw" => $_POST['draw'],
-						"recordsTotal" => $this->mod_profile->count_all($id_user),
-						"recordsFiltered" => $this->mod_profile->count_filtered($id_user),
-						"data" => $data,
-					);
+			"draw" => $_POST['draw'],
+			"recordsTotal" => $this->mod_profile->count_all($id_user),
+			"recordsFiltered" => $this->mod_profile->count_filtered($id_user),
+			"data" => $data,
+		);
 		//output to json format
 		echo json_encode($output);
+	}
+
+	public function list_komisi_history($id_agen)
+	{
+		$id_user = clean_string($this->session->userdata('id_user'));
+		$id_agen = $this->mod_profile->get_id_agen($id_user);
+		$list = $this->mod_profile->get_data_komisi($id_agen);
+		
+		$data = array();
+		$no = 0;
+		foreach ($list as $datalist) {
+			$link_detail = site_url('profile/komisi_detail/') . $datalist->id;
+			$no++;
+			$row = array();
+			//loop value tabel db
+			$row[] = $no;
+			$row[] = date('d-m-Y', strtotime($datalist->tanggal));
+			$row[] = "Rp. ".number_format($datalist->harga_subtotal,0,",",".");
+			$row[] = "Rp. ".number_format($datalist->laba_agen,0,",",".");
+			$row[] = $datalist->kode_ref;
+
+			//add html for action button
+			$row[] = '
+				<a class="btn btn-sm btn-success" href="' . $link_detail . '" title="Komisi Detail" id="btn_detail_komisi" onclick=""><i class="fa fa-info-circle"></i> ' . $datalist->jml_trans . ' Items</a>';
+
+			$data[] = $row;
+		} //end loop
+
+		return $data;
 	}
 
 	public function checkout_detail($id)

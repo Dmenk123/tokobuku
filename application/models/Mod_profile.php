@@ -6,7 +6,7 @@ class Mod_profile extends CI_Model
 		't_checkout.created_at',
 		't_checkout.harga_total',
 		't_checkout.kode_ref',
-		'COUNT(t_checkout_detail.id_checkout) AS jml'
+		'COUNT(t_checkout_detail.id_checkout)'
 	);
 
 	private function _get_data_checkout_query($term='', $id_user) //term is value of $_REQUEST['search']
@@ -15,7 +15,7 @@ class Mod_profile extends CI_Model
 			't_checkout.created_at',
 			't_checkout.harga_total',
 			't_checkout.kode_ref',
-			'COUNT(t_checkout_detail.id_checkout) AS jml',
+			'COUNT(t_checkout_detail.id_checkout)',
 			null,
 		);
 
@@ -124,6 +124,43 @@ class Mod_profile extends CI_Model
 		
 		$query = $this->db->get();
 		return $query->result();
+	}
+
+	/////////////////////////////////////////////// komisi //////////////////////////////////////////////////////
+
+	private function _get_data_komisi_query($id_agen) //term is value of $_REQUEST['search']
+	{
+		$this->db->select('
+			t_checkout.id,
+			t_checkout.kode_ref,
+			DATE(t_checkout.created_at) as tanggal,
+			COUNT(t_checkout_detail.id_checkout) AS jml_trans,
+			sum(harga_subtotal) as harga_subtotal,
+			(sum(harga_subtotal) * t_log_harga.potongan / 100) as laba_agen
+		');
+
+		$this->db->from('t_checkout_detail');
+		$this->db->join('t_checkout', 't_checkout_detail.id_checkout = t_checkout.id', 'left');
+		$this->db->join('t_log_harga', 't_checkout_detail.id_produk = t_log_harga.id_produk and DATE(t_checkout.created_at) >= DATE(t_log_harga.created_at)', 'left');
+		$this->db->where('t_checkout_detail.id_agen', $id_agen);
+		$this->db->group_by('t_checkout_detail.id_checkout');
+		$this->db->order_by('DATE(t_checkout.created_at)', 'desc');
+	}
+
+	function get_data_komisi($id_agen)
+	{
+		$this->_get_data_komisi_query($id_agen);
+		$query = $this->db->get();
+		return $query->result();
+	}
+
+	public function get_id_agen($id_user)
+	{
+		$this->db->select('kode_agen');
+		$this->db->from('m_user');
+		$this->db->where('id_user', $id_user);
+		$query = $this->db->get()->row();
+		return $query->kode_agen;
 	}
 	
 }
