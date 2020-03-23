@@ -67,11 +67,11 @@
 										<thead>
 											<tr>
 												<th style="text-align: center; width:5%">No</th>
-												<th style="text-align: center; width:10%">Tanggal</th>
+												<th style="text-align: center; width:15%">Tanggal</th>
 												<th style="text-align: center; width:25%">Harga Subtotal</th>
 												<th style="text-align: center; width:25%">Laba Agen</th>
 												<th style="text-align: center; width:13%">Kode Ref</th>
-												<th style="text-align: center;">Aksi</th>
+												<th style="text-align: center; width:5%">Aksi</th>
 											</tr>
 										</thead>
 										<tbody>

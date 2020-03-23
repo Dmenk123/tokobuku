@@ -44,13 +44,16 @@ class Profile extends CI_Controller {
 		$id_user = $this->session->userdata('id_user');
 
 		//=================== cek expired =======================
-		$cek_expired = $this->db->query("SELECT id, created_at from t_checkout where id_user = '".$id_user."'")->result();
+		$cek_expired = $this->db->query("SELECT id, status, created_at from t_checkout where id_user = '".$id_user."'")->result();
 		if ($cek_expired) {
 			foreach ($cek_expired as $key => $cek) {
-				//jika lebih dari 3 hari otomatis di nonaktifkan
-				$exp =  date('Y-m-d H:i:s', strtotime($cek->created_at. '+ 3 days'));
-				if (strtotime(date('Y-m-d H:i:s')) > strtotime($exp)) {
-					$this->db->query("UPDATE t_checkout SET status = '2' WHERE id = '".$cek->id."' ");
+				//jika statusnya masih aktif
+				if ($cek->status == '1') {
+					//jika lebih dari 3 hari otomatis di nonaktifkan
+					$exp =  date('Y-m-d H:i:s', strtotime($cek->created_at . '+ 3 days'));
+					if (strtotime(date('Y-m-d H:i:s')) > strtotime($exp)) {
+						$this->db->query("UPDATE t_checkout SET status = '2' WHERE id = '" . $cek->id . "' ");
+					}
 				}
 			}
 		}
@@ -118,7 +121,7 @@ class Profile extends CI_Controller {
 	public function checkout_detail($id)
 	{
 		$id_user = $this->session->userdata('id_user');
-
+		
 		//userdata
 		$select = "m_user.*, m_user_detail.nama_lengkap_user, m_user_detail.alamat_user, m_user_detail.no_telp_user, m_user_detail.email, m_user_detail.gambar_user";
 		$join = array(
@@ -137,6 +140,32 @@ class Profile extends CI_Controller {
 
 		$this->load->view('v_navbar');
 		$this->load->view('v_checkout_detail', $data);
+		$this->load->view('footer');
+	}
+
+	public function komisi_detail($id_checkout)
+	{
+		$id_user = clean_string($this->session->userdata('id_user'));
+		$id_agen = $this->mod_profile->get_id_agen($id_user);
+
+		//userdata
+		$select = "m_user.*, m_user_detail.nama_lengkap_user, m_user_detail.alamat_user, m_user_detail.no_telp_user, m_user_detail.email, m_user_detail.gambar_user";
+		$join = array(
+			["table" => "m_user_detail", "on" => "m_user.id_user = m_user_detail.id_user"]
+		);
+
+		//data user
+		$userdata = $this->mod_global->get_data($select, 'm_user', ['m_user.status' => 1, 'm_user.id_user' => $id_user], $join);
+		//data komisi
+		$komisi_detail = $this->mod_profile->get_data_komisi_detail($id_checkout, $id_agen);
+				
+		$data = [
+			'data_user' => $userdata,
+			'data_komisi' => $komisi_detail
+		];
+
+		$this->load->view('v_navbar');
+		$this->load->view('v_komisi_detail', $data);
 		$this->load->view('footer');
 	}
 
