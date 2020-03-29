@@ -14,6 +14,9 @@
     			<div class="ps-section__content">
     				<div class="ps-owl--colection owl-slider" data-owl-auto="true" data-owl-loop="true" data-owl-speed="5000" data-owl-gap="30" data-owl-nav="false" data-owl-dots="false" data-owl-item="4" data-owl-item-xs="1" data-owl-item-sm="2" data-owl-item-md="3" data-owl-item-lg="4" data-owl-duration="1000" data-owl-mousedrag="on">
     					<?php foreach ($produk as $key => $val) : ?>
+                            <?php if ($key >= 1): ?>
+                                <?php continue; ?>
+                            <?php endif ?>
     						<div class="ps-shoes--carousel">
     							<div class="ps-shoe">
     								<div class="ps-shoe__thumbnail">
