@@ -1,3 +1,6 @@
+ <?php
+var_dump($this->session->all_userdata());
+?>
     <main class="ps-main">
     	<div class="ps-section ps-section--top-sales ps-owl-root pt-80 pb-80">
     		<div class="ps-container">

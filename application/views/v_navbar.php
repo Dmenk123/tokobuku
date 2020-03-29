@@ -64,6 +64,7 @@
 	<script type="text/javascript" src="<?php echo base_url('assets/') ?>datatables/dataTables.bootstrap.min.js"></script>
 	<!-- Custom scripts-->
 	<script type="text/javascript" src="<?php echo base_url(); ?>assets/js/main.js"></script>
+	<script src="https://www.google.com/recaptcha/api.js?render=6LcKN-MUAAAAADMou4FyEsJOONfj5940sKYIVFLt"></script>
 	<!--HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries-->
 	<!--WARNING: Respond.js doesn't work if you view the page via file://-->
 	<!--[if lt IE 9]><script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script><script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script><![endif]-->
@@ -100,28 +101,22 @@
 				</div>
 				<div class="navigation__column center">
 					<ul class="main-menu menu">
-						<!-- <li class="menu-item menu-item-has-children dropdown"><a href="<?= base_url('home'); ?>">Home</a></li>
-                  <li class="menu-item menu-item-has-children has-mega-menu"><a href="<?= base_url('product_listing/list_produk'); ?>">Produk Kami</a>
-                  </li>
-                  <li class="menu-item menu-item-has-children has-mega-menu"><a href="<?= base_url('affiliate'); ?>">Affiliate</a>
-                  </li>
-                  <li class="menu-item menu-item-has-children dropdown"><a href="#">Contact</a></li> -->
 						<li class="menu-item dropdown"><a href="<?= base_url('home'); ?>">Home</a></li>
-						<li class="menu-item has-mega-menu"><a href="<?= base_url('product_listing/list_produk'); ?>">Produk Kami</a>
-						</li>
-						<li class="menu-item has-mega-menu"><a href="<?= base_url('affiliate'); ?>">Affiliate</a>
-						</li>
+						<?php if ($this->session->userdata('kode_agen') == null ): ?>
+							<li class="menu-item has-mega-menu"><a href="<?= base_url('affiliate'); ?>">Affiliate</a>
+							</li>
+						<?php endif ?>
 						<li class="menu-item dropdown"><a href="#">Contact</a></li>
 					</ul>
 				</div>
 				<div class="navigation__column right">
-					<form class="ps-search--header" action="do_action" method="post">
+					<!-- <form class="ps-search--header" action="do_action" method="post">
 						<input class="form-control" type="text" placeholder="Search Product…">
 						<button><i class="ps-icon-search"></i></button>
 					</form>
 					<?php $rows = count($this->cart->contents()); ?>
 					<div class="ps-cart"><a class="ps-cart__toggle" href="<?= base_url('cart'); ?>"><span><i><?php echo $rows; ?></i></span><i class="ps-icon-shopping-cart"></i></a>
-					</div>
+					</div> -->
 					<div class="menu-toggle"><span></span></div>
 				</div>
 			</div>
