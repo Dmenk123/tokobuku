@@ -49,11 +49,15 @@ class Join_member extends CI_Controller {
 		$telp = clean_string($this->input->post('telp'));
 		$password = clean_string($this->input->post('password'));
 		$re_password = clean_string($this->input->post('re_password'));
+		$namafileseo = $this->seoUrl('Bukti-'.$fname.' '.time());
 
 		if ($arr_valid['status'] == FALSE) {
-			// echo json_encode($arr_valid);
-			// return;
-			$this->session->set_flashdata('feedback_failed','Gagal menyimpan Data, pastikan telah mengisi semua inputan.'); 
+			$str_flash = 'Gagal menyimpan Data, pastikan telah mengisi semua inputan.';
+			$str_flash .= '<hr>';
+			foreach ($arr_valid['error_string'] as $key => $val) {
+				$str_flash .= '<li>'.$val.'</li>';
+			}
+			$this->session->set_flashdata('feedback_failed', $str_flash); 
 			redirect('join_member');
 		}
 
@@ -77,6 +81,25 @@ class Join_member extends CI_Controller {
 			$this->session->set_flashdata('feedback_failed','Gagal menyimpan Data, pastikan telah Upload Bukti Transfer.'); 
 			redirect('join_member');
 		}
+
+		$this->db->trans_begin();
+		$id = $this->mod_global->gen_uuid();
+
+		$data = array(
+			'id' => $id,
+			'id_user' => $fname,
+			'harga_total' => $lname,
+			'is_konfirm' => $email,
+			'nama_depan' => $telp,
+			'nama_belakang' => $password,
+			'email' => $re_password,
+			'telepon' => $telepon,
+			'catatan' => $catatan,
+			'bukti' => $arr_gambar['nama_gambar'],
+			'created_at' => date('Y-m-d H:i:s'),
+			'kode_ref' => $this->incrementalHash()
+		);
+
 	}
 
 	private function get_recaptcha($token)
@@ -155,17 +178,46 @@ class Join_member extends CI_Controller {
 
 		if ($this->input->post('password') == '') {
 			$data['inputerror'][] = 'password';
-			$data['error_string'][] = 'Wajib mengisi password';
+			$data['error_string'][] = 'Wajib mengisi Password';
 			$data['status'] = FALSE;
 		}
 
 		if ($this->input->post('re_password') == '') {
 			$data['inputerror'][] = 're_password';
-			$data['error_string'][] = 'Wajib mengisi re_password';
+			$data['error_string'][] = 'Wajib mengisi Konfirmasi';
 			$data['status'] = FALSE;
 		}
 
 		return $data;
+	}
+
+	private function seoUrl($string)
+	{
+		//Lower case everything
+		$string = strtolower($string);
+		//Make alphanumeric (removes all other characters)
+		$string = preg_replace("/[^a-z0-9_\s-]/", "", $string);
+		//Clean up multiple dashes or whitespaces
+		$string = preg_replace("/[\s-]+/", " ", $string);
+		//Convert whitespaces and underscore to dash
+		$string = preg_replace("/[\s_]/", "-", $string);
+		return $string;
+	}
+
+	public function incrementalHash($len = 5)
+	{
+		$charset = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+		$base = strlen($charset);
+		$result = '';
+
+		$now = explode(' ', microtime())[1];
+		while ($now >= $base) {
+			$i = $now % $base;
+			$result = $charset[$i] . $result;
+			$now /= $base;
+		}
+
+		return substr($result, -5);
 	}
 
 	public function add_register()
