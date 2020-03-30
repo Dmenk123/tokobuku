@@ -47,19 +47,6 @@
 								<input class="form-control" style="background-color: #e8f0fe;" type="text" name="telp" id="telp">
 								<span class="help-block"></span>
 							</div>
-							<div class="form-group form-group--inline">
-								<label>Password<span>*</span>
-								</label>
-								<input class="form-control" style="background-color: #e8f0fe;" type="password" name="password" id="password">
-								<span class="help-block"></span>
-							</div>
-							<div class="form-group form-group--inline">
-								<label>Konfirmasi Password<span>*</span>
-								</label>
-								<input class="form-control" style="background-color: #e8f0fe;" type="password" name="re_password" id="re_password">
-								<span class="help-block"></span>
-							</div>
-
 							<h3 class="mt-40"> Upload Bukti Transfer</h3>
 							<div class="form-group form-group--inline">
 								<label>Upload Bukti</label><span>*</span>
@@ -84,7 +71,7 @@
 									</div>
 								</div>
 								<div class="form-group paypal">
-									<button class="ps-btn ps-btn--fullwidth">Konfirmasi & Selesai<i class="ps-icon-next"></i></button>
+									<button class="ps-btn ps-btn--fullwidth" id="btnAksi">Konfirmasi & Selesai<i class="ps-icon-next"></i></button>
 								</div>
 							</footer>
 						</div>
@@ -110,6 +97,7 @@
 
 	$('#form_proses').submit(function(event) {
 		event.preventDefault();
+    $('#btnAksi').attr("disabled", true);
 		grecaptcha.ready(function() {
 			grecaptcha.execute('6LcKN-MUAAAAADMou4FyEsJOONfj5940sKYIVFLt', {
 				action: 'get_recaptcha'

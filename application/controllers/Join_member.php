@@ -12,25 +12,30 @@ class Join_member extends CI_Controller {
         $this->load->model(['mod_global']);
 	}
 
-	/*public function index()
-	{
-		//captcha	
-		$imgCaptcha = $this->buat_captcha();
-
-		$data = array(
-			'img' => $imgCaptcha,
-		);
-
-		$this->load->view('v_navbar');
-		$this->load->view('v_register', $data);
-		$this->load->view('footer');
-	}*/
-
 	public function index()
 	{
-		
 		$this->load->view('v_navbar');
 		$this->load->view('v_join_member');
+		$this->load->view('footer');
+	}
+
+	public function result_page()
+	{
+		$flag_sesi = FALSE;
+		if ($this->session->flashdata('feedback_success')) {
+			$flag_sesi = TRUE;
+		}
+
+		if ($this->session->flashdata('feedback_failed')) {
+			$flag_sesi = TRUE;
+		}
+
+		if ($flag_sesi === FALSE) {
+			return redirect('home','refresh');
+		}
+
+		$this->load->view('v_navbar');
+		$this->load->view('v_result_member');
 		$this->load->view('footer');
 	}
 
@@ -48,8 +53,6 @@ class Join_member extends CI_Controller {
 		$lname = clean_string($this->input->post('lname'));
 		$email = clean_string($this->input->post('email'));
 		$telp = clean_string($this->input->post('telp'));
-		$password = clean_string($this->input->post('password'));
-		$re_password = clean_string($this->input->post('re_password'));
 		$namafileseo = $this->seoUrl('Bukti-'.$fname.' '.time());
 
 		if ($arr_valid['status'] == FALSE) {
@@ -85,21 +88,33 @@ class Join_member extends CI_Controller {
 
 		$this->db->trans_begin();
 		$id = $this->mod_global->gen_uuid();
+		$kode_ref = $this->incrementalHash();
 
 		$select = "*";
 		$where = ['tanggal_berlaku' < date('Y-m-d H:i:s')];
-		$harga = $this->mod_global->get_data_single($select, 't_log_harga', $where);
+		$order = 'tanggal_berlaku DESC';
+		$harga = $this->mod_global->get_data_single($select, 't_log_harga', $where, null, $order);
 
 		if ((int)$harga->diskon_paket != 0) {
-			$harga_total = $harga->diskon_paket;
+			$harga_total = $harga->harga_diskon_paket;
+			$diskon_total = (int)$harga->harga_satuan - (int)$harga->harga_diskon_paket;
 		}else{
 			$harga_total = $harga->harga_satuan;
+			$diskon_total = 0;
+		}
+
+		if ($this->session->userdata('kode_agen') != null) {
+			$kode_agen = $this->session->userdata('kode_agen');
+		}else{
+			$kode_agen = null;
 		}
 
 		$data = array(
 			'id' => $id,
 			'id_user' => null,
 			'harga_total' => $harga_total,
+			'laba_agen_total' => $harga->harga_diskon_agen,
+			'diskon_total' => $diskon_total,
 			'is_konfirm' => 0,
 			'nama_depan' => $fname,
 			'nama_belakang' => $lname,
@@ -107,10 +122,21 @@ class Join_member extends CI_Controller {
 			'telepon' => $telp,
 			'bukti' => $arr_gambar['nama_gambar'],
 			'created_at' => date('Y-m-d H:i:s'),
-			'kode_ref' => $this->incrementalHash()
+			'kode_ref' => $kode_ref,
+			'kode_agen' => $kode_agen
 		);
 
-		
+		$insert = $this->mod_global->insert_data('t_checkout', $data);
+
+		if ($this->db->trans_status() === FALSE) {
+			$this->db->trans_rollback();
+			$this->session->set_flashdata('feedback_failed', 'Gagal Melakukan Pendaftaran.');
+			redirect('join_member/result_page');
+		} else {
+			$this->db->trans_commit();			
+			$this->session->set_flashdata('feedback_success', $kode_ref);
+			redirect('join_member/result_page');
+		}
 	
 	}
 
@@ -188,18 +214,6 @@ class Join_member extends CI_Controller {
 			$data['status'] = FALSE;
 		}
 
-		if ($this->input->post('password') == '') {
-			$data['inputerror'][] = 'password';
-			$data['error_string'][] = 'Wajib mengisi Password';
-			$data['status'] = FALSE;
-		}
-
-		if ($this->input->post('re_password') == '') {
-			$data['inputerror'][] = 're_password';
-			$data['error_string'][] = 'Wajib mengisi Konfirmasi';
-			$data['status'] = FALSE;
-		}
-
 		return $data;
 	}
 
@@ -230,95 +244,6 @@ class Join_member extends CI_Controller {
 		}
 
 		return substr($result, -5);
-	}
-
-	public function add_register()
-	{
-		$username = clean_string($this->input->post('reg_username')); 
-		$nama = clean_string($this->input->post('reg_nama')); 
-		$nama_blkg = clean_string($this->input->post('reg_nama_blkg')); 
-		$telp = clean_string($this->input->post('reg_telp')); 
-		$email = clean_string($this->input->post('reg_email')); 
-		$password = clean_string($this->input->post('reg_password')); 
-		$re_password = clean_string($this->input->post('reg_re_password')); 
-		$hash_password = $this->enkripsi->encrypt($password);
-		
-		$arr_valid = $this->_validate();
-		if ($arr_valid['status'] == FALSE) {
-			echo json_encode($arr_valid);
-			return;
-		}
-
-		if ($this->input->post('reg_captcha') != $this->session->userdata('captchaCode')) 
-		{
-			echo json_encode(array(
-				"status" => FALSE,
-				'pesan' => 'Maaf terjadi kesalahan pada penulisan captcha',
-				'flag_captcha' => TRUE
-			));
-			return;
-		}
-
-		if ($password != $re_password) {
-			echo json_encode(array(
-				"status" => FALSE,
-				'pesan' => 'Maaf Password harus Sama',
-				'flag_captcha' => TRUE
-			));
-			return;
-		}
-
-		$id_user = $this->mod_global->getKodeUser();
-
-		//data input array
-		$input = array(
-			'id_user' => $id_user,
-			'username' => $username,
-			'password' => $hash_password,
-			'id_level_user' => '3',
-			'status' => '1',
-			'created_at' => date('Y-m-d H:i:s')
-		);
-
-        //save to db
-        $this->mod_global->insert_data('m_user', $input);
-
-        $detail = array(
-			'id_user'=> $id_user,
-			'nama_lengkap_user'=> $nama.','.$nama_blkg,
-			'no_telp_user' => $telp,
-			'email' => $email
-		);
-		//save to db
-        $this->mod_global->insert_data('m_user_detail', $detail);
-
-        //login
-        $data_login = [
-        	'data_username' => $username,
-        	'data_password' => $hash_password
-        ];
-
-		$result = $this->mod_global->login($data_login);
-
-		if ($login = $result[0]) 
-		{
-			$this->session->set_userdata(
-				array(
-					'id_user' => $login['id_user'],
-					'username' => $login['username'],
-					'password' => $login['password'],
-					'id_level_user' => $login['id_level_user'],
-					'logged_in' => true,
-				)
-			);
-			$this->mod_global->set_lastlogin($login['id_user']);
-			echo json_encode(array(
-				"status" => TRUE,
-				"pesan" => 'Selamat datang '.$login['username'].' Akun anda berhasil dibuat'
-			));
-		}
-	}
-
-	
+	}	
 
 }
