@@ -1,6 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+
 class Join_member extends CI_Controller {
 
 	function __construct() {
@@ -85,21 +86,32 @@ class Join_member extends CI_Controller {
 		$this->db->trans_begin();
 		$id = $this->mod_global->gen_uuid();
 
+		$select = "*";
+		$where = ['tanggal_berlaku' < date('Y-m-d H:i:s')];
+		$harga = $this->mod_global->get_data_single($select, 't_log_harga', $where);
+
+		if ((int)$harga->diskon_paket != 0) {
+			$harga_total = $harga->diskon_paket;
+		}else{
+			$harga_total = $harga->harga_satuan;
+		}
+
 		$data = array(
 			'id' => $id,
-			'id_user' => $fname,
-			'harga_total' => $lname,
-			'is_konfirm' => $email,
-			'nama_depan' => $telp,
-			'nama_belakang' => $password,
-			'email' => $re_password,
-			'telepon' => $telepon,
-			'catatan' => $catatan,
+			'id_user' => null,
+			'harga_total' => $harga_total,
+			'is_konfirm' => 0,
+			'nama_depan' => $fname,
+			'nama_belakang' => $lname,
+			'email' => $email,
+			'telepon' => $telp,
 			'bukti' => $arr_gambar['nama_gambar'],
 			'created_at' => date('Y-m-d H:i:s'),
 			'kode_ref' => $this->incrementalHash()
 		);
 
+		
+	
 	}
 
 	private function get_recaptcha($token)

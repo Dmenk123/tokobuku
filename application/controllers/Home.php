@@ -19,16 +19,16 @@ class Home extends CI_Controller {
 			return redirect('home','refresh');
 		}
 
-		$select = "m_produk.*, m_kategori.nama as nama_kategori, m_satuan.nama as nama_satuan, t_log_harga.harga_satuan, t_log_harga.potongan";
+		/* $select = "m_produk.*, m_kategori.nama as nama_kategori, m_satuan.nama as nama_satuan, t_log_harga.harga_satuan, t_log_harga.potongan";
 		$join = array(
 			["table" => "m_kategori", "on" => "m_produk.id_kategori = m_kategori.id"],
 			["table" => "m_satuan", "on"  => "m_produk.id_satuan = m_satuan.id"],
 			["table" => "t_log_harga", "on" => "m_produk.id = t_log_harga.id_produk and t_log_harga.is_aktif = '1'"]
 		);
-		$produk = $this->mod_global->get_data($select, 'm_produk', ['m_produk.is_aktif' => 1], $join);
+		$produk = $this->mod_global->get_data($select, 'm_produk', ['m_produk.is_aktif' => 1], $join); */
 		
 		$data = [
-			'produk' => $produk,
+			// 'produk' => $produk,
 			//'kategori' => $kategori
 		];
 

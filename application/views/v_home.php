@@ -22,7 +22,7 @@ var_dump($this->session->all_userdata());
                             <?php endif ?>
     						<div class="ps-shoes--carousel">
     							<div class="ps-shoe">
-    								<div class="ps-shoe__thumbnail">
+    								<!-- <div class="ps-shoe__thumbnail">
     									<div class="ps-badge"><span>New</span></div>
     									<div class="ps-badge ps-badge--sale ps-badge--2nd"><span>-35%</span></div>
     									<a class="ps-shoe__favorite" href="#">
@@ -51,7 +51,7 @@ var_dump($this->session->all_userdata());
     											</span>
     										</div>
     									</div>
-    								</div>
+    								</div> -->
     							</div>
     						</div>
     					<?php endforeach ?>

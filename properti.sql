@@ -1,17 +1,17 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : lokal
+ Source Server         : localhost
  Source Server Type    : MySQL
- Source Server Version : 100131
+ Source Server Version : 100129
  Source Host           : localhost:3306
  Source Schema         : properti
 
  Target Server Type    : MySQL
- Target Server Version : 100131
+ Target Server Version : 100129
  File Encoding         : 65001
 
- Date: 24/03/2020 00:51:05
+ Date: 30/03/2020 16:29:08
 */
 
 SET NAMES utf8mb4;
@@ -224,7 +224,6 @@ CREATE TABLE `t_checkout`  (
   `nama_belakang` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
   `email` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
   `telepon` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
-  `catatan` text CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL,
   `bukti` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
   `created_at` datetime(0) NULL DEFAULT NULL,
   `updated_at` datetime(0) NULL DEFAULT NULL,
@@ -240,8 +239,6 @@ DROP TABLE IF EXISTS `t_checkout_detail`;
 CREATE TABLE `t_checkout_detail`  (
   `id` bigint(100) NOT NULL AUTO_INCREMENT,
   `id_checkout` varchar(100) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
-  `id_produk` varchar(50) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
-  `id_satuan` int(12) NULL DEFAULT NULL,
   `id_agen` varchar(10) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
   `qty` int(12) NULL DEFAULT NULL,
   `harga_satuan` double(20, 2) NULL DEFAULT 0.00,
@@ -289,24 +286,21 @@ INSERT INTO `t_hak_akses` VALUES (2, 1, 1, 1, 1);
 DROP TABLE IF EXISTS `t_log_harga`;
 CREATE TABLE `t_log_harga`  (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `id_produk` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
   `harga_satuan` double(20, 2) NULL DEFAULT 0.00,
   `created_at` timestamp(0) NULL DEFAULT NULL,
-  `potongan` int(3) NULL DEFAULT NULL COMMENT 'besaran potongan agen',
-  `harga_potongan` double(20, 2) NULL DEFAULT NULL COMMENT 'nilai potongan agen',
+  `diskon_agen` int(3) NULL DEFAULT NULL COMMENT 'besaran potongan agen',
+  `harga_diskon_agen` double(20, 2) NULL DEFAULT NULL COMMENT 'nilai potongan agen',
   `is_aktif` int(1) NULL DEFAULT 1,
-  `diskon` int(3) NULL DEFAULT NULL COMMENT 'besaran diskon',
-  `harga_diskon` double(20, 2) NULL DEFAULT NULL COMMENT 'nilai diskon',
+  `diskon_paket` int(3) NULL DEFAULT NULL COMMENT 'besaran diskon',
+  `harga_diskon_paket` double(20, 2) NULL DEFAULT NULL COMMENT 'nilai diskon',
+  `tanggal_berlaku` timestamp(0) NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of t_log_harga
 -- ----------------------------
-INSERT INTO `t_log_harga` VALUES (5, '9bbc71f3-668c-4fa0-b572-aae222caad4c', 200000.00, '2020-02-01 13:10:30', 10, 20000.00, 1, 0, 0.00);
-INSERT INTO `t_log_harga` VALUES (6, '93bb84ec-dd68-4c25-8465-c4493d36e533', 250000.00, '2020-02-02 14:25:31', 10, 25000.00, 1, 0, 0.00);
-INSERT INTO `t_log_harga` VALUES (7, '543d0127-090c-42be-ade1-29c7b5c00f6e', 600000.00, '2020-02-02 14:27:26', 10, 60000.00, 0, 0, 0.00);
-INSERT INTO `t_log_harga` VALUES (8, '543d0127-090c-42be-ade1-29c7b5c00f6e', 400000.00, '2020-03-10 21:22:38', 10, 40000.00, 1, 0, 0.00);
+INSERT INTO `t_log_harga` VALUES (1, 3000000.00, '2020-02-01 13:10:30', 10, 270000.00, 1, 10, 2700000.00, '2020-02-01 13:10:30');
 
 -- ----------------------------
 -- Function structure for uuid_v4
