@@ -11,7 +11,7 @@
  Target Server Version : 100131
  File Encoding         : 65001
 
- Date: 31/03/2020 20:35:39
+ Date: 31/03/2020 21:36:02
 */
 
 SET NAMES utf8mb4;
@@ -241,8 +241,8 @@ CREATE TABLE `t_checkout`  (
 -- ----------------------------
 INSERT INTO `t_checkout` VALUES ('1bceaad4-cdd3-442d-b3ca-7011384131e6', NULL, 2700000.00, 0.00, 300000.00, 'jJCvN', NULL, 1, 'coba', 'coba', 'klepon@asa.com', '141212121312', 'bukti-coba-1585645868.jpg', '2020-02-29 11:11:09', NULL, NULL, 0, 0);
 INSERT INTO `t_checkout` VALUES ('5f5702e8-1851-4525-8089-3b3700f134f6', NULL, 2700000.00, 0.00, 300000.00, 'jJEYu', NULL, 1, 'karyono', 'soponyono', 'karyo@gmail.com', '0812371212', 'bukti-karyono-1585652164.jpg', '2020-02-29 12:56:04', NULL, NULL, 0, 0);
-INSERT INTO `t_checkout` VALUES ('e38fd69d-6e5d-4abc-8ef6-944a339ced1c', NULL, 2700000.00, 270000.00, 300000.00, 'jJ7NZ', 'S8N45T9', 1, 'asasa', 'asasas', 'asa@klkl.com', '121313131', 'bukti-asasa-1585624553.jpg', '2020-03-31 05:15:53', NULL, NULL, 0, 0);
-INSERT INTO `t_checkout` VALUES ('fdcb174d-478f-4a93-be74-ff0ab3575207', NULL, 2700000.00, 270000.00, 300000.00, 'jJ7Kl', 'S8N45T9', 1, 'cas', '12', 'asa@sas.com', '131212', 'bukti-cas-1585624378.jpg', '2020-03-31 05:12:59', NULL, NULL, 0, 0);
+INSERT INTO `t_checkout` VALUES ('e38fd69d-6e5d-4abc-8ef6-944a339ced1c', NULL, 2700000.00, 270000.00, 300000.00, 'jJ7NZ', 'S8N45T9', 1, 'asasa', 'asasas', 'asa@klkl.com', '121313131', 'bukti-asasa-1585624553.jpg', '2020-03-31 05:15:53', NULL, NULL, 0, 1);
+INSERT INTO `t_checkout` VALUES ('fdcb174d-478f-4a93-be74-ff0ab3575207', NULL, 2700000.00, 270000.00, 300000.00, 'jJ7Kl', 'S8N45T9', 1, 'cas', '12', 'asa@sas.com', '131212', 'bukti-cas-1585624378.jpg', '2020-03-31 05:12:59', NULL, NULL, 0, 1);
 
 -- ----------------------------
 -- Table structure for t_hak_akses
@@ -281,18 +281,24 @@ INSERT INTO `t_hak_akses` VALUES (2, 1, 1, 1, 1);
 -- ----------------------------
 DROP TABLE IF EXISTS `t_klaim_agen`;
 CREATE TABLE `t_klaim_agen`  (
-  `id` int(11) NOT NULL,
+  `id` varchar(50) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
   `id_agen` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
   `id_user_verify` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
-  `saldo_sebelum` double(20, 2) NULL DEFAULT NULL,
-  `jumlah_kalim` double(20, 2) NULL DEFAULT NULL,
-  `saldo_sesudah` double(20, 2) NULL DEFAULT NULL,
+  `saldo_sebelum` double(20, 2) NULL DEFAULT 0.00 COMMENT 'uang yg sudah diklaim ke agen',
+  `jumlah_klaim` double(20, 2) NULL DEFAULT 0.00 COMMENT 'jumlah uang yg akan diklem oleh agen',
+  `saldo_sesudah` double(20, 2) NULL DEFAULT 0.00 COMMENT 'uang yg sudah diklaim + jumlah uang yg akan di klem',
   `datetime_klaim` datetime(0) NULL DEFAULT NULL,
   `datetime_verify` datetime(0) NULL DEFAULT NULL,
   `created_at` datetime(0) NULL DEFAULT NULL,
   `deleted_at` datetime(0) NULL DEFAULT NULL,
+  `kode_klaim` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL COMMENT 'sebagai kode refferal',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Records of t_klaim_agen
+-- ----------------------------
+INSERT INTO `t_klaim_agen` VALUES ('126be567-7158-469f-9cca-3c82abac9cc9', 'S8N45T9', NULL, 0.00, 540000.00, 540000.00, '2020-03-31 16:35:15', NULL, '2020-03-31 16:35:15', NULL, 'C-MsrOk');
 
 -- ----------------------------
 -- Table structure for t_log_harga

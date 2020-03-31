@@ -189,5 +189,20 @@ class Mod_profile extends CI_Model
 		$q = $this->db->get();
 		return $q->row();
 	}
+
+	public function set_komisi_sudah_tarik($id_agen)
+	{
+		$this->db->update(
+			't_checkout', 
+			['is_agen_klaim' => 1], 
+			[ 'kode_agen' => $id_agen, 'is_konfirm' => '1', 'status' => '0', 'is_agen_klaim' => '0']
+		);
+
+        if ($this->db->affected_rows() > 0) {
+        	return TRUE;
+        }else{
+        	return FALSE;
+        }
+	}
 	
 }

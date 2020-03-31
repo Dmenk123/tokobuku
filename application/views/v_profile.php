@@ -41,8 +41,7 @@
 							<br><strong>Jumlah Komisi <span style="color:blue;">(Sudah Ditarik)</span> :</strong> <strong>Rp. <?php echo number_format($data_laba_agen['komisi_sudah'],2,",","."); ?></strong>
 							<br><strong>Jumlah Komisi <span style="color:red;">(Belum Ditarik)</span> :</strong> <strong>Rp. <?php echo number_format($data_laba_agen['komisi_belum'],2,",","."); ?></strong>
 							<br><br>
-								<?php $links = $this->session->userdata('id_user'); ?>
-								<button type="button" class="btn btn-sm btn-success"  onclick="tarikCuan('<?php echo $links; ?>')" title="Tarik Komisi"> Tarik Komisi</button>
+								<button type="button" class="btn btn-sm btn-success"  onclick="tarikCuan()" title="Tarik Komisi"> Tarik Komisi</button>
 						</div>
 						
 					</div>	
@@ -91,7 +90,7 @@
 		<?php } ?>
 	});
 
-	function tarikCuan(id) {
+	function tarikCuan() {
 		swal({
 	      	title: "Tarik Komisi",
 	      	text: "Anda Yakin Ingin Melakukan Penarikan Komisi ?? ",
@@ -104,12 +103,12 @@
 	    	}).then(function(isConfirm) {
 	      		if (isConfirm) {
 	        		$.ajax({
-						url: baseUrl + 'profile/tarik_komisi/'+id,
+						url: baseUrl + 'profile/tarik_komisi',
 						type: 'POST',
 						dataType: "JSON",
 						success: function (data) {
 							if (data.status) {
-								swal("Sukses", 'Anda berhasil Menarik Komisi. Lihat Rincian Penarikan', "success").then(function() {
+								swal("Sukses, Komisi kode : "+data.kode_klaim+"", 'Selengkapnya bisa diihat pada rincian Penarikan', "success").then(function() {
 								    location.reload(true);
 								});
 							}else{
