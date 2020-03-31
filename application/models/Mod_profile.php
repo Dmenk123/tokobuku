@@ -21,18 +21,10 @@ class Mod_profile extends CI_Model
 
 		$this->db->select('
 			t_checkout.*,
-			t_checkout_detail.id as ckt_id_det,
-			t_checkout_detail.harga_satuan,
-			t_checkout_detail.harga_subtotal,
-			m_produk.nama as nama_produk,
-			m_satuan.nama as nama_satuan,
 			COUNT(t_checkout_detail.id_checkout) AS jml
 		');
 
 		$this->db->from('t_checkout');
-		$this->db->join('t_checkout_detail','t_checkout.id = t_checkout_detail.id_checkout','left');
-		$this->db->join('m_produk','t_checkout_detail.id_produk = m_produk.id','left');
-		$this->db->join('m_satuan','t_checkout_detail.id_satuan = m_satuan.id','left');
 		// $this->db->where('t_checkout.status', "1");
 		$this->db->where('t_checkout.id_user', $id_user);
 		$this->db->group_by('t_checkout.id');
@@ -103,21 +95,10 @@ class Mod_profile extends CI_Model
 	public function get_data_checkout_det($id)
 	{
 		$this->db->select('
-			t_checkout.*,
-			t_checkout_detail.id,
-			t_checkout_detail.harga_satuan,
-			t_checkout_detail.harga_subtotal,
-			t_checkout_detail.qty,
-			m_produk.nama as nama_produk,
-			m_produk.kode as kode_produk,
-			m_satuan.nama as nama_satuan,
-			m_user_detail.nama_lengkap_user
+			t_checkout.*, m_user_detail.nama_lengkap_user
 		');
 
 		$this->db->from('t_checkout');
-		$this->db->join('t_checkout_detail', 't_checkout.id = t_checkout_detail.id_checkout', 'left');
-		$this->db->join('m_produk', 't_checkout_detail.id_produk = m_produk.id', 'left');
-		$this->db->join('m_satuan', 't_checkout_detail.id_satuan = m_satuan.id', 'left');
 		$this->db->join('m_user_detail', 't_checkout.id_user = m_user_detail.id_user', 'left');
 		//$this->db->where('t_checkout.status', "1");
 		$this->db->where('t_checkout.id', $id);
@@ -130,22 +111,13 @@ class Mod_profile extends CI_Model
 
 	private function _get_data_komisi_query($id_agen) //term is value of $_REQUEST['search']
 	{
-		$this->db->select('
-			t_checkout.id,
-			t_checkout.kode_ref,
-			DATE(t_checkout.created_at) as tanggal,
-			COUNT(t_checkout_detail.id_checkout) AS jml_trans,
-			sum(harga_subtotal) as harga_subtotal,
-			(sum(harga_subtotal) * t_log_harga.potongan / 100) as laba_agen
-		');
+		$this->db->select('*');
 
-		$this->db->from('t_checkout_detail');
-		$this->db->join('t_checkout', 't_checkout_detail.id_checkout = t_checkout.id', 'left');
-		$this->db->join('t_log_harga', 't_checkout_detail.id_produk = t_log_harga.id_produk and DATE(t_checkout.created_at) >= DATE(t_log_harga.created_at)', 'left');
-		$this->db->where('t_checkout_detail.id_agen', $id_agen);
+		$this->db->from('t_checkout');
+		$this->db->where('t_checkout.kode_agen', $id_agen);
 		$this->db->where('t_checkout.status', '0'); //status transaksi sudah selesai
 		$this->db->where('t_checkout.is_konfirm', '1'); //sudah dikonfirmasi bahwa transaksi selesai
-		$this->db->group_by('t_checkout_detail.id_checkout');
+		$this->db->where('is_agen_klaim', '0'); //belum di klaim
 		$this->db->order_by('DATE(t_checkout.created_at)', 'desc');
 	}
 
@@ -192,6 +164,30 @@ class Mod_profile extends CI_Model
 		
 		$query = $this->db->get();
 		return $query->result();
+	}
+
+	public function get_komisi_belum_tarik($id_agen)
+	{
+		$this->db->select('(sum(laba_agen_total)) as total_laba');
+		$this->db->from('t_checkout');
+		$this->db->where('kode_agen', $id_agen);
+		$this->db->where('is_konfirm', '1');
+		$this->db->where('status', '0');
+		$this->db->where('is_agen_klaim', '0');
+		$q = $this->db->get();
+		return $q->row();
+	}
+
+	public function get_komisi_sudah_tarik($id_agen)
+	{
+		$this->db->select('(sum(laba_agen_total)) as total_laba');
+		$this->db->from('t_checkout');
+		$this->db->where('kode_agen', $id_agen);
+		$this->db->where('is_konfirm', '1');
+		$this->db->where('status', '0');
+		$this->db->where('is_agen_klaim', '1');
+		$q = $this->db->get();
+		return $q->row();
 	}
 	
 }

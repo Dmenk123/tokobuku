@@ -13,6 +13,7 @@ class Profile extends CI_Controller {
 	public function index()
 	{
 		$arr_komisi = [];
+		$arr_batine_agen = [];
 		$id_user = clean_string($this->session->userdata('id_user'));
 		
 		//userdata
@@ -23,78 +24,29 @@ class Profile extends CI_Controller {
 		
 		$userdata = $this->mod_global->get_data($select, 'm_user', ['m_user.status' => 1 , 'm_user.id_user' => $id_user] , $join);
 
+		// var_dump($userdata);exit;
 		if ($this->session->userdata('id_level_user') == '2') {
 			$id_agen = $this->mod_profile->get_id_agen($id_user);
 			$arr_komisi = $this->list_komisi_history($id_agen);
+
+			$q = $this->mod_profile->get_komisi_belum_tarik($id_agen);
+			$qq = $this->mod_profile->get_komisi_sudah_tarik($id_agen);
+			
+			$arr_batine_agen = [
+				'komisi_belum' => $q->total_laba,
+				'komisi_sudah' => $qq->total_laba
+			];
 		}
 
 		$data = [
 			'data_user' => $userdata,
-			'data_komisi' => $arr_komisi
+			'data_komisi' => $arr_komisi,
+			'data_laba_agen' => $arr_batine_agen
 		];
 
 		$this->load->view('v_navbar');
-		//$this->load->view('header');
 		$this->load->view('v_profile', $data);
 		$this->load->view('footer');
-	}
-
-	public function list_checkout_history()
-	{
-		$id_user = $this->session->userdata('id_user');
-
-		//=================== cek expired =======================
-		$cek_expired = $this->db->query("SELECT id, status, created_at from t_checkout where id_user = '".$id_user."'")->result();
-		if ($cek_expired) {
-			foreach ($cek_expired as $key => $cek) {
-				//jika statusnya masih aktif
-				if ($cek->status == '1') {
-					//jika lebih dari 3 hari otomatis di nonaktifkan
-					$exp =  date('Y-m-d H:i:s', strtotime($cek->created_at . '+ 3 days'));
-					if (strtotime(date('Y-m-d H:i:s')) > strtotime($exp)) {
-						$this->db->query("UPDATE t_checkout SET status = '2' WHERE id = '" . $cek->id . "' ");
-					}
-				}
-			}
-		}
-		//=================== end cek expired =======================
-		
-		$list = $this->mod_profile->get_data_checkout($id_user);
-		$data = array();
-		$no =$_POST['start'];
-		foreach ($list as $listCheckout) {
-			$link_detail = site_url('profile/checkout_detail/').$listCheckout->id;
-			$no++;
-			$row = array();
-			//loop value tabel db
-			$row[] = date('d-m-Y', strtotime($listCheckout->created_at));
-			$row[] = "Rp. ".number_format($listCheckout->harga_total,0,",",".");
-			$row[] = $listCheckout->kode_ref;
-			// $row[] = $listCheckout->jml;
-			if ($listCheckout->status == '1') {
-				$row[] = '<span style="text-align:center;color:green;"> <strong>On Progress</strong></span>';
-			}else if($listCheckout->status == '2') {
-				$row[] = '<span style="text-align:center;color:red;"> <strong>Expired/Dibatalkan</strong></span>';
-			}else{
-				$row[] = '<span style="text-align:center;color:blue;"> <strong>Selesai</strong></span>';
-			}
-			
-
-			//add html for action button
-			$row[] ='
-				<a class="btn btn-sm btn-success" href="'.$link_detail.'" title="Checkout Detail" id="btn_detail" onclick=""><i class="fa fa-info-circle"></i> '.$listCheckout->jml.' Items</a>';
-
-			$data[] = $row;
-		}//end loop
-
-		$output = array(
-			"draw" => $_POST['draw'],
-			"recordsTotal" => $this->mod_profile->count_all($id_user),
-			"recordsFiltered" => $this->mod_profile->count_filtered($id_user),
-			"data" => $data,
-		);
-		//output to json format
-		echo json_encode($output);
 	}
 
 	public function list_komisi_history($id_agen)
@@ -111,15 +63,9 @@ class Profile extends CI_Controller {
 			$row = array();
 			//loop value tabel db
 			$row[] = $no;
-			$row[] = date('d-m-Y', strtotime($datalist->tanggal));
-			$row[] = "Rp. ".number_format($datalist->harga_subtotal,0,",",".");
-			$row[] = "Rp. ".number_format($datalist->laba_agen,0,",",".");
+			$row[] = date('d-m-Y H:i', strtotime($datalist->created_at));
+			$row[] = "Rp. ".number_format($datalist->laba_agen_total,0,",",".");
 			$row[] = $datalist->kode_ref;
-
-			//add html for action button
-			$row[] = '
-				<a class="btn btn-sm btn-success" href="' . $link_detail . '" title="Komisi Detail" id="btn_detail_komisi" onclick=""><i class="fa fa-info-circle"></i> ' . $datalist->jml_trans . ' Items</a>';
-
 			$data[] = $row;
 		} //end loop
 

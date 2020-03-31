@@ -1,17 +1,17 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : localhost
+ Source Server         : lokal
  Source Server Type    : MySQL
- Source Server Version : 100129
+ Source Server Version : 100131
  Source Host           : localhost:3306
  Source Schema         : properti
 
  Target Server Type    : MySQL
- Target Server Version : 100129
+ Target Server Version : 100131
  File Encoding         : 65001
 
- Date: 30/03/2020 16:29:08
+ Date: 31/03/2020 20:35:39
 */
 
 SET NAMES utf8mb4;
@@ -93,10 +93,12 @@ INSERT INTO `m_menu` VALUES (3, 4, 'Setting Role', 'Setting Role', 'admin/set_ro
 INSERT INTO `m_menu` VALUES (4, 0, 'Setting (Administrator)', 'Setting', NULL, 'fa fa-gear', 1, 1, 5, 0, 0, 0);
 INSERT INTO `m_menu` VALUES (5, 0, 'Data Master', 'Data Master', ' ', 'fa fa-database', 1, 1, 2, 0, 0, 0);
 INSERT INTO `m_menu` VALUES (6, 5, 'Master Produk', 'Master Produk', 'admin/master_produk_adm', '', 1, 2, 1, 1, 1, 1);
-INSERT INTO `m_menu` VALUES (7, 5, 'Mster Agen', 'Mster Agen', 'master_agen', '', 1, 2, 2, 1, 1, 1);
+INSERT INTO `m_menu` VALUES (7, 5, 'Mster Agen', 'Mster Agen', 'admin/master_agen', '', 1, 2, 2, 1, 1, 1);
 INSERT INTO `m_menu` VALUES (8, 5, 'Master Konten', 'Master Konten', 'admin/master_konten_adm', '', 1, 2, 3, 1, 1, 1);
 INSERT INTO `m_menu` VALUES (9, 0, 'Transaksi', 'Transaksi', ' ', 'fa fa-exchange', 1, 1, 3, 0, 0, 0);
 INSERT INTO `m_menu` VALUES (10, 9, 'Penjualan', 'Penjualan', 'admin/penjualan', '', 1, 2, 1, 1, 1, 1);
+INSERT INTO `m_menu` VALUES (11, 0, 'Laporan', 'Laporan', ' ', 'fa fa-line-chart', 1, 1, 4, 0, 0, 0);
+INSERT INTO `m_menu` VALUES (12, 11, 'Laporan Penjualan', 'Laporan Penjualan', 'admin/lap_penjualan', '', 1, 2, 1, 0, 0, 0);
 
 -- ----------------------------
 -- Table structure for m_produk
@@ -172,12 +174,12 @@ CREATE TABLE `m_user`  (
 -- ----------------------------
 -- Records of m_user
 -- ----------------------------
-INSERT INTO `m_user` VALUES ('USR00001', 'masnur', 'hX2fmaWl', 1, NULL, 1, '2020-03-23 14:39:09', '2019-10-05 21:34:14', '2020-03-23 20:39:09', NULL);
-INSERT INTO `m_user` VALUES ('USR00002', 'agen', 'hX2fmaWl', 2, NULL, 1, '2020-03-21 17:43:25', '2019-11-09 19:36:13', '2020-03-21 23:43:25', 'Ioa2fmaCuS');
+INSERT INTO `m_user` VALUES ('USR00001', 'masnur', 'hX2fmaWl', 1, NULL, 1, '2020-03-31 06:09:12', '2019-10-05 21:34:14', '2020-03-31 11:09:12', NULL);
+INSERT INTO `m_user` VALUES ('USR00002', 'agen', 'hX2fmaWl', 2, NULL, 1, '2020-03-31 13:00:14', '2019-11-09 19:36:13', '2020-03-31 18:00:14', 'Ioa2fmaCuS');
 INSERT INTO `m_user` VALUES ('USR00003', 'customer', 'hX2fmaWl', 3, NULL, 1, '2019-12-03 08:41:40', '2019-11-09 19:43:19', '2020-02-17 15:29:42', NULL);
 INSERT INTO `m_user` VALUES ('USR00004', 'coba', 'hX2fmaWl', 3, NULL, 1, '2020-03-15 17:23:51', '2020-02-07 13:28:03', '2020-03-15 23:23:51', NULL);
 INSERT INTO `m_user` VALUES ('USR00005', 'jono', 'hX2fmaWl', 3, NULL, 1, '2020-03-23 17:56:57', '2020-03-11 13:20:26', '2020-03-23 23:56:57', NULL);
-INSERT INTO `m_user` VALUES ('USR00006', 'dwi', 'hX2fmaWl', 2, NULL, 1, '2020-03-23 14:34:41', '2020-03-11 13:40:48', '2020-03-23 20:34:41', 'S8N45T9');
+INSERT INTO `m_user` VALUES ('USR00006', 'dwi', 'hX2fmaWl', 2, NULL, 1, '2020-03-31 14:33:18', '2020-03-11 13:40:48', '2020-03-31 19:33:18', 'S8N45T9');
 
 -- ----------------------------
 -- Table structure for m_user_detail
@@ -206,7 +208,7 @@ INSERT INTO `m_user_detail` VALUES (2, 'USR00002', 'Agen', 'aifudf nisduf sidufi
 INSERT INTO `m_user_detail` VALUES (3, 'USR00003', 'Customer', 'asfsd', '1963-02-14', 'L', '121312', 'keuangan-1573303398.jpg', 'keuangan-1573303398_thumb.jpg', NULL);
 INSERT INTO `m_user_detail` VALUES (8, 'USR00004', 'coba,cobalah', NULL, '1970-01-01', NULL, '121212', 'coba-1581928536-.jpg', 'coba-1581928536-.jpg', 'coba@gmail.com');
 INSERT INTO `m_user_detail` VALUES (9, 'USR00005', 'jono,joni', NULL, '1970-01-01', NULL, '08973633444', 'user_default.png', 'user_default_thumb.png', 'jono@gmail.com');
-INSERT INTO `m_user_detail` VALUES (10, 'USR00006', 'dwi,siswanto', NULL, '1970-01-01', NULL, '08575847474', 'user_default.png', 'user_default_thumb.png', 'dwi@gmail.com');
+INSERT INTO `m_user_detail` VALUES (10, 'USR00006', 'dwi,siswanto', NULL, '1970-01-01', NULL, '08575847474', 'coba-1581928536-.jpg', 'user_default_thumb.png', 'dwi@gmail.com');
 
 -- ----------------------------
 -- Table structure for t_checkout
@@ -219,6 +221,7 @@ CREATE TABLE `t_checkout`  (
   `laba_agen_total` double(20, 2) NULL DEFAULT 0.00,
   `diskon_total` double(20, 2) NULL DEFAULT 0.00,
   `kode_ref` varchar(8) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL COMMENT 'kode referensi',
+  `kode_agen` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
   `is_konfirm` int(1) NULL DEFAULT 0,
   `nama_depan` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
   `nama_belakang` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
@@ -228,27 +231,18 @@ CREATE TABLE `t_checkout`  (
   `created_at` datetime(0) NULL DEFAULT NULL,
   `updated_at` datetime(0) NULL DEFAULT NULL,
   `deleted_at` datetime(0) NULL DEFAULT NULL,
-  `status` int(1) NULL DEFAULT 1 COMMENT '1: aktif, 0: nonaktif',
+  `status` int(1) NULL DEFAULT 1 COMMENT '1: aktif, 0: nonaktif, 2:batal',
+  `is_agen_klaim` int(1) NULL DEFAULT 0 COMMENT '1:sudah, 0:belum diklaim',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
--- Table structure for t_checkout_detail
+-- Records of t_checkout
 -- ----------------------------
-DROP TABLE IF EXISTS `t_checkout_detail`;
-CREATE TABLE `t_checkout_detail`  (
-  `id` bigint(100) NOT NULL AUTO_INCREMENT,
-  `id_checkout` varchar(100) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
-  `id_agen` varchar(10) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
-  `qty` int(12) NULL DEFAULT NULL,
-  `harga_satuan` double(20, 2) NULL DEFAULT 0.00,
-  `harga_subtotal` double(20, 2) NULL DEFAULT 0.00,
-  `laba_agen` double(20, 2) NULL DEFAULT 0.00,
-  `laba_agen_subtotal` double(20, 2) NULL DEFAULT 0.00,
-  `harga_diskon` double(20, 2) NULL DEFAULT 0.00,
-  `harga_diskon_subtotal` double(20, 2) NULL DEFAULT 0.00,
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 32 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;
+INSERT INTO `t_checkout` VALUES ('1bceaad4-cdd3-442d-b3ca-7011384131e6', NULL, 2700000.00, 0.00, 300000.00, 'jJCvN', NULL, 1, 'coba', 'coba', 'klepon@asa.com', '141212121312', 'bukti-coba-1585645868.jpg', '2020-02-29 11:11:09', NULL, NULL, 0, 0);
+INSERT INTO `t_checkout` VALUES ('5f5702e8-1851-4525-8089-3b3700f134f6', NULL, 2700000.00, 0.00, 300000.00, 'jJEYu', NULL, 1, 'karyono', 'soponyono', 'karyo@gmail.com', '0812371212', 'bukti-karyono-1585652164.jpg', '2020-02-29 12:56:04', NULL, NULL, 0, 0);
+INSERT INTO `t_checkout` VALUES ('e38fd69d-6e5d-4abc-8ef6-944a339ced1c', NULL, 2700000.00, 270000.00, 300000.00, 'jJ7NZ', 'S8N45T9', 1, 'asasa', 'asasas', 'asa@klkl.com', '121313131', 'bukti-asasa-1585624553.jpg', '2020-03-31 05:15:53', NULL, NULL, 0, 0);
+INSERT INTO `t_checkout` VALUES ('fdcb174d-478f-4a93-be74-ff0ab3575207', NULL, 2700000.00, 270000.00, 300000.00, 'jJ7Kl', 'S8N45T9', 1, 'cas', '12', 'asa@sas.com', '131212', 'bukti-cas-1585624378.jpg', '2020-03-31 05:12:59', NULL, NULL, 0, 0);
 
 -- ----------------------------
 -- Table structure for t_hak_akses
@@ -276,9 +270,29 @@ INSERT INTO `t_hak_akses` VALUES (7, 1, 1, 1, 1);
 INSERT INTO `t_hak_akses` VALUES (8, 1, 1, 1, 1);
 INSERT INTO `t_hak_akses` VALUES (9, 1, 0, 0, 0);
 INSERT INTO `t_hak_akses` VALUES (10, 1, 1, 1, 1);
+INSERT INTO `t_hak_akses` VALUES (11, 1, 0, 0, 0);
+INSERT INTO `t_hak_akses` VALUES (12, 1, 0, 0, 0);
 INSERT INTO `t_hak_akses` VALUES (4, 1, 0, 0, 0);
 INSERT INTO `t_hak_akses` VALUES (3, 1, 1, 1, 1);
 INSERT INTO `t_hak_akses` VALUES (2, 1, 1, 1, 1);
+
+-- ----------------------------
+-- Table structure for t_klaim_agen
+-- ----------------------------
+DROP TABLE IF EXISTS `t_klaim_agen`;
+CREATE TABLE `t_klaim_agen`  (
+  `id` int(11) NOT NULL,
+  `id_agen` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+  `id_user_verify` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+  `saldo_sebelum` double(20, 2) NULL DEFAULT NULL,
+  `jumlah_kalim` double(20, 2) NULL DEFAULT NULL,
+  `saldo_sesudah` double(20, 2) NULL DEFAULT NULL,
+  `datetime_klaim` datetime(0) NULL DEFAULT NULL,
+  `datetime_verify` datetime(0) NULL DEFAULT NULL,
+  `created_at` datetime(0) NULL DEFAULT NULL,
+  `deleted_at` datetime(0) NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Table structure for t_log_harga

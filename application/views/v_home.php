@@ -1,60 +1,18 @@
- <?php
-var_dump($this->session->all_userdata());
-?>
     <main class="ps-main">
     	<div class="ps-section ps-section--top-sales ps-owl-root pt-80 pb-80">
     		<div class="ps-container">
     			<div class="ps-section__header mb-50">
-    				<div class="row">
-    					<div class="col-lg-9 col-md-9 col-sm-12 col-xs-12 ">
-    						<h3 class="ps-section__title" data-mask="BEST SALE">Produk Unggulan Kami</h3>
-    					</div>
-    					<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 ">
-    						<div class="ps-owl-actions"><a class="ps-prev" href="#"><i class="ps-icon-arrow-right"></i>Prev</a><a class="ps-next" href="#">Next<i class="ps-icon-arrow-left"></i></a></div>
-    					</div>
-    				</div>
+    				<!-- <div class="row">
+                        <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12 ">
+                            <h3 class="ps-section__title" data-mask="BEST SALE">Produk Unggulan Kami</h3>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 ">
+                            <div class="ps-owl-actions"><a class="ps-prev" href="#"><i class="ps-icon-arrow-right"></i>Prev</a><a class="ps-next" href="#">Next<i class="ps-icon-arrow-left"></i></a></div>
+                        </div>
+                    </div> -->
     			</div>
     			<div class="ps-section__content">
     				<div class="ps-owl--colection owl-slider" data-owl-auto="true" data-owl-loop="true" data-owl-speed="5000" data-owl-gap="30" data-owl-nav="false" data-owl-dots="false" data-owl-item="4" data-owl-item-xs="1" data-owl-item-sm="2" data-owl-item-md="3" data-owl-item-lg="4" data-owl-duration="1000" data-owl-mousedrag="on">
-    					<!-- <?php foreach ($produk as $key => $val) : ?>
-                            <?php if ($key >= 1): ?>
-                                <?php continue; ?>
-                            <?php endif ?>
-    						<div class="ps-shoes--carousel">
-    							<div class="ps-shoe"> -->
-    								<!-- <div class="ps-shoe__thumbnail">
-    									<div class="ps-badge"><span>New</span></div>
-    									<div class="ps-badge ps-badge--sale ps-badge--2nd"><span>-35%</span></div>
-    									<a class="ps-shoe__favorite" href="#">
-    										<i class="ps-icon-heart"></i>
-    									</a>
-    									<img src="<?= base_url('assets/img/produk/') . $val->gambar_1; ?>" alt="">
-    									<a class="ps-shoe__overlay" href="<?= base_url('product_detail/detail/') . $val->id; ?>"></a>
-    								</div>
-    								<div class="ps-shoe__content">
-    									<div class="ps-shoe__variants">
-    										<div class="ps-shoe__variant normal">
-    											<img src="<?= base_url('assets/img/produk/') . $val->gambar_1; ?>" alt="">
-    											<img src="<?= base_url('assets/img/produk/') . $val->gambar_2; ?>" alt="">
-    											<img src="<?= base_url('assets/img/produk/') . $val->gambar_3; ?>" alt="">
-    										</div>
-    									</div>
-    									<div class="ps-shoe__detail">
-												<a class="ps-shoe__name" href="<?= base_url('product_detail/detail/') . $val->id; ?>"><?= $val->nama; ?></a>
-    										<p class="ps-shoe__categories">
-    											<a href="#"><?= $val->nama_kategori; ?></a>
-    										</p>
-    										<div>
-    											<span>
-    												<del><?= "Rp " . number_format(((int) $val->harga_satuan + (int) 20000), 0, ',', '.'); ?></del>
-    												<?= "Rp " . number_format($val->harga_satuan, 0, ',', '.'); ?>
-    											</span>
-    										</div>
-    									</div>
-    								</div> -->
-    							<!-- </div>
-    						</div>
-    					<?php endforeach ?> -->
     				</div>
     			</div>
     		</div>

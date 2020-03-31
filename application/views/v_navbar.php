@@ -85,8 +85,7 @@
 						<?php if ($this->session->userdata('logged_in')) : ?>
 							<div class="header__actions"><a href="#" onclick="logout()">Logout</a></div>
 							<div class="header__actions"><a href="<?= base_url('profile'); ?>"><?= $this->session->userdata('username'); ?></a></div>
-						<?php else : ?>
-							<div class="header__actions"><a href="<?= base_url('register'); ?>">Login & Regiser</a></div>
+							<!-- <div class="header__actions"><a href="<?= base_url('register'); ?>">Login & Regiser</a></div> -->
 						<?php endif ?>
 
 					</div>
