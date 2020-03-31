@@ -105,15 +105,17 @@ class Join_member extends CI_Controller {
 
 		if ($this->session->userdata('kode_agen') != null) {
 			$kode_agen = $this->session->userdata('kode_agen');
+			$laba_agen = $harga->harga_diskon_agen;
 		}else{
 			$kode_agen = null;
+			$laba_agen = 0;
 		}
 
 		$data = array(
 			'id' => $id,
 			'id_user' => null,
 			'harga_total' => $harga_total,
-			'laba_agen_total' => $harga->harga_diskon_agen,
+			'laba_agen_total' => $laba_agen,
 			'diskon_total' => $diskon_total,
 			'is_konfirm' => 0,
 			'nama_depan' => $fname,
