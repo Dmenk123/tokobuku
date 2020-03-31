@@ -5,11 +5,23 @@
 <script type="text/javascript">
 	var save_method; //for save method string
 	var table;
+	var table2;
 	var bulan;
 	var tahun;
 
 
 	$(document).ready(function() {
+		//tabs
+	    var hash = window.location.hash;
+	    hash && $('ul.nav a[href="' + hash + '"]').tab('show');
+
+	    $('.nav-tabs a').click(function(e) {
+	      $(this).tab('show');
+	      var scrollmem = $('body').scrollTop();
+	      window.location.hash = this.hash;
+	      $('html,body').scrollTop(scrollmem);
+	    });
+
 		$('.mask-currency').maskMoney({
 			precision: 0
 		});
@@ -17,6 +29,9 @@
 		<?php if ($this->input->get('bulan') != '' && $this->input->get('tahun') != '') { ?>
 			bulan = <?= $this->input->get('bulan'); ?>;
 			tahun = <?= $this->input->get('tahun'); ?>;
+		<?php }else if(isset($bulan)){ ?>
+			bulan = <?= $bulan; ?>;
+			tahun = <?= $tahun; ?>;
 		<?php } ?>
 
 		//mask money edit
@@ -24,7 +39,7 @@
 			$('#harga').maskMoney('mask', parseInt($('#harga_raw').val()));
 		}
 
-		// tabel penjualan
+		// tabel penjualan progress
 		table = $('#tabelPenjualan').DataTable({
 
 			"processing": true,
@@ -35,6 +50,27 @@
 			//load data for table content from ajax source
 			"ajax": {
 				"url": "<?php echo site_url('admin/penjualan/list_penjualan/1/') ?>" + bulan + "/" + tahun,
+				"type": "POST"
+			},
+
+			//set column definition initialisation properties
+			"columnDefs": [{
+				"targets": [-1], //last column
+				"orderable": false, //set not orderable
+			}, ],
+		});
+
+		// tabel penjualan finish
+		table2 = $('#tabelVerifikasiFinish').DataTable({
+
+			"processing": true,
+			"serverSide": true,
+			"order": [
+				[2, 'desc']
+			],
+			//load data for table content from ajax source
+			"ajax": {
+				"url": "<?php echo site_url('admin/penjualan/list_penjualan/0/') ?>" + bulan + "/" + tahun,
 				"type": "POST"
 			},
 
@@ -139,25 +175,108 @@
 		});
 	}
 
-	function delete_user(id) {
-		if (confirm('Are you sure delete this data?')) {
-			// ajax delete data to database
-			$.ajax({
-				url: "<?php echo site_url('pengguna/delete_pengguna') ?>/" + id,
-				type: "POST",
-				dataType: "JSON",
-				success: function(data) {
-					//if success reload ajax table
-					$('#modal_form').modal('hide');
-					alert(data.pesan);
-					reload_table();
-				},
-				error: function(jqXHR, textStatus, errorThrown) {
-					alert('Error deleting data');
-				}
+	function verify(id) {
+		swal({
+	      	title: "Konfirmasi Penjualan",
+	      	text: "Apakah Anda Yakin ingin Konfirmasi Penjualan!",
+	      	icon: "warning",
+	      	buttons: [
+	        	'Tidak',
+	        	'Ya'
+	      	],
+	      	//dangerMode: true,
+	    	}).then(function(isConfirm) {
+	      		if (isConfirm) {
+	        		$.ajax({
+						url: baseUrl + 'admin/penjualan/konfirmasi_penjualan/'+id+'/'+bulan+'/'+tahun,
+						type: 'POST',
+						dataType: "JSON",
+						success: function (data) {
+							
+							if (data.status) {
+								swal("Sukses", 'Anda berhasil konfirmasi penjualan', "success").then(function() {
+								    window.location.href = baseUrl + 'admin/penjualan?bulan='+data.bulan+'&tahun='+data.tahun+'#tab_progress';
+								});
+							}else{
+								swal("Gagal", 'Gagal Konfirmasi Penjualan, Coba Lagi Nanti..', "error").then(function() {
+								    window.location.href = baseUrl + 'admin/penjualan?bulan='+data.bulan+'&tahun='+data.tahun+'#tab_progress';
+								});
+							}
+						}
+					});
+	      		} else {
+	        		swal("Batal", "Aksi dibatalkan", "error");
+	     	 	}
 			});
+	}
 
-		}
+	function batalkanPenjualan(id) {
+		swal({
+	      	title: "Batalkan Transaksi",
+	      	text: "Apakah Anda Yakin ingin Membatalkan Transaksi!",
+	      	icon: "warning",
+	      	buttons: [
+	        	'Tidak',
+	        	'Ya'
+	      	],
+	      	dangerMode: true,
+	    	}).then(function(isConfirm) {
+	      		if (isConfirm) {
+	        		$.ajax({
+						url: baseUrl + 'admin/penjualan/batal_penjualan/'+id+'/'+bulan+'/'+tahun,
+						type: 'POST',
+						dataType: "JSON",
+						success: function (data) {
+							console.log(baseUrl);
+							if (data.status) {
+								swal("Sukses", 'Anda berhasil Membatalkan penjualan', "success").then(function() {
+								    location.reload(true);
+								});
+							}else{
+								swal("Gagal", 'Gagal Membatalkan Penjualan, Coba Lagi Nanti..', "error").then(function() {
+								    location.reload(true);
+								});
+							}
+						}
+					});
+	      		} else {
+	        		swal("Batal", "Aksi dibatalkan", "error");
+	     	 	}
+			});
+	}
+
+	function batalkanVerify(id) {
+		swal({
+	      	title: "Batalkan Verifikasi",
+	      	text: "Ketika dibatalkan, dapat diverifikasi ulang nantinya",
+	      	icon: "warning",
+	      	buttons: [
+	        	'Tidak',
+	        	'Ya'
+	      	],
+	      	dangerMode: true,
+	    	}).then(function(isConfirm) {
+	      		if (isConfirm) {
+	        		$.ajax({
+						url: baseUrl + 'admin/penjualan/batal_verify/'+id+'/'+bulan+'/'+tahun,
+						type: 'POST',
+						dataType: "JSON",
+						success: function (data) {
+							if (data.status) {
+								swal("Sukses", 'Anda berhasil Membatalkan Verifikasi', "success").then(function() {
+								    location.reload(true);
+								});
+							}else{
+								swal("Gagal", 'Gagal Membatalkan Penjualan, Coba Lagi Nanti..', "error").then(function() {
+								    location.reload(true);
+								});
+							}
+						}
+					});
+	      		} else {
+	        		swal("Batal", "Aksi dibatalkan", "error");
+	     	 	}
+			});
 	}
 
 	function readURL(input, id) {

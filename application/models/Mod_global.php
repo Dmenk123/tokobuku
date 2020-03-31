@@ -165,4 +165,21 @@ class Mod_global extends CI_Model
 
         // return $this->db->last_query();
     }
+
+    function updateData2($table,$data_where,$data, $data2=null)
+    {
+        if ($data2!=null){
+            foreach ($data2 as $key => $value) {
+                $this->db->set($key, $value, FALSE);
+            }
+        }
+        $this->db->update($table,$data,$data_where);
+        if ($this->db->affected_rows() > 0) {
+        	return TRUE;
+        }else{
+        	return FALSE;
+        }
+
+        // return $this->db->last_query();
+    }
 }

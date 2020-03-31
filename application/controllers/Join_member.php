@@ -78,8 +78,8 @@ class Join_member extends CI_Controller {
 			$this->image_lib->clear();
 
 			//unlink file upload, just image processed file only saved in server
-			$ifile = '/bookstore/assets/img/bukti_transfer/' . $namafileseo . '.' . $ext;
-			unlink($_SERVER['DOCUMENT_ROOT'] . $ifile); // use server document root
+			//$ifile = '/bookstore/assets/img/bukti_transfer/' . $namafileseo . '.' . $ext;
+			//unlink($_SERVER['DOCUMENT_ROOT'] . $ifile); // use server document root
 
 		} else {
 			$this->session->set_flashdata('feedback_failed','Gagal menyimpan Data, pastikan telah Upload Bukti Transfer.'); 
@@ -137,7 +137,6 @@ class Join_member extends CI_Controller {
 			$this->session->set_flashdata('feedback_success', $kode_ref);
 			redirect('join_member/result_page');
 		}
-	
 	}
 
 	private function get_recaptcha($token)

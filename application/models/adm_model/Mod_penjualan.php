@@ -5,15 +5,16 @@ class Mod_penjualan extends CI_Model
 	// declare array variable to search datatable
 	var $column_search = array(
 		"tc.created_at",
-		"mud.nama_lengkap_user",
-		"mud.email",
+		"CONCAT(nama_depan, ' ', nama_belakang)",
+		"tc.email",
 		"tc.harga_total",
+		"tc.status"
 	);
 
 	var $column_order = array(
 		"tc.created_at",
-		"mud.nama_lengkap_user",
-		"mud.email",
+		"CONCAT(nama_depan, ' ', nama_belakang)",
+		"tc.email",
 		"tc.harga_total",
 		"tc.status",
 		null,
@@ -32,21 +33,15 @@ class Mod_penjualan extends CI_Model
 		
 		$column = array(
 			"tc.created_at",
-			"mud.nama_lengkap_user",
-			"mud.email",
+			"CONCAT(nama_depan, ' ', nama_belakang)",
+			"tc.email",
 			"tc.harga_total",
 			"tc.status",
 			null,
 		);
 
-		$this->db->select("
-			tc.*,
-			mud.nama_lengkap_user,
-			mud.email
-		");
-		
+		$this->db->select("tc.*, CONCAT(nama_depan, ' ', nama_belakang) AS nama_lengkap");
 		$this->db->from('t_checkout as tc');
-		$this->db->join('m_user_detail as mud', 'tc.id_user = mud.id_user', 'left');
 		$this->db->where('tc.status', $status);
 		$this->db->where("tc.created_at between '" . $tanggal_awal . "' and '" . $tanggal_akhir . "'");
 
@@ -96,14 +91,8 @@ class Mod_penjualan extends CI_Model
 
 	public function count_all($status, $tanggal_awal, $tanggal_akhir)
 	{
-		$this->db->select("
-			tc.*,
-			mud.nama_lengkap_user,
-			mud.email
-		");
-
+		$this->db->select("tc.*");
 		$this->db->from('t_checkout as tc');
-		$this->db->join('m_user_detail as mud', 'tc.id_user = mud.id_user', 'left');
 		$this->db->where('tc.status', $status);
 		$this->db->where("tc.created_at between '" . $tanggal_awal . "' and '" . $tanggal_akhir . "'");
 		
@@ -111,36 +100,19 @@ class Mod_penjualan extends CI_Model
 	}
 	//end datatable query master produk
 
-	public function get_detail_header($id, $status)
-	{
-		$this->db->select('tc.*,mud.nama_lengkap_user,mud.email');
-		$this->db->from('t_checkout as tc');
-		$this->db->join('m_user_detail as mud', 'tc.id_user = mud.id_user', 'left');
-		$this->db->where('tc.id', $id);
-		$this->db->where('tc.status', $status);
-		
-		$query = $this->db->get()->row();
-		return $query;
-	}
-
 	public function get_detail($id, $status)
 	{
-		$this->db->select('tcd.*, mp.kode as kode_produk,mp.nama as nama_produk, ms.nama as nama_satuan, mp.gambar_1, mu.username as username_agen, mud.nama_lengkap_user as fullname_agen, th.harga_potongan, tc.bukti, tc.created_at as tgl_checkout, tc.kode_ref, tc.id as id_checkoutnya');
-		$this->db->from('t_checkout_detail tcd');
-		$this->db->join('t_checkout tc', 'tcd.id_checkout = tc.id', 'left');
-		$this->db->join('m_produk mp', 'tcd.id_produk = mp.id', 'left');
-		$this->db->join('m_satuan ms', 'tcd.id_satuan = ms.id', 'left');
-		$this->db->join('m_user mu', 'tcd.id_agen = mu.kode_agen', 'left');
+		$this->db->select("tc.*, CONCAT(nama_depan, ' ', nama_belakang) AS nama_lengkap, mu.username as username_agen, mud.nama_lengkap_user");
+		$this->db->from('t_checkout as tc');
+		$this->db->join('m_user mu', 'tc.kode_agen = mu.kode_agen', 'left');
 		$this->db->join('m_user_detail mud', 'mu.id_user = mud.id_user', 'left');
-		$this->db->join('t_log_harga th', 'mp.id = th.id_produk and th.is_aktif = 1', 'left');
-				
-		$this->db->where('tcd.id_checkout', $id);
 		$this->db->where('tc.status', $status);
+		$this->db->where("tc.id = '".$id."'");
 		
 		$query = $this->db->get();
 
 		if ($query->num_rows() > 0) {
-			return $query->result();
+			return $query->row();
 		}
 	}
 

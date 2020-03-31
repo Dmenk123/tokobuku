@@ -114,7 +114,7 @@
     													<th>Tanggal</th>
     													<th>Nama</th>
     													<th>Email</th>
-    													<th>Total Harga</th>
+    													<th>Harga (Nett)</th>
     													<th>Status</th>
     													<th>Aksi</th>
     												</tr>
@@ -155,12 +155,12 @@
     										<table id="tabelVerifikasiFinish" class="table table-bordered" cellspacing="0" width="100%">
     											<thead>
     												<tr>
-    													<th>ID</th>
-    													<th>ID Pencatatan</th>
     													<th>Tanggal</th>
-    													<th>Nama User</th>
-    													<th>Status</th>
-    													<th>Aksi</th>
+                                                        <th>Nama</th>
+                                                        <th>Email</th>
+                                                        <th>Harga (Nett)</th>
+                                                        <th>Status</th>
+                                                        <th>Aksi</th>
     												</tr>
     											</thead>
     											<tbody>
