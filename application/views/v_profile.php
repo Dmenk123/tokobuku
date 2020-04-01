@@ -30,7 +30,7 @@
 							</div>
 						<?php } ?>
 							<div class="col-md-5" style="text-align: right;">
-								<?php $link = site_url('profil/edit_profil/') . $this->session->userdata('id_user'); ?>
+								<?php $link = site_url('profile/edit_profil/'); ?>
 								<a class="btn btn-sm btn-primary" href="<?php echo $link; ?>" title="Edit"> Edit Profil</a>
 							</div>
 					</div><!-- /.row -->

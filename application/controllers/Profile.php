@@ -180,5 +180,96 @@ class Profile extends CI_Controller {
 	    return $token;
 	}
 
+	public function edit_profil()
+	{
+		$id_user = clean_string($this->session->userdata('id_user'));
+
+		//userdata
+		$select = "m_user.*, m_user_detail.nama_lengkap_user, m_user_detail.alamat_user, m_user_detail.no_telp_user, m_user_detail.email, m_user_detail.gambar_user";
+		$join = array(
+			["table" => "m_user_detail", "on" => "m_user.id_user = m_user_detail.id_user"]
+		);
+
+		$userdata = $this->mod_global->get_data($select, 'm_user', ['m_user.status' => 1, 'm_user.id_user' => $id_user], $join);
+
+		$data = ['hasil_data' => $userdata];
+
+		$this->load->view('v_navbar');
+		$this->load->view('v_profile_edit', $data);
+		$this->load->view('footer');
+	}
+
+	public function update_profil()
+	{
+		$flag_upload_foto = FALSE;
+		$flag_ganti_pass = FALSE;
+		//$arr_valid = $this->_validate();
+		$id_user = clean_string($this->session->userdata('id_user'));
+		$password = clean_string($this->input->post('password'));
+		$repassword = clean_string($this->input->post('repassword'));
+		$passwordnew = clean_string($this->input->post('passwordnew'));
+
+		if ($this->input->post('ceklistpwd') != 'Y') {
+			$flag_ganti_pass = TRUE;
+			$hasil_password = $this->enkripsi->encrypt($passwordnew);
+
+			if ($passwordnew != $repassword) {
+				$this->session->set_flashdata('feedback_failed', 'Terdapat ketidak cocokan Password Baru');
+				echo json_encode(['status' => true]);
+				return;
+			}
+		}
+	}
+
+	private function _validate()
+	{
+		$data = array();
+		$data['error_string'] = array();
+		$data['inputerror'] = array();
+		$data['status'] = TRUE;
+
+		if ($this->input->post('ceklistpwd') != 'Y') {
+			if ($this->input->post('password') == '') {
+				$data['inputerror'][] = 'password';
+				$data['error_string'][] = 'Wajib mengisi password';
+				$data['status'] = FALSE;
+			}
+
+			if ($this->input->post('repassword') == null) {
+				$data['inputerror'][] = 'repassword';
+				$data['error_string'][] = 'Wajib mengisi ulang Password';
+				$data['status'] = FALSE;
+			}
+
+			if ($this->input->post('passwordnew') == null) {
+				$data['inputerror'][] = 'passwordnew';
+				$data['error_string'][] = 'Wajib mengisi ulang Password Baru';
+				$data['status'] = FALSE;
+			}
+		}
+
+		if ($this->input->post('namalengkap') == '') {
+			$data['inputerror'][] = 'namalengkap';
+			$data['error_string'][] = 'Wajib mengisi namalengkap';
+			$data['status'] = FALSE;
+		}
+
+		if ($this->session->userdata('id_level_user') == '5') {
+			if ($this->input->post('tempatlahir') == '') {
+				$data['inputerror'][] = 'tempatlahir';
+				$data['error_string'][] = 'Wajib mengisi Tempat Lahir';
+				$data['status'] = FALSE;
+			}
+		} else {
+			if ($this->input->post('telp') == '') {
+				$data['inputerror'][] = 'telp';
+				$data['error_string'][] = 'Wajib mengisi Nomor Telepon';
+				$data['status'] = FALSE;
+			}
+		}
+
+		return $data;
+	}
+
 
 }
