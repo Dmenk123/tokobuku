@@ -50,6 +50,27 @@
                <span id='message'></span>
                <span class="help-block"></span>
             </div>
+
+            <div class="form-group">
+              <label for="Nama Belakang">Bank*</label>
+              <select class="form-control" id="regBank" name="reg_bank">
+                 <option value="BCA">BCA</option>
+                 <option value="MANDIRI">MANDIRI</option>
+                 <option value="BNI">BNI</option>
+                 <option value="BRI">BRI</option>
+                 <option value="JATIM">BANK JATIM</option>
+                 <option value="JATENG">BANK JATENG</option>
+                 <option value="JABAR">BANK JABAR</option>
+                 <option value="DKI">BANK DKI</option>
+               </select>
+            </div>
+
+            <div class="form-group">
+               <label for="Nama Belakang">No Rekening*</label>
+               <input type="text" class="form-control" id="regRekening" name="reg_rekening">
+               <span class="help-block"></span>
+            </div>
+
             <div class="form-group">
                <label for="Kode Pos">Captcha* (Case sensitive - Besar kecil huruf berpengaruh)</label>
                <p>
@@ -61,6 +82,8 @@
             </div>
             <div class="form-group">
                <label for="Wajib Diisi"><strong>Keterangan : (*) Wajib diisi.</strong></label>
+               <br>
+               <label for="">Mohon memasukkan nomor rekening anda dengan valid. Komisi anda akan kami transfer pada rekening yg anda daftarkan</label>
             </div>
             <div class="text-center">
                <input type="submit" value="Register" id="btnRegister" class="btn btn-primary"/>

@@ -108,6 +108,9 @@ class Affiliate extends CI_Controller {
 		$email = clean_string($this->input->post('reg_email')); 
 		$password = clean_string($this->input->post('reg_password')); 
 		$re_password = clean_string($this->input->post('reg_re_password')); 
+		$bank = clean_string($this->input->post('reg_bank'));
+		$rekening = clean_string($this->input->post('reg_rekening'));
+
 		$hash_password = $this->enkripsi->encrypt($password);
 		
 		$arr_valid = $this->_validate();
@@ -155,7 +158,9 @@ class Affiliate extends CI_Controller {
 			'id_user'=> $id_user,
 			'nama_lengkap_user'=> $nama.','.$nama_blkg,
 			'no_telp_user' => $telp,
-			'email' => $email
+			'email' => $email,
+			'bank' => $bank,
+			'rekening' => $rekening
 		);
 		//save to db
         $this->mod_global->insert_data('m_user_detail', $detail);
@@ -297,6 +302,18 @@ class Affiliate extends CI_Controller {
 		if ($this->input->post('reg_captcha') == '') {
 			$data['inputerror'][] = 'reg_captcha';
 			$data['error_string'][] = 'Wajib mengisi Captcha';
+			$data['status'] = FALSE;
+		}
+
+		if ($this->input->post('reg_bank') == '') {
+			$data['inputerror'][] = 'reg_bank';
+			$data['error_string'][] = 'Wajib mengisi Nama Bank';
+			$data['status'] = FALSE;
+		}
+
+		if ($this->input->post('reg_rekening') == '') {
+			$data['inputerror'][] = 'reg_rekening';
+			$data['error_string'][] = 'Wajib mengisi Nomor Rekening';
 			$data['status'] = FALSE;
 		}
 

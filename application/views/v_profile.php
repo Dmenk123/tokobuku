@@ -22,8 +22,9 @@
 							<div class="col-md-9">
 								<p><strong>Nama Lengkap :</strong> <?php echo $nama_lengkap; ?>
 									<br><strong>Email :</strong> <?php echo $value->email; ?>
-									<br><strong>Alamat :</strong> <?php echo $value->alamat_user; ?>
 									<br><strong>Nomor Telp :</strong> <?php echo $value->no_telp_user; ?>
+									<br><strong>No Rekening :</strong> <?php echo $value->rekening; ?>
+									<br><strong>Bank :</strong> <?php echo $value->bank; ?>
 									<br><strong>Terakhir Login :</strong> <?php echo $value->last_login; ?>
 									<hr>
 								</p>

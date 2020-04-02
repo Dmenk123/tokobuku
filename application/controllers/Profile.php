@@ -8,6 +8,9 @@ class Profile extends CI_Controller {
 		$this->load->library(array('session', 'form_validation', 'upload', 'user_agent', 'email'));
         $this->load->helper(array('url', 'form', 'text', 'html', 'security', 'file', 'directory', 'number', 'date', 'download'));
         $this->load->model(['mod_global', 'mod_profile']);
+        if (!$this->session->userdata('logged_in')) {
+        	redirect('home');
+        }
 	}
 
 	public function index()
@@ -17,7 +20,7 @@ class Profile extends CI_Controller {
 		$id_user = clean_string($this->session->userdata('id_user'));
 		
 		//userdata
-		$select = "m_user.*, m_user_detail.nama_lengkap_user, m_user_detail.alamat_user, m_user_detail.no_telp_user, m_user_detail.email, m_user_detail.gambar_user";
+		$select = "m_user.*, m_user_detail.nama_lengkap_user, m_user_detail.alamat_user, m_user_detail.no_telp_user, m_user_detail.email, m_user_detail.gambar_user, m_user_detail.rekening, m_user_detail.bank";
 		$join = array(
 			["table" => "m_user_detail", "on" => "m_user.id_user = m_user_detail.id_user"]
 		);
@@ -185,7 +188,7 @@ class Profile extends CI_Controller {
 		$id_user = clean_string($this->session->userdata('id_user'));
 
 		//userdata
-		$select = "m_user.*, m_user_detail.nama_lengkap_user, m_user_detail.alamat_user, m_user_detail.no_telp_user, m_user_detail.email, m_user_detail.gambar_user";
+		$select = "m_user.*, m_user_detail.nama_lengkap_user, m_user_detail.alamat_user, m_user_detail.no_telp_user, m_user_detail.email, m_user_detail.gambar_user, m_user_detail.rekening, m_user_detail.bank";
 		$join = array(
 			["table" => "m_user_detail", "on" => "m_user.id_user = m_user_detail.id_user"]
 		);
@@ -203,22 +206,101 @@ class Profile extends CI_Controller {
 	{
 		$flag_upload_foto = FALSE;
 		$flag_ganti_pass = FALSE;
-		//$arr_valid = $this->_validate();
+		
+		$arr_valid = $this->_validate();
+
+		if ($arr_valid['status'] == FALSE) {
+			echo json_encode(['status' => FALSE, 'inputerror' => $arr_valid['inputerror'], 'error_string' => $arr_valid['error_string']]);
+			return;
+		}
+
 		$id_user = clean_string($this->session->userdata('id_user'));
 		$password = clean_string($this->input->post('password'));
 		$repassword = clean_string($this->input->post('repassword'));
 		$passwordnew = clean_string($this->input->post('passwordnew'));
+		$telp = clean_string($this->input->post('telp'));
+		$email = clean_string($this->input->post('email'));
+		$rekening = clean_string($this->input->post('rekening'));
+		$bank = clean_string($this->input->post('bank'));
+		$arr_namalengkap = explode(' ', clean_string($this->input->post('namalengkap')));
+		$namafileseo = $this->seoUrl($arr_namalengkap[0].' '.time());
 
+		if (count($arr_namalengkap) == 2) {
+			$nama_lengkap = $arr_namalengkap[0].','.$arr_namalengkap[1];
+		}else if(count($arr_namalengkap) == 3){
+			$nama_lengkap = $arr_namalengkap[0].','.$arr_namalengkap[1].','.$arr_namalengkap[2];
+		}else if(count($arr_namalengkap) == 4){
+			$nama_lengkap = $arr_namalengkap[0].','.$arr_namalengkap[1].','.$arr_namalengkap[2].','.$arr_namalengkap[3];
+		}else{
+			$nama_lengkap = $arr_namalengkap[0];
+		}
+
+		$this->db->trans_begin();
+		
 		if ($this->input->post('ceklistpwd') != 'Y') {
 			$flag_ganti_pass = TRUE;
 			$hasil_password = $this->enkripsi->encrypt($passwordnew);
 
 			if ($passwordnew != $repassword) {
 				$this->session->set_flashdata('feedback_failed', 'Terdapat ketidak cocokan Password Baru');
-				echo json_encode(['status' => true]);
+				echo json_encode(['status' => false]);
 				return;
 			}
 		}
+
+		if(!empty($_FILES['gambar']['name']))
+		{
+			$this->konfigurasi_upload_bukti($namafileseo);
+			//get detail extension
+			$pathDet = $_FILES['gambar']['name'];
+			$extDet = pathinfo($pathDet, PATHINFO_EXTENSION);
+			if ($this->gbr_bukti->do_upload('gambar')) 
+			{
+				$flag_upload_foto = TRUE;
+				$gbrBukti = $this->gbr_bukti->data();
+				//inisiasi variabel u/ digunakan pada fungsi config img bukti
+				$nama_file_foto = $gbrBukti['file_name'];
+				//load config img
+				$this->konfigurasi_image_resize($nama_file_foto);
+				//clear img lib after resize
+				$this->image_lib->clear();
+			} //end
+		}
+
+		//data input array
+		$input = ['updated_at' => date('Y-m-d H:i:s')];
+
+		if ($flag_ganti_pass) {
+			$input['password'] = $hasil_password;
+		}
+
+        //update to db
+        $this->mod_global->updateData2('m_user',['id_user' => $id_user], $input);
+
+        $detail = array(
+			'nama_lengkap_user'=> $nama_lengkap,
+			'no_telp_user' => $telp,
+			'email' => $email,
+			'bank' => $bank,
+			'rekening' => $rekening
+		);
+
+		if ($flag_upload_foto) {
+			$detail['gambar_user'] = $nama_file_foto;
+		}
+
+		//save to db
+        $this->mod_global->updateData2('m_user_detail', ['id_user' => $id_user], $detail);
+
+        if ($this->db->trans_status() === FALSE) {
+			$this->db->trans_rollback();
+			$status = FALSE;
+		} else {
+			$this->db->trans_commit();			
+			$status = TRUE;
+		}
+
+		echo json_encode(['status'=>$status]);
 	}
 
 	private function _validate()
@@ -254,22 +336,74 @@ class Profile extends CI_Controller {
 			$data['status'] = FALSE;
 		}
 
-		if ($this->session->userdata('id_level_user') == '5') {
-			if ($this->input->post('tempatlahir') == '') {
-				$data['inputerror'][] = 'tempatlahir';
-				$data['error_string'][] = 'Wajib mengisi Tempat Lahir';
-				$data['status'] = FALSE;
-			}
-		} else {
-			if ($this->input->post('telp') == '') {
+		
+		if ($this->input->post('telp') == '') {
 				$data['inputerror'][] = 'telp';
 				$data['error_string'][] = 'Wajib mengisi Nomor Telepon';
 				$data['status'] = FALSE;
-			}
+		}
+
+		if ($this->input->post('email') == '') {
+				$data['inputerror'][] = 'email';
+				$data['error_string'][] = 'Wajib mengisi Email';
+				$data['status'] = FALSE;
+		}
+
+		if ($this->input->post('rekening') == '') {
+				$data['inputerror'][] = 'rekening';
+				$data['error_string'][] = 'Wajib mengisi Rekening';
+				$data['status'] = FALSE;
+		}
+
+		if ($this->input->post('bank') == '') {
+				$data['inputerror'][] = 'bank';
+				$data['error_string'][] = 'Wajib mengisi Bank';
+				$data['status'] = FALSE;
 		}
 
 		return $data;
 	}
 
+	public function konfigurasi_upload_bukti($nmfile)
+	{ 
+		//konfigurasi upload img display
+		$config['upload_path'] = './assets/img/foto_profil/';
+		$config['allowed_types'] = 'gif|jpg|png|jpeg|bmp';
+		$config['overwrite'] = TRUE;
+		$config['max_size'] = '4000';//in KB (4MB)
+		$config['max_width']  = '0';//zero for no limit 
+		$config['max_height']  = '0';//zero for no limit
+		$config['file_name'] = $nmfile;
+		//load library with custom object name alias
+		$this->load->library('upload', $config, 'gbr_bukti');
+		$this->gbr_bukti->initialize($config);
+	}
 
+	public function konfigurasi_image_resize($filename)
+	{
+		//konfigurasi image lib
+	    $config['image_library'] = 'gd2';
+	    $config['source_image'] = './assets/img/foto_profil/'.$filename;
+	    $config['create_thumb'] = FALSE;
+	    $config['maintain_ratio'] = FALSE;
+	    $config['new_image'] = './assets/img/foto_profil/'.$filename;
+	    $config['overwrite'] = TRUE;
+	    $config['width'] = 450; //resize
+	    $config['height'] = 500; //resize
+	    $this->load->library('image_lib',$config); //load image library
+	    $this->image_lib->initialize($config);
+	    $this->image_lib->resize();
+	}
+
+	private function seoUrl($string) {
+	    //Lower case everything
+	    $string = strtolower($string);
+	    //Make alphanumeric (removes all other characters)
+	    $string = preg_replace("/[^a-z0-9_\s-]/", "", $string);
+	    //Clean up multiple dashes or whitespaces
+	    $string = preg_replace("/[\s-]+/", " ", $string);
+	    //Convert whitespaces and underscore to dash
+	    $string = preg_replace("/[\s_]/", "-", $string);
+	    return $string;
+	}
 }

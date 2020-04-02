@@ -58,7 +58,28 @@
 
 								<div class="form-group col-md-12">
 									<label>Email : </label>
-									<input type="text" class="form-control" style="background-color: #e8f0fe;" id="email" name="email" value="<?php echo $value->email; ?>">
+									<input type="email" class="form-control" style="background-color: #e8f0fe;" id="email" name="email" value="<?php echo $value->email; ?>">
+									<span class="help-block"></span>
+								</div>
+
+								<div class="form-group col-md-12">
+									<label>No Rekening : </label>
+									<input type="text" class="form-control" style="background-color: #e8f0fe;" id="rekening" name="rekening" value="<?php echo $value->rekening; ?>">
+									<span class="help-block"></span>
+								</div>
+
+								<div class="form-group col-md-12">
+									<label>Bank : </label>
+									<select name="bank" id="bank" class="form-control" style="background-color: #e8f0fe;">
+										<option value="BCA" <?php if($value->bank == 'BCA') { echo 'selected'; } ?>>BCA</option>
+						                <option value="MANDIRI" <?php if($value->bank == 'MANDIRI') { echo 'selected'; } ?>>MANDIRI</option>
+						                <option value="BNI" <?php if($value->bank == 'BNI') { echo 'selected'; } ?>>BNI</option>
+						                <option value="BRI" <?php if($value->bank == 'BRI') { echo 'selected'; } ?>>BRI</option>
+						                <option value="JATIM" <?php if($value->bank == 'JATIM') { echo 'selected'; } ?>>BANK JATIM</option>
+						                <option value="JATENG" <?php if($value->bank == 'JATENG') { echo 'selected'; } ?>>BANK JATENG</option>
+						                <option value="JABAR" <?php if($value->bank == 'JABAR') { echo 'selected'; } ?>>BANK JABAR</option>
+						                <option value="DKI" <?php if($value->bank == 'DKI') { echo 'selected'; } ?>>BANK DKI</option>
+									</select>
 									<span class="help-block"></span>
 								</div>
 
@@ -167,7 +188,7 @@
 		$('#btnSave').attr('disabled', true); //set button disable 
 		
 		var url;
-		url = "<?php echo site_url('profil/update_profil') ?>";
+		url = "<?php echo site_url('profile/update_profil') ?>";
 		
 		// Get form
 		let form = $('#form_input')[0];
@@ -184,7 +205,7 @@
 			contentType: false,
 			success: function(data) {
 				if (data.status) {
-					window.location.href = "<?= base_url('/profil'); ?>";
+					window.location.href = "<?= base_url('/profile'); ?>";
 				} else {
 					for (var i = 0; i < data.inputerror.length; i++) {
 						if (data.inputerror[i] != 'jabatan') {
