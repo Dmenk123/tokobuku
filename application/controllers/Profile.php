@@ -54,10 +54,44 @@ class Profile extends CI_Controller {
 		$this->load->view('footer');
 	}
 
+	public function rincian_komisi()
+	{
+		$arr_komisi = [];
+		$arr_komisi_pre =[];
+		$id_user = clean_string($this->session->userdata('id_user'));
+
+		if ($this->session->userdata('id_level_user') != '2') {
+			return redirect('home','refresh');
+		}
+
+		//userdata
+		$select = "m_user.*, m_user_detail.nama_lengkap_user, m_user_detail.alamat_user, m_user_detail.no_telp_user, m_user_detail.email, m_user_detail.gambar_user, m_user_detail.rekening, m_user_detail.bank";
+		$join = array(
+			["table" => "m_user_detail", "on" => "m_user.id_user = m_user_detail.id_user"]
+		);
+
+		$userdata = $this->mod_global->get_data($select, 'm_user', ['m_user.status' => 1, 'm_user.id_user' => $id_user], $join);
+
+		// var_dump($userdata);exit;
+		$id_agen = $this->mod_profile->get_id_agen($id_user);
+		$arr_komisi_belum = $this->list_komisi_history($id_agen);
+		$arr_komisi_pre = $this->list_pre_komisi_history($id_agen);
+		$arr_komisi_after = $this->list_after_komisi_history($id_agen);
+	
+		$data = [
+			'data_user' => $userdata,
+			'data_komisi_belum' => $arr_komisi_belum,
+			'data_komisi_pre' => $arr_komisi_pre,
+			'data_komisi_after' => $arr_komisi_after
+		];
+
+		$this->load->view('v_navbar');
+		$this->load->view('v_profile_komisi', $data);
+		$this->load->view('footer');
+	}
+
 	public function list_komisi_history($id_agen)
 	{
-		$id_user = clean_string($this->session->userdata('id_user'));
-		$id_agen = $this->mod_profile->get_id_agen($id_user);
 		$list = $this->mod_profile->get_data_komisi($id_agen);
 		
 		$data = array();
@@ -70,6 +104,48 @@ class Profile extends CI_Controller {
 			$row[] = $no;
 			$row[] = date('d-m-Y H:i', strtotime($datalist->created_at));
 			$row[] = "Rp. ".number_format($datalist->laba_agen_total,0,",",".");
+			$row[] = $datalist->kode_ref;
+			$data[] = $row;
+		} //end loop
+
+		return $data;
+	}
+
+	public function list_pre_komisi_history($id_agen)
+	{
+		$list = $this->mod_profile->get_data_pre_komisi($id_agen);
+
+		$data = array();
+		$no = 0;
+		foreach ($list as $datalist) {
+			$link_detail = site_url('profile/komisi_detail/') . $datalist->id;
+			$no++;
+			$row = array();
+			//loop value tabel db
+			$row[] = $no;
+			$row[] = date('d-m-Y H:i', strtotime($datalist->created_at));
+			$row[] = "Rp. " . number_format($datalist->laba_agen_total, 0, ",", ".");
+			$row[] = $datalist->kode_ref;
+			$data[] = $row;
+		} //end loop
+
+		return $data;
+	}
+
+	public function list_after_komisi_history($id_agen)
+	{
+		$list = $this->mod_profile->get_data_after_komisi($id_agen);
+
+		$data = array();
+		$no = 0;
+		foreach ($list as $datalist) {
+			$link_detail = site_url('profile/komisi_detail/') . $datalist->id;
+			$no++;
+			$row = array();
+			//loop value tabel db
+			$row[] = $no;
+			$row[] = date('d-m-Y H:i', strtotime($datalist->created_at));
+			$row[] = "Rp. " . number_format($datalist->laba_agen_total, 0, ",", ".");
 			$row[] = $datalist->kode_ref;
 			$data[] = $row;
 		} //end loop

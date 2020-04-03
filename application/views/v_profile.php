@@ -16,7 +16,7 @@
 							?>
 							<div class="col-md-3">
 								<span>
-									<img src="<?php echo base_url(); ?>assets/img/foto_profil/<?php echo $value->gambar_user; ?>" style="border-radius: 50%; height: 50%; width: 50%;">
+									<img class="img-fluid" src="<?php echo base_url(); ?>assets/img/foto_profil/<?php echo $value->gambar_user; ?>" style="border-radius: 50%; height: 50%; width: 50%;">
 								</span>
 							</div>
 							<div class="col-md-9">
@@ -52,36 +52,6 @@
 
 					</div>
 					<hr>
-					<?php if ($this->session->userdata('id_level_user') == '2') { ?>
-						<h2>Komisi Anda</h2>
-						<p class="text-muted">Berikut merupakan rincian komisi affiliate yang belum anda ditarik.</p>
-						<div class="row">
-							<div class="col-md-12">
-								<div class="table-responsive">
-									<table id="tabelKomisiHistory" class="table table-bordered table-hover">
-										<thead>
-											<tr>
-												<th style="text-align: center; width:5%">No</th>
-												<th style="text-align: center; width:15%">Tanggal</th>
-												<th style="text-align: center; width:25%">Laba Agen</th>
-												<th style="text-align: center; width:13%">Kode Ref</th>
-											</tr>
-										</thead>
-										<tbody>
-											<?php foreach ($data_komisi as $keys => $vals) { ?>
-												<tr>
-													<td><?= $vals[0]; ?></td>
-													<td><?= $vals[1]; ?></td>
-													<td><?= $vals[2]; ?></td>
-													<td><?= $vals[3]; ?></td>
-												</tr>
-											<?php } ?>
-										</tbody>
-									</table>
-								</div><!-- responsive -->
-							</div> <!-- /.col-md-12 -->
-						</div><!-- /.row -->
-					<?php }  ?>
 				</div><!-- /.box -->
 			</div><!-- /.col-md-9 -->
 		</div>
@@ -91,9 +61,7 @@
 <script>
 	var table;
 	$(document).ready(function() {
-		<?php if ($this->session->userdata('id_level_user') == '2') { ?>
-			table = $('#tabelKomisiHistory').DataTable();
-		<?php } ?>
+
 	});
 
 	function tarikCuan() {

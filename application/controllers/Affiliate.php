@@ -8,7 +8,11 @@ class Affiliate extends CI_Controller {
 		$this->load->helper(array('url'));
 		$this->load->library(array('session', 'form_validation', 'upload', 'user_agent', 'email', 'pagination', 'enkripsi'));
         $this->load->helper(array('url', 'form', 'text', 'html', 'security', 'file', 'directory', 'number', 'date', 'download'));
-        $this->load->model(['mod_global']);
+		$this->load->model(['mod_global']);
+		
+		if ($this->session->userdata('logged_in')) {
+			return redirect('home','refresh');
+		}
 	}
 
 	public function index()

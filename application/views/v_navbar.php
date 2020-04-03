@@ -79,7 +79,12 @@
 			<div class="container-fluid">
 				<div class="row">
 					<div class="col-lg-6 col-md-8 col-sm-6 col-xs-12 ">
-						<p>460 West 34th Street, 15th floor, New York - Hotline: 804-377-3580 - 804-399-3580</p>
+						<p>
+							<i class="fa fa-facebook"></i> Cipto Junaedy | 
+							<i class="fa fa-instagram"></i> @ciptojunaedyofficial | 
+							<i class="fa fa-youtube"></i> Cipto Junaedy | 
+							Telp & Wa : +62 813 2434 5334
+						</p>
 					</div>
 					<div class="col-lg-6 col-md-4 col-sm-6 col-xs-12 ">
 						<?php if ($this->session->userdata('logged_in')) : ?>
@@ -100,7 +105,7 @@
 				<div class="navigation__column center">
 					<ul class="main-menu menu">
 						<li class="menu-item dropdown"><a href="<?= base_url('home'); ?>">Home</a></li>
-						<?php if ($this->session->userdata('kode_agen') == null ): ?>
+						<?php if ($this->session->userdata('kode_agen') == null) : ?>
 							<li class="menu-item has-mega-menu"><a href="<?= base_url('affiliate'); ?>">Affiliate</a>
 							</li>
 						<?php endif ?>

@@ -128,6 +128,46 @@ class Mod_profile extends CI_Model
 		return $query->result();
 	}
 
+	private function _get_data_pre_komisi_query($id_agen) //term is value of $_REQUEST['search']
+	{
+		$this->db->select('*');
+
+		$this->db->from('t_checkout');
+		$this->db->where('t_checkout.kode_agen', $id_agen);
+		$this->db->where('t_checkout.status', '0'); //status transaksi sudah selesai
+		$this->db->where('t_checkout.is_konfirm', '1'); //sudah dikonfirmasi bahwa transaksi selesai
+		$this->db->where('t_checkout.is_agen_klaim', '1');
+		$this->db->where('t_checkout.is_verify_klaim', '0');
+		$this->db->order_by('DATE(t_checkout.created_at)', 'desc');
+	}
+
+	function get_data_pre_komisi($id_agen)
+	{
+		$this->_get_data_pre_komisi_query($id_agen);
+		$query = $this->db->get();
+		return $query->result();
+	}
+
+	private function _get_data_after_komisi_query($id_agen) //term is value of $_REQUEST['search']
+	{
+		$this->db->select('*');
+
+		$this->db->from('t_checkout');
+		$this->db->where('t_checkout.kode_agen', $id_agen);
+		$this->db->where('t_checkout.status', '0'); //status transaksi sudah selesai
+		$this->db->where('t_checkout.is_konfirm', '1'); //sudah dikonfirmasi bahwa transaksi selesai
+		$this->db->where('t_checkout.is_agen_klaim', '1');
+		$this->db->where('t_checkout.is_verify_klaim', '1');
+		$this->db->order_by('DATE(t_checkout.created_at)', 'desc');
+	}
+
+	function get_data_after_komisi($id_agen)
+	{
+		$this->_get_data_after_komisi_query($id_agen);
+		$query = $this->db->get();
+		return $query->result();
+	}
+
 	public function get_id_agen($id_user)
 	{
 		$this->db->select('kode_agen');
