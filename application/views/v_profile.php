@@ -10,9 +10,9 @@
 					<p class="text-muted">Berikut merupakan data profil anda, anda dapat mengatur profil anda dengan menekan tombol <strong>Edit</strong>.</p>
 					<div class="row">
 						<?php foreach ($data_user as $value) { ?>
-							<?php 
-								$arr_nama = explode(',', $value->nama_lengkap_user); 
-								$nama_lengkap = $arr_nama[0].' '.$arr_nama[1];
+							<?php
+							$arr_nama = explode(',', $value->nama_lengkap_user);
+							$nama_lengkap = $arr_nama[0] . ' ' . $arr_nama[1];
 							?>
 							<div class="col-md-3">
 								<span>
@@ -26,26 +26,31 @@
 									<br><strong>No Rekening :</strong> <?php echo $value->rekening; ?>
 									<br><strong>Bank :</strong> <?php echo $value->bank; ?>
 									<br><strong>Terakhir Login :</strong> <?php echo $value->last_login; ?>
+									<br><strong>Link Affiliate :</strong> <?php echo base_url('home/aff/') . $value->kode_agen; ?>
 									<hr>
 								</p>
 							</div>
 						<?php } ?>
-							<div class="col-md-5" style="text-align: right;">
-								<?php $link = site_url('profile/edit_profil/'); ?>
-								<a class="btn btn-sm btn-primary" href="<?php echo $link; ?>" title="Edit"> Edit Profil</a>
-							</div>
+						<div class="col-md-5" style="text-align: right;">
+							<?php $link = site_url('profile/edit_profil/'); ?>
+							<a class="btn btn-sm btn-primary" href="<?php echo $link; ?>" title="Edit"> Edit Profil</a>
+						</div>
 					</div><!-- /.row -->
 					<hr>
 					<div class="row">
 						<div class="col-md-12">
 							<h3>Data Komisi</h3>
-							<br><strong>Jumlah Komisi <span style="color:blue;">(Sudah Ditarik)</span> :</strong> <strong>Rp. <?php echo number_format($data_laba_agen['komisi_sudah'],2,",","."); ?></strong>
-							<br><strong>Jumlah Komisi <span style="color:red;">(Belum Ditarik)</span> :</strong> <strong>Rp. <?php echo number_format($data_laba_agen['komisi_belum'],2,",","."); ?></strong>
+							<br><strong>Jumlah Komisi <span style="color:blue;">(Sudah Ditarik)</span> :</strong> <strong>Rp. <?php echo number_format($data_laba_agen['komisi_sudah'], 2, ",", "."); ?></strong>
+							<br>
+							<br><strong>Jumlah Komisi <span style="color:green;">(Tunggu Verifikasi)</span> :</strong> <strong>Rp. <?php echo number_format($data_laba_agen['komisi_pending'], 2, ",", "."); ?></strong>
+							<br>
+							<br><strong>Jumlah Komisi <span style="color:red;">(Belum Ditarik)</span> :</strong> <strong>Rp. <?php echo number_format($data_laba_agen['komisi_belum'], 2, ",", "."); ?></strong>
 							<br><br>
-								<button type="button" class="btn btn-sm btn-success"  onclick="tarikCuan()" title="Tarik Komisi"> Tarik Komisi</button>
+							<button type="button" class="btn btn-sm btn-success" onclick="tarikCuan()" title="Tarik Komisi"> Tarik Komisi</button>
+							<a class="btn btn-sm btn-warning" title="Detail Komisi" href="<?= base_url('profile/rincian_komisi'); ?>"> Detail Komisi</a>
 						</div>
-						
-					</div>	
+
+					</div>
 					<hr>
 					<?php if ($this->session->userdata('id_level_user') == '2') { ?>
 						<h2>Komisi Anda</h2>
@@ -93,35 +98,35 @@
 
 	function tarikCuan() {
 		swal({
-	      	title: "Tarik Komisi",
-	      	text: "Anda Yakin Ingin Melakukan Penarikan Komisi ?? ",
-	      	icon: "warning",
-	      	buttons: [
-	        	'Tidak',
-	        	'Ya'
-	      	],
-	      	//dangerMode: true,
-	    	}).then(function(isConfirm) {
-	      		if (isConfirm) {
-	        		$.ajax({
-						url: baseUrl + 'profile/tarik_komisi',
-						type: 'POST',
-						dataType: "JSON",
-						success: function (data) {
-							if (data.status) {
-								swal("Sukses, Komisi kode : "+data.kode_klaim+"", 'Selengkapnya bisa diihat pada rincian Penarikan', "success").then(function() {
-								    location.reload(true);
-								});
-							}else{
-								swal("Gagal", 'Gagal Menarik Komisi, Coba Lagi Nanti..', "error").then(function() {
-								    location.reload(true);
-								});
-							}
+			title: "Tarik Komisi",
+			text: "Anda Yakin Ingin Melakukan Penarikan Komisi ?? ",
+			icon: "warning",
+			buttons: [
+				'Tidak',
+				'Ya'
+			],
+			//dangerMode: true,
+		}).then(function(isConfirm) {
+			if (isConfirm) {
+				$.ajax({
+					url: baseUrl + 'profile/tarik_komisi',
+					type: 'POST',
+					dataType: "JSON",
+					success: function(data) {
+						if (data.status) {
+							swal("Sukses, Komisi kode : " + data.kode_klaim + "", 'Selengkapnya bisa diihat pada rincian Penarikan', "success").then(function() {
+								location.reload(true);
+							});
+						} else {
+							swal("Gagal", 'Gagal Menarik Komisi, Coba Lagi Nanti..', "error").then(function() {
+								location.reload(true);
+							});
 						}
-					});
-	      		} else {
-	        		swal("Batal", "Aksi dibatalkan", "error");
-	     	 	}
-			});
+					}
+				});
+			} else {
+				swal("Batal", "Aksi dibatalkan", "error");
+			}
+		});
 	}
 </script>

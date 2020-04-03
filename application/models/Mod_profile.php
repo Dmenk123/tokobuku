@@ -178,6 +178,19 @@ class Mod_profile extends CI_Model
 		return $q->row();
 	}
 
+	public function get_komisi_pending_tarik($id_agen)
+	{
+		$this->db->select('(sum(laba_agen_total)) as total_laba');
+		$this->db->from('t_checkout');
+		$this->db->where('kode_agen', $id_agen);
+		$this->db->where('is_konfirm', '1');
+		$this->db->where('status', '0');
+		$this->db->where('is_agen_klaim', '1');
+		$this->db->where('is_verify_klaim', '0');
+		$q = $this->db->get();
+		return $q->row();
+	}
+
 	public function get_komisi_sudah_tarik($id_agen)
 	{
 		$this->db->select('(sum(laba_agen_total)) as total_laba');
@@ -186,15 +199,16 @@ class Mod_profile extends CI_Model
 		$this->db->where('is_konfirm', '1');
 		$this->db->where('status', '0');
 		$this->db->where('is_agen_klaim', '1');
+		$this->db->where('is_verify_klaim', '1');
 		$q = $this->db->get();
 		return $q->row();
 	}
 
-	public function set_komisi_sudah_tarik($id_agen)
+	public function set_komisi_sudah_klaim($id_agen, $id_klaim)
 	{
 		$this->db->update(
 			't_checkout', 
-			['is_agen_klaim' => 1], 
+			['is_agen_klaim' => 1, 'id_klaim_agen' => $id_klaim], 
 			[ 'kode_agen' => $id_agen, 'is_konfirm' => '1', 'status' => '0', 'is_agen_klaim' => '0']
 		);
 

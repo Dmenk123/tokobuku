@@ -34,10 +34,12 @@ class Profile extends CI_Controller {
 
 			$q = $this->mod_profile->get_komisi_belum_tarik($id_agen);
 			$qq = $this->mod_profile->get_komisi_sudah_tarik($id_agen);
+			$qqq = $this->mod_profile->get_komisi_pending_tarik($id_agen);
 			
 			$arr_batine_agen = [
 				'komisi_belum' => $q->total_laba,
-				'komisi_sudah' => $qq->total_laba
+				'komisi_sudah' => $qq->total_laba,
+				'komisi_pending' => $qqq->total_laba
 			];
 		}
 
@@ -82,12 +84,19 @@ class Profile extends CI_Controller {
 
 		$q = $this->mod_profile->get_komisi_belum_tarik($id_agen);
 		$qq = $this->mod_profile->get_komisi_sudah_tarik($id_agen);
+
+		if ((int)$q->total_laba == 0) {
+			echo json_encode([
+				'status' => FALSE
+			]);
+			return;
+		}
 		
 		$this->db->trans_begin();
 		$id = $this->mod_global->gen_uuid();
 		$kode_klaim = $this->string_unik();
 		//update flag is tarik
-		$update_flag_tarik = $this->mod_profile->set_komisi_sudah_tarik($id_agen);
+		$update_flag_tarik = $this->mod_profile->set_komisi_sudah_klaim($id_agen, $id);
 		
 		//catat ke t_klaim_agen
 		if ($qq->total_laba) {
@@ -95,6 +104,7 @@ class Profile extends CI_Controller {
 		}else{
 			$saldo_sebelum = 0;
 		}
+
 		$data = array(
 			'id' => $id,
 			'id_agen' => $id_agen,

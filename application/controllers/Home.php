@@ -11,13 +11,13 @@ class Home extends CI_Controller {
         $this->load->model('mod_global');
 	}
 
-	public function index($uri='')
+	public function index()
 	{
-		$cek_agen = $this->pengecekan_agen($uri);
+		/* $cek_agen = $this->pengecekan_agen($uri);
 
 		if ($cek_agen) {
 			return redirect('home','refresh');
-		}
+		} */
 		
 		$data = [];
 
@@ -25,6 +25,14 @@ class Home extends CI_Controller {
 		$this->load->view('header');
 		$this->load->view('v_home', $data);
 		$this->load->view('footer');
+	}
+
+	public function aff($uri='')
+	{
+		$cek_agen = $this->pengecekan_agen($uri);
+		if ($cek_agen) {
+			return redirect('home', 'refresh');
+		}
 	}
 
 	public function pengecekan_agen($uri)
