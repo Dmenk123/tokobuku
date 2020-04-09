@@ -103,6 +103,24 @@ class Affiliate extends CI_Controller {
 		}
 	}
 
+	public function register()
+	{
+		//captcha	
+		$imgCaptcha = $this->buat_captcha();
+
+		$data = array(
+			'img' => $imgCaptcha,
+		);
+
+		$this->load->view('v_navbar');
+		if (!empty($this->session->userdata('kode_agen'))) {
+			$this->load->view('v_kode', $data);
+		} else {
+			$this->load->view('v_register_affiliate', $data);
+		}
+		$this->load->view('footer');
+	}
+
 	public function add_register()
 	{
 		$username = clean_string($this->input->post('reg_username')); 
