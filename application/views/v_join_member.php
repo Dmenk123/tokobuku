@@ -5,14 +5,12 @@
 			<?php if ($this->session->flashdata('feedback_success')) { ?>
 				<div class="alert alert-success alert-dismissible">
 					<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-					<h4><i class="icon fa fa-check"></i> Berhasil!</h4>
 					<?= $this->session->flashdata('feedback_success') ?>
 				</div>
 
 			<?php } elseif ($this->session->flashdata('feedback_failed')) { ?>
 				<div class="alert alert-danger alert-dismissible">
 					<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-					<h4><i class="icon fa fa-remove"></i> Gagal!</h4>
 					<br>
 					<?= $this->session->flashdata('feedback_failed') ?>
 				</div>
@@ -30,12 +28,6 @@
 								<span class="help-block"></span>
 							</div>
 							<div class="form-group form-group--inline">
-								<label>Nama Belakang
-								</label>
-								<input class="form-control" style="background-color: #e8f0fe;" type="text" name="lname" id="lname">
-								<span class="help-block"></span>
-							</div>
-							<div class="form-group form-group--inline">
 								<label>Email<span>*</span>
 								</label>
 								<input class="form-control" style="background-color: #e8f0fe;" type="email" name="email" id="email" placeholder="anda@domain.com">
@@ -44,16 +36,16 @@
 							<div class="form-group form-group--inline">
 								<label>No. Telepon<span>*</span>
 								</label>
-								<input class="form-control" style="background-color: #e8f0fe;" type="text" name="telp" id="telp">
+								<input class="form-control numberinput" style="background-color: #e8f0fe;" type="text" name="telp" id="telp">
 								<span class="help-block"></span>
 							</div>
 							<h3 class="mt-40"> Upload Bukti Transfer</h3>
 							<div class="form-group form-group--inline">
-								<label>Upload Bukti</label><span>*</span>
+								<label>Upload Bukti<span>*</span></label>
 								<input type="file" class="form-control-file" name="bukti" id="bukti" accept=".png, .jpg, .jpeg">
 							</div>
 							<div class="form-group">
-								<img id="bukti-img" src="" alt="" height="360" width="300" class="pull-right" />
+								<img id="bukti-img" src="" alt="" height="360" width="300" class="pull-right hidden" />
 							</div>
 						</div>
 					</div>
@@ -88,16 +80,22 @@
 <script src="https://www.google.com/recaptcha/api.js?render=6LcKN-MUAAAAADMou4FyEsJOONfj5940sKYIVFLt"></script>
 <script>
 	$(document).ready(function() {
+	    $('input.numberinput').bind('keypress', function(e) {
+          return (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57) && e.which != 46) ? false : true;
+        });
+        
 		$("#bukti").change(function() {
 			//console.log(this);
 			var id = this.id;
 			readURL(this, id);
+			$("#bukti-img").removeClass('hidden');
 		});
 	});
 
 	$('#form_proses').submit(function(event) {
 		event.preventDefault();
-    $('#btnAksi').attr("disabled", true);
+        $('#btnAksi').attr("disabled", true).text("Sedang Memproses ...");
+        $('body.ps-loading').addClass("loaded");
 		grecaptcha.ready(function() {
 			grecaptcha.execute('6LcKN-MUAAAAADMou4FyEsJOONfj5940sKYIVFLt', {
 				action: 'get_recaptcha'

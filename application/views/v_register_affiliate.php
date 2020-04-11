@@ -46,7 +46,7 @@
     <p style="font-size:14px; font-family: arial; color:black;" align="center"><strong><span style="font-size:30px;color:yellow;">TANPA HARUS JUALAN, CUKUP HANYA MEMAJANG  </span>& menjadi Affiliate Kami. </strong>
     </p></p>-->
 
-	<div class="col-md-6" id="register">
+	<div class="col-md-7" id="register">
 		<div class="box">
 			<h1>Register</h1>
 			<p class="lead">Anda apakah saat ini belum memiliki akun ?</p>
@@ -61,11 +61,6 @@
 				<div class="form-group">
 					<label for="Nama Depan">Nama Depan*</label>
 					<input type="text" class="form-control" id="regNama" name="reg_nama">
-					<span class="help-block"></span>
-				</div>
-				<div class="form-group">
-					<label for="Nama Belakang">Nama Belakang</label>
-					<input type="text" class="form-control" id="regNamaBlkg" name="reg_nama_blkg">
 					<span class="help-block"></span>
 				</div>
 				<div class="form-group">
@@ -109,22 +104,13 @@
 					<input type="text" class="form-control numberinput" id="regRekening" name="reg_rekening">
 					<span class="help-block"></span>
 				</div>
-
-				<div class="form-group">
-					<label for="Kode Pos">Captcha* (Case sensitive - Besar kecil huruf berpengaruh)</label>
-					<p>
-						<span id="imgCaptcha"><?php echo $img; ?></span>
-						<a href="javascript:void(0);" class="refreshCaptcha">[Kode Tidak Jelas]</a>
-					</p>
-					<input type="text" class="form-control" id="regCaptcha" name="reg_captcha">
-					<span class="help-block"></span>
-				</div>
+	
 				<div class="form-group">
 					<label for="Wajib Diisi"><strong>Keterangan : (*) Wajib diisi.</strong></label>
 					<br>
 					<label for="">Mohon memasukkan nomor rekening anda dengan valid. Komisi anda akan kami transfer pada rekening yg anda daftarkan</label>
 				</div>
-				<div class="text-center">
+				<div class="text-center" style="margin-bottom:5%;">
 					<input type="submit" value="Register" id="btnRegister" class="btn btn-primary" />
 				</div>
 			</form>
@@ -132,18 +118,36 @@
 		</div><!-- /.box -->
 	</div><!-- /.col -->
 
-	<div class="col-md-6" style="padding-top:50px;" id="image">
-		<div class="box">
-			<img src="<?php echo base_url(); ?>images/affiliate.png" height="350" width="auto">
-		</div><!-- /.box -->
-	</div><!-- /.col -->
+	<div class="col-lg-5 col-md-5 col-sm-12 col-xs-12 ">
+		<div class="ps-checkout__order">
+			<header></header>
+			<footer>
+				<h3>Metode Pembayaran / Transfer</h3>
+				<div class="form-group cheque">
+					<div class="">
+						<p>Dimohon Transfer Ke Rekening Dibawah Ini Serta Melampirkan Upload Bukti Transfer.</p>
+						<p>BCA : BAPAK Cipto Junaedi - 014-1231212-12121</p>
+						<p>MANDIRI : BAPAK Cipto Junaedi - 021-1231212-12121</p>
+						<p>BANK OF INDIA : BAPAK Cipto Junaedi - 666-1231212-12121</p>
+					</div>
+				</div>
+				<!--  <div class="form-group paypal">
+					<button class="ps-btn ps-btn--fullwidth" id="btnAksi">Konfirmasi & Selesai<i class="ps-icon-next"></i></button>
+				</div> -->
+			</footer>
+		</div>
+		<div class="ps-shipping">
+			<h3>PERLU ANDA KETAHUI</h3>
+			<p>Ketika Anda Selesai Melakukan Proses Pendaftaran Member ini.<br> Proses pendaftaran anda akan kami verifikasi dan akan kami kirim pemberitahuan melalui WA/Email anda.</p>
+		</div>
+	</div>
+
 </div><!-- /.container -->
 
-
-
-
-
+<script src="https://www.google.com/recaptcha/api.js?render=6LcKN-MUAAAAADMou4FyEsJOONfj5940sKYIVFLt"></script>
 <script>
+	let itGo = false;
+
 	$(document).ready(function() {
 		$('input.numberinput').bind('keypress', function(e) {
 			return (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57) && e.which != 46) ? false : true;
@@ -155,49 +159,112 @@
 			});
 		});
 
-		$("#btnRegister").click(function(event) {
+		$('#form_register').submit(function(event) {
 			event.preventDefault();
-			var form = $('#form_register')[0];
-			var data = new FormData(form);
-			$("#btnRegister").prop("disabled", true);
-			$.ajax({
-				type: "POST",
-				enctype: 'multipart/form-data',
-				url: "<?php echo site_url('affiliate/add_register'); ?>",
-				data: data,
-				dataType: "JSON",
-				processData: false, // false, it prevent jQuery form transforming the data into a query string
-				contentType: false,
-				cache: false,
-				timeout: 600000,
-				success: function(data) {
-					if (data.status) {
-						alert(data.pesan);
-						$("#btnRegister").prop("disabled", false);
-						window.location.href = "<?php echo site_url('profile'); ?>";
-					} else {
-						if (data.flag_captcha) {
-							alert(data.pesan);
-							$("#btnRegister").prop("disabled", false);
-						} else {
-							$("#btnRegister").prop("disabled", false);
-							for (var i = 0; i < data.inputerror.length; i++) {
-								if (data.inputerror[i] != 'jabatan') {
-									$('[name="' + data.inputerror[i] + '"]').parent().addClass('has-error');
-									$('[name="' + data.inputerror[i] + '"]').next().text(data.error_string[i]);
-								} else {
-									$($('#jabatan').data('select2').$container).addClass('has-error');
+	        $('#btnRegister').attr("disabled", true).text("Sedang Memproses ...");
+	        $('body.ps-loading').addClass("loaded");
+			grecaptcha.ready(function() {
+				grecaptcha.execute('6LcKN-MUAAAAADMou4FyEsJOONfj5940sKYIVFLt', {
+					action: 'get_recaptcha'
+				}).then(function(token) {
+					$('#form_register').prepend('<input type="hidden" name="token" value="' + token + '">');
+					
+					if (itGo != false) {
+						$('input[name="token"]').val(token);
+					}else{
+						itGo = token;
+					}
+					
+					// $('#form_register').unbind('submit').submit();
+					var form = $('#form_register')[0];
+					var data = new FormData(form);
+					$.ajax({
+						type: "POST",
+						enctype: 'multipart/form-data',
+						url: "<?php echo site_url('affiliate/add_register'); ?>",
+						data: data,
+						dataType: "JSON",
+						processData: false,
+						contentType: false,
+						cache: false,
+						timeout: 600000,
+						success: function(data) {
+							if (data.status) {
+								alert(data.pesan);
+								$("#btnRegister").prop("disabled", false);
+								window.location.href = "<?php echo site_url('profile'); ?>";
+							} else {
+								if (data.flag_captcha) {
+									alert(data.pesan);
+									//location.reload();
+								} else if (data.flag_pesan) {
+									alert(data.pesan);
+									$("#btnRegister").prop("disabled", false);
+								}else {
+									$("#btnRegister").prop("disabled", false);
+									for (var i = 0; i < data.inputerror.length; i++) {
+										if (data.inputerror[i] != 'jabatan') {
+											$('[name="' + data.inputerror[i] + '"]').parent().addClass('has-error');
+											$('[name="' + data.inputerror[i] + '"]').next().text(data.error_string[i]);
+										} else {
+											$($('#jabatan').data('select2').$container).addClass('has-error');
+										}
+									}
 								}
 							}
+						},
+						error: function(e) {
+							console.log("ERROR : ", e);
+							$("#btnRegister").prop("disabled", false);
 						}
-					}
-				},
-				error: function(e) {
-					console.log("ERROR : ", e);
-					$("#btnRegister").prop("disabled", false);
-				}
+					});
+				});
 			});
-
 		});
+
+		// $("#btnRegister").click(function(event) {
+		// 	event.preventDefault();
+		// 	var form = $('#form_register')[0];
+		// 	var data = new FormData(form);
+		// 	$("#btnRegister").prop("disabled", true);
+		// 	$.ajax({
+		// 		type: "POST",
+		// 		enctype: 'multipart/form-data',
+		// 		url: "<?php echo site_url('affiliate/add_register'); ?>",
+		// 		data: data,
+		// 		dataType: "JSON",
+		// 		processData: false, // false, it prevent jQuery form transforming the data into a query string
+		// 		contentType: false,
+		// 		cache: false,
+		// 		timeout: 600000,
+		// 		success: function(data) {
+		// 			if (data.status) {
+		// 				alert(data.pesan);
+		// 				$("#btnRegister").prop("disabled", false);
+		// 				window.location.href = "<?php echo site_url('profile'); ?>";
+		// 			} else {
+		// 				if (data.flag_captcha) {
+		// 					alert(data.pesan);
+		// 					$("#btnRegister").prop("disabled", false);
+		// 				} else {
+		// 					$("#btnRegister").prop("disabled", false);
+		// 					for (var i = 0; i < data.inputerror.length; i++) {
+		// 						if (data.inputerror[i] != 'jabatan') {
+		// 							$('[name="' + data.inputerror[i] + '"]').parent().addClass('has-error');
+		// 							$('[name="' + data.inputerror[i] + '"]').next().text(data.error_string[i]);
+		// 						} else {
+		// 							$($('#jabatan').data('select2').$container).addClass('has-error');
+		// 						}
+		// 					}
+		// 				}
+		// 			}
+		// 		},
+		// 		error: function(e) {
+		// 			console.log("ERROR : ", e);
+		// 			$("#btnRegister").prop("disabled", false);
+		// 		}
+		// 	});
+
+		// });
 	});
 </script>

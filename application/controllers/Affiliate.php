@@ -8,9 +8,8 @@ class Affiliate extends CI_Controller {
 		$this->load->helper(array('url'));
 		$this->load->library(array('session', 'form_validation', 'upload', 'user_agent', 'email', 'pagination', 'enkripsi'));
         $this->load->helper(array('url', 'form', 'text', 'html', 'security', 'file', 'directory', 'number', 'date', 'download'));
-		$this->load->model(['mod_global']);
-		
-		if ($this->session->userdata('logged_in')) {
+        $this->load->model(['mod_global']);
+        if ($this->session->userdata('logged_in')) {
 			return redirect('home','refresh');
 		}
 	}
@@ -18,10 +17,10 @@ class Affiliate extends CI_Controller {
 	public function index()
 	{	
 		//captcha	
-		$imgCaptcha = $this->buat_captcha();
+		//$imgCaptcha = $this->buat_captcha();
 
 		$data = array(
-			'img' => $imgCaptcha,
+			// 'img' => $imgCaptcha,
 		);
 
         $this->load->view('v_navbar');
@@ -32,8 +31,26 @@ class Affiliate extends CI_Controller {
         }
 		$this->load->view('footer');
 	}
+	
+	public function register()
+	{
+		//captcha	
+		// $imgCaptcha = $this->buat_captcha();
 
-	public function buat_captcha()
+		$data = array(
+			// 'img' => $imgCaptcha,
+		);
+
+		$this->load->view('v_navbar');
+		if (!empty($this->session->userdata('kode_agen'))) {
+			$this->load->view('v_kode', $data);
+		} else {
+			$this->load->view('v_register_affiliate', $data);
+		}
+		$this->load->view('footer');
+	}
+
+	/*public function buat_captcha()
 	{
 		$options = array(
 			'img_path' => 'assets/img/captcha_img/',
@@ -101,31 +118,25 @@ class Affiliate extends CI_Controller {
 			echo json_encode(array('pesan_error' => 'Maaf terjadi kesalahan pada penulisan captcha'));
 			return false;
 		}
-	}
-
-	public function register()
-	{
-		//captcha	
-		$imgCaptcha = $this->buat_captcha();
-
-		$data = array(
-			'img' => $imgCaptcha,
-		);
-
-		$this->load->view('v_navbar');
-		if (!empty($this->session->userdata('kode_agen'))) {
-			$this->load->view('v_kode', $data);
-		} else {
-			$this->load->view('v_register_affiliate', $data);
-		}
-		$this->load->view('footer');
-	}
+	}*/
 
 	public function add_register()
 	{
+		$token = $this->input->post('token');
+		$cek_captcha = $this->get_recaptcha($token);
+
+		if ($cek_captcha === FALSE) {
+			echo json_encode(array(
+				"status" => FALSE,
+				'pesan' => 'Sesi Captcha telah usai. Halaman akan dimuat ulang.',
+				'flag_captcha' => TRUE
+			));
+			return;
+		}
+
 		$username = clean_string($this->input->post('reg_username')); 
 		$nama = clean_string($this->input->post('reg_nama')); 
-		$nama_blkg = clean_string($this->input->post('reg_nama_blkg')); 
+		$nama_blkg = ''; 
 		$telp = clean_string($this->input->post('reg_telp')); 
 		$email = clean_string($this->input->post('reg_email')); 
 		$password = clean_string($this->input->post('reg_password')); 
@@ -141,27 +152,18 @@ class Affiliate extends CI_Controller {
 			return;
 		}
 
-		if ($this->input->post('reg_captcha') != $this->session->userdata('captchaCode')) 
-		{
-			echo json_encode(array(
-				"status" => FALSE,
-				'pesan' => 'Maaf terjadi kesalahan pada penulisan captcha',
-				'flag_captcha' => TRUE
-			));
-			return;
-		}
-
 		if ($password != $re_password) {
 			echo json_encode(array(
 				"status" => FALSE,
 				'pesan' => 'Maaf Password harus Sama',
-				'flag_captcha' => TRUE
+				'flag_pesan' => TRUE
 			));
 			return;
 		}
 
 		$id_user = $this->mod_global->getKodeUser();
         $kode    = $this->kode_affiliate();
+
 		//data input array
 		$input = array(
 			'id_user' => $id_user,
@@ -178,7 +180,7 @@ class Affiliate extends CI_Controller {
 
         $detail = array(
 			'id_user'=> $id_user,
-			'nama_lengkap_user'=> $nama.','.$nama_blkg,
+			'nama_lengkap_user'=> $nama,
 			'no_telp_user' => $telp,
 			'email' => $email,
 			'bank' => $bank,
@@ -321,12 +323,6 @@ class Affiliate extends CI_Controller {
 			$data['status'] = FALSE;
 		}
 
-		if ($this->input->post('reg_captcha') == '') {
-			$data['inputerror'][] = 'reg_captcha';
-			$data['error_string'][] = 'Wajib mengisi Captcha';
-			$data['status'] = FALSE;
-		}
-
 		if ($this->input->post('reg_bank') == '') {
 			$data['inputerror'][] = 'reg_bank';
 			$data['error_string'][] = 'Wajib mengisi Nama Bank';
@@ -348,5 +344,21 @@ class Affiliate extends CI_Controller {
         return $kode;
     }
 
+    private function get_recaptcha($token)
+	{
+		$genCaptcha = $this->recaptcha->generate();
+		
+		$resp = $genCaptcha->setExpectedHostname('localhost')
+                  ->setExpectedAction('get_recaptcha')
+                  ->setScoreThreshold(0.5)
+                  ->verify($token);
+
+        if ($resp->isSuccess()) {
+		    return TRUE;
+		} else {
+		    //$errors = $resp->getErrorCodes();
+		    return FALSE;
+		}
+	}
 
 }
