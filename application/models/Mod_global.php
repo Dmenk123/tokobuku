@@ -46,7 +46,7 @@ class Mod_global extends CI_Model
 		if ($where) {
 			$this->db->where($where);
 		}
-
+		
 		foreach($join as $j) :
 			$this->db->join($j["table"], $j["on"],'left');
 		endforeach;

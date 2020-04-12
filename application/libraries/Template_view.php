@@ -480,7 +480,7 @@ class Template_view extends CI_Controller {
 			");
 			$dataButton = $queryButton->row();
 			if($dataButton->edit_button == 1 ){
-				return '<a class="btn btn-sm btn-primary" href="'.$urlEdit.'" title="Edit"><i class="glyphicon glyphicon-pencil"></i></a>';
+				return '<a class="btn btn-sm btn-warning" href="'.$urlEdit.'" title="Edit"><i class="glyphicon glyphicon-pencil"></i></a>';
 			}
 		}
     }

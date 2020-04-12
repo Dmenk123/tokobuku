@@ -91,7 +91,7 @@ class Join_member extends CI_Controller {
 		$kode_ref = $this->incrementalHash();
 
 		$select = "*";
-		$where = ['tanggal_berlaku' < date('Y-m-d H:i:s')];
+		$where = ['tanggal_berlaku' < date('Y-m-d H:i:s'), 'jenis' => 'paket'];
 		$order = 'tanggal_berlaku DESC';
 		$harga = $this->mod_global->get_data_single($select, 't_log_harga', $where, null, $order);
 

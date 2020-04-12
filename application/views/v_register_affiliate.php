@@ -104,7 +104,12 @@
 					<input type="text" class="form-control numberinput" id="regRekening" name="reg_rekening">
 					<span class="help-block"></span>
 				</div>
-	
+
+				<div class="form-group">
+					<label>Upload Bukti*</label>
+					<input type="file" class="form-control-file" name="bukti" id="bukti" accept=".png, .jpg, .jpeg">
+				</div>
+					
 				<div class="form-group">
 					<label for="Wajib Diisi"><strong>Keterangan : (*) Wajib diisi.</strong></label>
 					<br>
@@ -118,9 +123,8 @@
 		</div><!-- /.box -->
 	</div><!-- /.col -->
 
-	<div class="col-lg-5 col-md-5 col-sm-12 col-xs-12 ">
+	<div class="col-lg-5 col-md-5 col-sm-12 col-xs-12" style="margin-top: 5%;">
 		<div class="ps-checkout__order">
-			<header></header>
 			<footer>
 				<h3>Metode Pembayaran / Transfer</h3>
 				<div class="form-group cheque">
@@ -140,6 +144,14 @@
 			<h3>PERLU ANDA KETAHUI</h3>
 			<p>Ketika Anda Selesai Melakukan Proses Pendaftaran Member ini.<br> Proses pendaftaran anda akan kami verifikasi dan akan kami kirim pemberitahuan melalui WA/Email anda.</p>
 		</div>
+		<div class="ps-shipping hidden" id="div_preview">
+			<div class="form-group" style="margin-bottom: 5%;">
+				<h4>Preview Bukti Transfer</h4>
+			</div>
+			<div class="form-group">
+				<img id="bukti-img" src="" alt="" height="360" width="300" class="hidden" />
+			</div>
+		</div>
 	</div>
 
 </div><!-- /.container -->
@@ -153,10 +165,12 @@
 			return (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57) && e.which != 46) ? false : true;
 		});
 
-		$('.refreshCaptcha').on('click', function() {
-			$.get('<?php echo base_url() . 'register/refresh_captcha'; ?>', function(data) {
-				$('#imgCaptcha').html(data);
-			});
+		$("#bukti").change(function() {
+			//console.log(this);
+			var id = this.id;
+			readURL(this, id);
+			$("#bukti-img").removeClass('hidden');
+			$('#div_preview').removeClass('hidden');
 		});
 
 		$('#form_register').submit(function(event) {
@@ -196,7 +210,7 @@
 							} else {
 								if (data.flag_captcha) {
 									alert(data.pesan);
-									//location.reload();
+									location.reload();
 								} else if (data.flag_pesan) {
 									alert(data.pesan);
 									$("#btnRegister").prop("disabled", false);
@@ -222,4 +236,18 @@
 			});
 		});
 	});
+
+	function readURL(input, id) {
+		var idImg = id + '-img';
+		// console.log(idImg);
+		if (input.files && input.files[0]) {
+			var reader = new FileReader();
+			console.log(reader);
+			reader.onload = function(e) {
+				$('#' + idImg).attr('src', e.target.result);
+			}
+
+			reader.readAsDataURL(input.files[0]);
+		}
+	}
 </script>
