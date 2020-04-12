@@ -221,50 +221,5 @@
 				});
 			});
 		});
-
-		// $("#btnRegister").click(function(event) {
-		// 	event.preventDefault();
-		// 	var form = $('#form_register')[0];
-		// 	var data = new FormData(form);
-		// 	$("#btnRegister").prop("disabled", true);
-		// 	$.ajax({
-		// 		type: "POST",
-		// 		enctype: 'multipart/form-data',
-		// 		url: "<?php echo site_url('affiliate/add_register'); ?>",
-		// 		data: data,
-		// 		dataType: "JSON",
-		// 		processData: false, // false, it prevent jQuery form transforming the data into a query string
-		// 		contentType: false,
-		// 		cache: false,
-		// 		timeout: 600000,
-		// 		success: function(data) {
-		// 			if (data.status) {
-		// 				alert(data.pesan);
-		// 				$("#btnRegister").prop("disabled", false);
-		// 				window.location.href = "<?php echo site_url('profile'); ?>";
-		// 			} else {
-		// 				if (data.flag_captcha) {
-		// 					alert(data.pesan);
-		// 					$("#btnRegister").prop("disabled", false);
-		// 				} else {
-		// 					$("#btnRegister").prop("disabled", false);
-		// 					for (var i = 0; i < data.inputerror.length; i++) {
-		// 						if (data.inputerror[i] != 'jabatan') {
-		// 							$('[name="' + data.inputerror[i] + '"]').parent().addClass('has-error');
-		// 							$('[name="' + data.inputerror[i] + '"]').next().text(data.error_string[i]);
-		// 						} else {
-		// 							$($('#jabatan').data('select2').$container).addClass('has-error');
-		// 						}
-		// 					}
-		// 				}
-		// 			}
-		// 		},
-		// 		error: function(e) {
-		// 			console.log("ERROR : ", e);
-		// 			$("#btnRegister").prop("disabled", false);
-		// 		}
-		// 	});
-
-		// });
 	});
 </script>
