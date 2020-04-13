@@ -46,10 +46,12 @@ class Mod_global extends CI_Model
 		if ($where) {
 			$this->db->where($where);
 		}
-		
-		foreach($join as $j) :
-			$this->db->join($j["table"], $j["on"],'left');
-		endforeach;
+
+		if (count($join) > 0 || $join != null) {
+            foreach($join as $j) :
+    			$this->db->join($j["table"], $j["on"],'left');
+    		endforeach;
+        }
 
 		if ($order) {
 			$this->db->order_by($order);
@@ -102,6 +104,7 @@ class Mod_global extends CI_Model
 		$this->db->select('*');
 		$this->db->from('m_user');
 		$this->db->where('kode_agen', $kode_agen);
+		$this->db->where('status', '1');
 		$query = $this->db->get();
 		return $query->row();
 	}

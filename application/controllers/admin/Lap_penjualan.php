@@ -75,7 +75,13 @@ class Lap_penjualan extends CI_Controller
 			{
 				$arr_data[$key+1]['tanggal'] = date('d-m-Y', strtotime($val->created_at));
 				$arr_data[$key+1]['kode_ref'] = $val->kode_ref;
-				$arr_data[$key+1]['keterangan'] = 'Pendaftaran Member a/n : '.$val->nama_lengkap;
+				
+				if ($val->jenis == 'affiliate') {
+					$arr_data[$key+1]['keterangan'] = 'Pendaftaran Affiliate a/n : '.$val->nama_lengkap;
+				}else{
+					$arr_data[$key+1]['keterangan'] = 'Pendaftaran Member a/n : '.$val->nama_lengkap;
+				}
+
 				$arr_data[$key+1]['penerimaan'] = number_format($val->harga_total,2,",",".");
 				$arr_data[$key+1]['laba_agen'] = number_format($val->laba_agen_total,2,",",".");
 

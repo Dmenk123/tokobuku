@@ -167,6 +167,22 @@ class Penjualan extends CI_Controller
 		}else{
 			$status = FALSE;
 		}
+		
+		//cek data di user jika daftar affiliate
+		$select = "*";
+		$where = ['id' => $id];
+		$ckt = $this->m_global->get_data_single($select, 't_checkout', $where, null, null);
+		$email = $ckt->email;
+
+		$select2 = "*";
+		$where2 = ['email' => $email];
+		$user_det = $this->m_global->get_data_single($select2, 'm_user_detail', $where2, null, null);
+		if ($user_det) {
+			$upd_user = $this->m_global->updateData2('m_user', ['id_user' => $user_det->id_user], ['status' => 0]);
+			if ($upd_user) {
+				$status = TRUE;
+			}
+		}
 
 		echo json_encode([
 			'status' => $status,

@@ -91,7 +91,13 @@
     							<table id="tabelVerify" class="table table-bordered table-hover" cellspacing="0" width="100%">
     								<tr>
     									<th>
-    										<?php echo '<img src="' . base_url() . '/assets/img/bukti_transfer/' . $hasil_data->bukti . '" width="400" height="400">'; ?>
+    										<?php
+                                                if ($hasil_data->jenis == 'affiliate') {
+                                                    echo '<img src="' . base_url() . '/assets/img/bukti_transfer_aff/' . $hasil_data->bukti . '" width="400" height="400">';
+                                                 }else{
+                                                    echo '<img src="' . base_url() . '/assets/img/bukti_transfer/' . $hasil_data->bukti . '" width="400" height="400">';
+                                                 } 
+                                            ?>
     										<input type="hidden" name="bukti_upload" value="<?= $hasil_data->bukti; ?>">
     									</th>
     								</tr>
