@@ -26,14 +26,13 @@
                 <table id="tabelUser" class="table table-bordered table-hover" cellspacing="0" width="100%">
                   <thead>
                     <tr>
-                      <th>ID</th>
+                      <th>Username</th>
                       <th>Nama User</th>
                       <th>Email</th>
-                      <th>Password</th>
                       <th>Level</th>
                       <th>Status</th>
                       <th>Terakhir Login</th>
-                      <th style="width: 175px;">Action</th>
+                      <th style="width: 75px;">Action</th>
                     </tr>
                   </thead>
                   <tbody>

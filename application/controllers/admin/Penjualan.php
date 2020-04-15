@@ -215,3 +215,4 @@ class Penjualan extends CI_Controller
 	}
 	
 }//end of class penjualan.php
+

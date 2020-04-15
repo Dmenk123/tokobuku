@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>MAS NUR YEYEYE LALALA</title>
+  <title>Administrator | Majang Dapat Uang</title>
   <link rel="shortcut icon" href="<?php echo base_url('assets/'); ?>img/logo.png" />
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
@@ -37,11 +37,11 @@
 <body class="hold-transition login-page">
 <div class="login-box">
   <!-- /.login-logo -->
-  <p class="login-box-text-header">JUDUL APLIKASI</p>
+  <p class="login-box-text-header">Web Administrator</p>
   <div class="login-box-body">  
       <div class="login-logo">
-        <span class="logo-lg"><img src="<?php echo base_url('assets/img/logo-login-page.png');?>"></span> 
-        <strong><p class="login-box-text">NAMA OWNER</p></strong>
+        <!-- <span class="logo-lg"><img src="<?php echo base_url('assets/img/logo-login-page.png');?>"></span>  -->
+        <strong><p class="login-box-text">Hallo, Silahkan Login</p></strong>
       </div>
     <form action="<?php echo base_url('admin/login/proc'); ?>" method="post">
       <div class="form-group has-feedback">

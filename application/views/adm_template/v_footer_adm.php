@@ -5,7 +5,7 @@
 	<div class="pull-right hidden-xs">
 		<b>Powered by : adminLTE</b>
 	</div>
-	<strong>Copyright &copy; <?php echo date('Y'); ?> MAS NUR </strong> All rights
+	<strong>Copyright &copy; 2020 Cipto Junaedy </strong> All rights
 	reserved.
 </footer>
 
@@ -117,7 +117,7 @@ if (isset($js)) {
 						dataType: "JSON",
 						success: function (data) {
 							swal("Logout", 'Anda berhasil logout', "success").then(function() {
-							    window.location.href = baseUrl + 'home';
+							    window.location.href = baseUrl + 'admin/dashboard';
 							});
 						}
 					});

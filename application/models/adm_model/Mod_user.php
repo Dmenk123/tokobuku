@@ -3,8 +3,23 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Mod_user extends CI_Model
 {
 	var $table = 'm_user';
-	var $column_order = array('username','password',null,'status','last_login',null);
-	var $column_search = array('username','status');
+	var $column_order = array(
+		"m_user.username",
+		"m_user_detail.nama_lengkap_user",
+		"m_user_detail.email",
+		"m_level_user.nama_level_user",
+		"m_user.status",
+		"m_user.last_login",
+		null
+	);
+	var $column_search = array(
+		"m_user.username",
+		"m_user_detail.nama_lengkap_user",
+		"m_user_detail.email",
+		"m_level_user.nama_level_user",
+		"m_user.status",
+		"m_user.last_login"
+	);
 	var $order = array('id_user' => 'desc'); 
 
 	public function __construct()
@@ -15,9 +30,26 @@ class Mod_user extends CI_Model
 
 	private function _get_datatables_query()
 	{
-		
-		$this->db->from($this->table);
+		$column = array(
+			"m_user.username",
+			"m_user_detail.nama_lengkap_user",
+			"m_user_detail.email",
+			"m_level_user.nama_level_user",
+			"m_user.status",
+			"m_user.last_login",
+			null,
+		);
 
+		$this->db->select('
+			m_user.*, 
+			m_user_detail.nama_lengkap_user,
+			m_user_detail.email,
+			m_user_detail.no_telp_user,
+			m_level_user.nama_level_user
+		');
+		$this->db->from($this->table);
+		$this->db->join('m_user_detail', 'm_user.id_user = m_user_detail.id_user', 'left');
+		$this->db->join('m_level_user', 'm_user.id_level_user = m_level_user.id_level_user', 'left');
 		$i = 0;
 	
 		foreach ($this->column_search as $item) 
@@ -57,11 +89,6 @@ class Mod_user extends CI_Model
 		$this->_get_datatables_query();
 		if($_POST['length'] != -1)
 		$this->db->limit($_POST['length'], $_POST['start']);
-
-		$this->db->select('id_user,username,password,level_user,status,last_login');
-		$this->db->from('tbl_level_user');
-		$this->db->where('m_user.id_level_user = tbl_level_user.id_level_user');
-
 		$query = $this->db->get();
 		return $query->result();
 	}
@@ -160,5 +187,25 @@ class Mod_user extends CI_Model
     	}else{
     		return FALSE;
     	}
+    }
+
+    public function get_data_edit($id)
+    {
+    	$this->db->select('
+			m_user.*, 
+			m_user_detail.nama_lengkap_user,
+			m_user_detail.email,
+			m_user_detail.no_telp_user,
+			m_user_detail.gambar_user,
+			m_user_detail.bank,
+			m_user_detail.rekening,
+			m_level_user.nama_level_user
+		');
+		$this->db->from($this->table);
+		$this->db->join('m_user_detail', 'm_user.id_user = m_user_detail.id_user', 'left');
+		$this->db->join('m_level_user', 'm_user.id_level_user = m_level_user.id_level_user', 'left');
+		$this->db->where('m_user.id_user', $id);
+		$query = $this->db->get();
+		return $query->row();
     }
 }

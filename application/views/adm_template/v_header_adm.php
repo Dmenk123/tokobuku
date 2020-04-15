@@ -5,12 +5,12 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta name="description" content="Dmenk Clothing e-shop">
-	<meta name="author" content="Rizki Yuanda | rizkiyuandaa@gmail.com">
+	<meta name="description" content="Web Admin Majang Dapat Uang Cash">
+	<meta name="author" content="Web Admin Majang Dapat Uang Cash | Cipto Junaedy">
 	<meta name="dmenk-toko-online-ecommerce" content="">
 
 	<title>
-		Bookstore Marketplace
+		Web Admin Majang Dapat Uang
 	</title>
 
 	<meta name="dmenk-toko-online-ecommerce" content="">
@@ -26,6 +26,9 @@
 	<link rel="stylesheet" href="<?php echo base_url('assets/'); ?>jQueryUI/themes/base/jquery-ui.css">
 	<!-- Font Awesome -->
 	<link rel="stylesheet" href="<?php echo base_url('assets/'); ?>adminlte/css/font-awesome.min.css">
+	<!-- font google -->
+	<link href='https://fonts.googleapis.com/css?family=Carter One' rel='stylesheet'>
+	<link href='https://fonts.googleapis.com/css?family=Charm' rel='stylesheet'>
 	<!-- Ionicons -->
 	<link rel="stylesheet" href="<?php echo base_url('assets/'); ?>adminlte/css/ionicons.min.css">
 	<!-- Theme style -->
@@ -38,7 +41,7 @@
 	<link rel="stylesheet" href="<?php echo base_url('assets/'); ?>select2/dist/css/select2.min.css">
 	<link rel="stylesheet" href="<?php echo base_url('assets/'); ?>select2-bootstrap-theme-master/dist/select2-bootstrap.min.css">
 	<!-- datatable -->
-	<link rel="stylesheet" href="<?php echo base_url('assets/'); ?>datatable/dataTables.bootstrap.css">
+	<link rel="stylesheet" href="<?php echo base_url('assets/'); ?>datatables/dataTables.bootstrap.css">
 	<!-- css custom -->
 	<link rel="stylesheet" href="<?php echo base_url('assets/'); ?>adminlte/css/custom.css">
 	<!-- css notifikasi -->

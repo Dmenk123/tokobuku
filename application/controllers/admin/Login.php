@@ -40,7 +40,7 @@ class Login extends CI_Controller {
 				redirect('admin/dashboard');
 		}else{
 			$this->session->set_flashdata('message', 'Kombinasi Username & Password Salah, Mohon di cek ulang');
-			redirect('login');
+			redirect('admin/login');
 		}
 	}
 
@@ -65,6 +65,14 @@ class Login extends CI_Controller {
 		$data = $this->db->query("select password from tbl_user where username = '$username'")->row();
 		$str_dec = $this->enkripsi->decrypt($data->password);
 		echo $str_dec;
+	}
+
+	public function dekrip($value)
+	{
+		$this->load->library('Enkripsi');
+		// $val = 'uLDa2OXihpeB';
+		$str = $this->enkripsi->decrypt($value);
+		echo $str;
 	}
 	
 }
