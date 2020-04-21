@@ -146,5 +146,25 @@ class Mod_penjualan extends CI_Model
 		}
 	}
 
+	public function get_detail_lap_agen($datetime_awal, $datetime_akhir)
+	{
+		$this->db->select("tc.*, CONCAT(nama_depan, ' ', nama_belakang) AS nama_lengkap, mu.username as username_agen, mud.nama_lengkap_user");
+		$this->db->from('t_checkout as tc');
+		$this->db->join('m_user mu', 'tc.kode_agen = mu.kode_agen', 'left');
+		$this->db->join('m_user_detail mud', 'mu.id_user = mud.id_user', 'left');
+		$this->db->where('tc.status', 0);
+		$this->db->where('tc.is_konfirm', 1);
+		$this->db->where("tc.created_at between '" . $datetime_awal . "' and '" . $datetime_akhir . "'");
+		$this->db->order_by('tc.created_at', 'asc');
+		
+		$query = $this->db->get();
+
+		if ($query->num_rows() > 0) {
+			return $query->result();
+		}else{
+			return FALSE;
+		}
+	}
+
 	//=================================================================================================================================================
 }
