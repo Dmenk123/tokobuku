@@ -87,6 +87,11 @@
 			$(this).next().empty();
 		});
 
+		$('#tblAgenBatineDetail').rowspanizer({
+			vertical_align: 'middle',
+			columns: [6,7,8]
+		});
+
 		//update dt_read after click
 		/*$(document).on('click', '.linkNotif', function(){
 		    var id = $(this).attr('id');

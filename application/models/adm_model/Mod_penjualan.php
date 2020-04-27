@@ -148,10 +148,25 @@ class Mod_penjualan extends CI_Model
 
 	public function get_detail_lap_agen($datetime_awal, $datetime_akhir)
 	{
-		$this->db->select("tc.*, CONCAT(nama_depan, ' ', nama_belakang) AS nama_lengkap, mu.username as username_agen, mud.nama_lengkap_user");
+		$this->db->select("
+			tc.id,
+			tc.laba_agen_total,
+			tc.created_at,
+			mud.nama_lengkap_user,
+			tc.kode_ref,
+			tka.id as id_klaim,
+			tka.jumlah_klaim,
+			tka.kode_klaim,
+			tka.created_at as tgl_klaim,
+			tkv.id as id_verify_klaim,
+			tkv.tanggal_verify,
+			tkv.nilai_transfer
+		");
 		$this->db->from('t_checkout as tc');
 		$this->db->join('m_user mu', 'tc.kode_agen = mu.kode_agen', 'left');
 		$this->db->join('m_user_detail mud', 'mu.id_user = mud.id_user', 'left');
+		$this->db->join('t_klaim_agen tka', 'tc.kode_agen = tka.id_agen and tc.id_klaim_agen = tka.id', 'left');
+		$this->db->join('t_klaim_verify tkv', 'tc.id_klaim_agen = tkv.id_klaim_agen', 'left');
 		$this->db->where('tc.status', 0);
 		$this->db->where('tc.is_konfirm', 1);
 		$this->db->where("tc.created_at between '" . $datetime_awal . "' and '" . $datetime_akhir . "'");

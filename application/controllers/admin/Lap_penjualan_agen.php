@@ -59,32 +59,7 @@ class Lap_penjualan_agen extends CI_Controller
 		$tanggal_awal = date('Y-m-d H:i:s', strtotime($tahun . '-' . $bulan . '-01 00:00:00'));
 		$tanggal_akhir = date('Y-m-t H:i:s', strtotime($tahun . '-' . $bulan . '-01 23:59:59'));
 
-		$saldo_awal += $this->m_jual->get_saldo_awal_lap($tanggal_awal);
 		$query_lap = $this->m_jual->get_detail_lap_agen($tanggal_awal, $tanggal_akhir);
-		// echo $this->db->last_query();exit;
-		if ($query_lap) {
-			foreach ($query_lap as $key => $val) 
-			{
-				$arr_data[$key]['tanggal'] = date('d-m-Y', strtotime($val->created_at));
-				$arr_data[$key]['kode_ref'] = $val->kode_ref;
-				
-				if ($val->jenis == 'affiliate') {
-					$arr_data[$key]['keterangan'] = 'Pendaftaran Affiliate a/n : '.$val->nama_lengkap;
-				}else{
-					$arr_data[$key]['keterangan'] = 'Pendaftaran Member a/n : '.$val->nama_lengkap;
-				}
-
-				$arr_data[$key]['penerimaan'] = number_format($val->harga_total,2,",",".");
-				$arr_data[$key]['laba_agen'] = number_format($val->laba_agen_total,2,",",".");
-
-				//saldo
-				$saldo_akhir += (int)$saldo_awal + (int)$val->harga_total - (int)$val->laba_agen_total;
-				
-				//set saldo awal to 0
-				$saldo_awal = 0;
-				$arr_data[$key+1]['saldo_akhir'] = (int)$saldo_akhir;
-			}
-		}
 
 		$data = array(
 			'data_user' => $data_user,
@@ -92,7 +67,7 @@ class Lap_penjualan_agen extends CI_Controller
 			'arr_bulan' => $this->arr_bulan(),
 			'cek_kunci' => FALSE,
 			'periode' => $periode,
-			'hasil_data' => $arr_data,
+			'hasil_data' => $query_lap,
 			'bulan' => $bulan,
 			'tahun' => $tahun,
 			'cek_status_kunci' => TRUE //sementara di set true, soalnya belum tau ada konsep kuncian atau tidak
@@ -106,6 +81,111 @@ class Lap_penjualan_agen extends CI_Controller
 		];
 
 		$this->template_view->load_view($content, $data);
+	}
+
+	public function cetak_report($bulan, $tahun)
+	{
+		$this->load->library('Pdf_gen');
+		$arr_bulan = $this->arr_bulan();
+		$periode = $arr_bulan[$bulan].' '.$tahun;
+		$saldo_awal = 0;
+		$saldo_akhir = 0;
+		$arr_data = [];
+
+		$tanggal_awal = date('Y-m-d H:i:s', strtotime($tahun . '-' . $bulan . '-01 00:00:00'));
+		$tanggal_akhir = date('Y-m-t H:i:s', strtotime($tahun . '-' . $bulan . '-01 23:59:59'));
+
+		$query_lap = $this->m_jual->get_detail_lap_agen($tanggal_awal, $tanggal_akhir);
+
+		$rowspan = 0;
+		$id_klaim = '';
+		$str_table = '';
+		$id_klaim = $query_lap[0]->id_klaim;
+
+		if (count($query_lap) != 0) {
+           	foreach ($query_lap as $key => $val) {
+           		$rowspan = 0;
+	           	$str_table .= "<tr>";
+	            $str_table .= "<td>".date('d-m-Y', strtotime($val->created_at))."</td>";
+	            $str_table .= "<td>".$val->nama_lengkap_user."</td>";
+	            $str_table .= "<td>";
+		            $str_table .= "<div>";
+			            $str_table .= "<span class='pull-left'>Rp. </span>";
+			            $str_table .= "<span class='pull-right'>".number_format($val->laba_agen_total, 2, ",", ".")."</span>";
+		            $str_table .= "</div>";
+	            $str_table .= "</td>";
+	            $str_table .= "<td style='border: black solid 1px'>".$val->kode_ref."</td>";
+	           
+            	for ($i=$key; $i < count($query_lap); $i++) 
+            	{ 
+	            	if ($query_lap[$i]->id_klaim == $id_klaim) {
+            			$rowspan++;
+	            	}else{
+	            		//cek jika nilai sama dengan array sebelumnya, maka skip
+	            		if ($query_lap[$i]->id_klaim == $query_lap[$i-1]->id_klaim) {
+	            			break;
+	            		}
+	            		// jika tidak set flag id_klaim
+	            		else{
+	            			$id_klaim = $query_lap[$i]->id_klaim;
+	            			break;
+	            		}
+	            	}
+	            }
+
+	            //cek jika rowspan lebih dari 0 maka tampilkan tabel, jika tidak skip
+	            if ($rowspan > 0) {
+	            	$str_table .= "<td rowspan='".$rowspan."'>".$val->kode_klaim."</td>";
+		            $str_table .= "<td rowspan='".$rowspan."' align='center'>";
+		            if ($val->tgl_klaim) {
+		            	$str_table .= date('d-m-Y', strtotime($val->tgl_klaim));
+					}else{
+		            	$str_table .= " - ";
+		            }
+		            $str_table .= "</td>";
+		            $str_table .= "<td rowspan='".$rowspan."'>";
+	                $str_table .= "<div>";
+	                $str_table .= "<span class='pull-left'>Rp. </span>";
+	                $str_table .= "<span class='pull-right'>".number_format($val->jumlah_klaim, 2, ",", ".")."</span>";
+	                $str_table .= "</div>";
+		            $str_table .= "</td>";
+		            $str_table .= "<td rowspan='".$rowspan."' align='center'>";    
+	              	if ($val->tanggal_verify) {
+	                	$str_table .= date('d-m-Y', strtotime($val->tanggal_verify));
+	              	}else{
+	                	" - ";
+	              	}
+		            $str_table .= "</td>";
+		            $str_table .= "<td rowspan='".$rowspan."'>";
+		            $str_table .= "<div>";
+	                if ($val->tanggal_verify) { 
+	                	$str_table .= "<span class='pull-left'>Rp. </span>";
+	                	$str_table .= "<span class='pull-right'>".number_format($val->nilai_transfer, 2, ",", ".")."</span>";
+	               	}else{ 
+	                	$str_table .= "<span> - </span>";
+	               	} 
+		            $str_table .= "</div>";
+		            $str_table .= "</td>";
+	            }
+
+	            $str_table .= "</tr>";
+           	}
+        }else{
+    		$str_table .= "<tr>";
+            $str_table .= "<td colspan='9'> Tidak Ada Data ... </td>";
+            $str_table .= "</tr>";
+        }       
+
+		$data['hasil_tabel'] = $str_table;
+		$data['periode'] = $periode;
+		$data['title'] = 'Laporan Komisi Agen';
+	    
+	    //$this->load->view('adm_view/laporan/v_lap_penjualan_agen_cetak', $data);
+	    
+
+	    $html = $this->load->view('adm_view/laporan/v_lap_penjualan_agen_cetak', $data, true);
+	    $filename = 'laporan_komisi_agen_'.time();
+	    $this->pdf_gen->generate($html, $filename, true, 'A4', 'landscape');
 	}
 
 }//end of class penjualan.php
