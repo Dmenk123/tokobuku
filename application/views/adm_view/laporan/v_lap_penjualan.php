@@ -5,7 +5,7 @@
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i>Laporan</a></li>
-        <li class="active">Laporan Buku Kas Umum</li>
+        <li class="active">Laporan Penjualan</li>
       </ol>
     </section>
 

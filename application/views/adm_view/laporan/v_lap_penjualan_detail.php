@@ -36,8 +36,18 @@
                   </thead>
                   <tbody>
                     <?php if (count($hasil_data) != 0) : ?>
-                      <?php $no = 1; ?>
+                      <?php 
+                        $no = 1; 
+                        $total_penerimaan = 0;
+                        $total_laba_agen = 0;
+                        $saldo_akhir = 0;
+                      ?>
                       <?php foreach ($hasil_data as $val) : ?>
+                        <?php 
+                          $total_penerimaan += $val['penerimaan_raw'];
+                          $total_laba_agen += $val['laba_agen_raw']; 
+                          $saldo_akhir = $val['saldo_akhir'];
+                        ?>
                         <tr>
                           <td><?php echo $val['tanggal']; ?></td>
                           <td><?php echo $val['kode_ref'] ?></td>
@@ -62,19 +72,44 @@
                           </td>
                         </tr>
                       <?php endforeach ?>
+                        <tr>
+                          <td colspan="4" align="left" style="font-size: 18px;"><strong>Total Penerimaan : </strong></td>
+                          <td colspan="2" align="center" style="font-size: 18px;">
+                            <strong>
+                              <div>
+                                <span class="pull-left">Rp. </span>
+                                <span class="pull-right"><?= number_format($total_penerimaan, 2, ",", "."); ?></span>
+                              </div>
+                            </strong>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td colspan="4" align="left" style="font-size: 18px;"><strong>Total Laba Agen : </strong></td>
+                          <td colspan="2" align="center" style="font-size: 18px;"><strong>
+                              <div>
+                                <span class="pull-left">Rp. </span>
+                                <span class="pull-right"><?= number_format($total_laba_agen, 2, ",", "."); ?></span>
+                              </div>
+                            </strong>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td colspan="4" align="left" style="font-size: 18px;"><strong>Saldo Akhir Hingga <?php echo $periode ?> : </strong></td>
+                          <td colspan="2" align="center" style="font-size: 18px;"><strong>
+                              <div>
+                                <span class="pull-left">Rp. </span>
+                                <span class="pull-right"><?= number_format($saldo_akhir, 2, ",", "."); ?></span>
+                              </div>
+                            </strong>
+                          </td>
+                        </tr>
                     <?php endif ?>
                   </tbody>
                 </table>
                 <div style="padding-top: 30px; padding-bottom: 10px;">
                   <a class="btn btn-sm btn-danger" title="Kembali" onclick="javascript:history.back()"><i class="glyphicon glyphicon-menu-left"></i> Kembali</a>
-                  <?php $link_print = site_url("lap_bku/cetak_report_bku/" . $bulan . "/" . $tahun . ""); ?>
-                  <?php echo '<a class="btn btn-sm btn-success" href="' . $link_print . '" target="_blank" title="Print Laporan BKU" id="btn_print_laporan_bku"><i class="glyphicon glyphicon-print"></i> Cetak</a>'; ?>
-                  <?php $link_submit = site_url("lap_bku/konfirmasi_lap_bku/" . $bulan . "/" . $tahun . ""); ?>
-                  <?php if ($this->session->userdata('id_level_user') !=  '4') { ?>
-            <?php if ($cek_status_kunci == FALSE) { ?>
-            <a class="btn btn-sm btn-primary" href="javascript:void(0)" title="Konfirmasi" onclick="konfirmBku(<?= $bulan.','.$tahun.','. $saldo_awal.','.$saldo_akhir; ?>)"><i class="glyphicon glyphicon-pencil"></i> Submit Data</a>
-            <?php } ?>
-          <?php } ?>
+                  <?php $link_print = site_url("admin/lap_penjualan/cetak_report/" . $bulan . "/" . $tahun . ""); ?>
+                  <?php echo '<a class="btn btn-sm btn-success" href="' . $link_print . '" target="_blank" title="Print Laporan" id="btn_print_laporan_bku"><i class="glyphicon glyphicon-print"></i> Cetak</a>'; ?>
                 </div>
               </div>
             </div>

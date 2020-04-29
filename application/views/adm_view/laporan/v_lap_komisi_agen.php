@@ -1,11 +1,11 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Laporan Komisi Agen
+        Laporan Komisi Per Agen
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i>Laporan</a></li>
-        <li class="active">Laporan Komisi Agen</li>
+        <li class="active">Laporan Komisi Per Agen</li>
       </ol>
     </section>
 
@@ -16,7 +16,7 @@
           <div class="box">
             <div class="box-body">
               <label class="control-label">Pilih periode tanggal Laporan pada field dibawah ini</label>
-              <form class="form-inline" method="get" action="<?php echo site_url('admin/lap_penjualan_agen/lap_detail') ?>">
+              <form class="form-inline" method="get" action="<?php echo site_url('admin/lap_komisi_agen/lap_detail') ?>">
                 <div class="form-group">
                   <select name="bulan" class="form-control" id="bulan" required="">
                     <option value="">Pilih Bulan</option>
@@ -33,6 +33,16 @@
                       for ($z=(int)$thn-1; $z <= (int)$thn + 3; $z++) { 
                       echo "<option value='$z'>$z</option>";
                     } ?>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <select name="kode_user_agen" class="form-control" id="kode_user_agen" required="">
+                    <option value="">Pilih Agen (Nama Agen | Username)</option>
+                    <?php
+                      foreach ($data_agen as $key => $value) {
+                        echo "<option value='$value->id_user'>".$value->nama_lengkap_user." | ".$value->username."</option>";
+                      }
+                    ?>
                   </select>
                 </div>
                 <button type="submit" class="btn btn-info">Cari</button>

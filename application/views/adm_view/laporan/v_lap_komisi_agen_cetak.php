@@ -7,6 +7,7 @@
       margin-left: 50px;
       margin-right: 50px;
     }
+
     #outtable{
       padding: 20px;
       border:1px solid #e3e3e3;
@@ -133,7 +134,11 @@
         </td>
       </tr> 
     </table>
-    
+    <div class="col-md-12">
+      <p>Nama Agen : <?=$data_user_agen[0]->nama_lengkap_user;?> </p>
+      <p>Email Agen : <?=$data_user_agen[0]->email;?> </p>
+      <p>Rekening Agen : <?=$data_user_agen[0]->bank.' - '.$data_user_agen[0]->rekening;?> </p>
+    </div>
     <table id="tbl_content" class="table table-bordered" cellspacing="0" width="100%" border="2">
       <thead>
         <tr>

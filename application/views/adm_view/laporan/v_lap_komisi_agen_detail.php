@@ -28,9 +28,14 @@
               <div class="table-responsive">
                 <div class="col-xs-12">
                   <h4 style="text-align: center;"><strong>Laporan Komisi Agen</strong></h4>
-                </div>
-                <div class="col-xs-12">
+                  <div class="col-xs-12">
                   <h4 style="text-align: center;">Periode : <?php echo $periode ?></h4>
+                </div>
+                  <div class="col-md-12">
+                    <p>Nama Agen : <?=$data_user_agen[0]->nama_lengkap_user;?> </p>
+                    <p>Email Agen : <?=$data_user_agen[0]->email;?> </p>
+                    <p>Rekening Agen : <?=$data_user_agen[0]->bank.' - '.$data_user_agen[0]->rekening;?> </p>
+                  </div>
                 </div>
                 <table id="tblAgenBatineDetail" class="table table-bordered" cellspacing="0" width="100%">
                   <thead>
@@ -52,9 +57,8 @@
                 </table>
                 <div style="padding-top: 30px; padding-bottom: 10px;">
                   <a class="btn btn-sm btn-danger" title="Kembali" onclick="javascript:history.back()"><i class="glyphicon glyphicon-menu-left"></i> Kembali</a>
-                  <?php $link_print = site_url("admin/lap_penjualan_agen/cetak_report/" . $bulan . "/" . $tahun . ""); ?>
+                  <?php $link_print = site_url("admin/lap_komisi_agen/cetak_report/" . $bulan . "/" . $tahun . "/". $id_user_agen. ""); ?>
                   <?php echo '<a class="btn btn-sm btn-success" href="' . $link_print . '" target="_blank" title="Print Laporan" id="btn_print_laporan_bku"><i class="glyphicon glyphicon-print"></i> Cetak</a>'; ?>
-                  <?php $link_submit = site_url("lap_penjualan_agen/konfirmasi_lap/" . $bulan . "/" . $tahun . ""); ?>
                 </div>
               </div>
             </div>

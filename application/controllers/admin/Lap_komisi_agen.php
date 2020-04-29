@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Lap_penjualan_agen extends CI_Controller
+class Lap_komisi_agen extends CI_Controller
 {
 
 	public function __construct()
@@ -23,9 +23,10 @@ class Lap_penjualan_agen extends CI_Controller
 		$isi_notif = [];
 		$id_user = $this->session->userdata('id_user');
 		$data_user = $this->m_user->get_detail_user($id_user);
-
+		$data_agen = $this->db->query("select m_user.*, m_user_detail.nama_lengkap_user from m_user join m_user_detail on m_user.id_user = m_user_detail.id_user where m_user.id_level_user = '2' order by nama_lengkap_user asc")->result();
 		$data = array(
 			'data_user' => $data_user,
+			'data_agen' => $data_agen,
 			'isi_notif' => $isi_notif,
 			'arr_bulan' => $this->arr_bulan(),
 			'cek_kunci' => FALSE
@@ -36,7 +37,7 @@ class Lap_penjualan_agen extends CI_Controller
 			// 'modal' => 'adm_view/modal/modalSetRoleAdm',
 			'js'	=> 'adm_view/js/js_lap_penjualan',
 			'modal' => false,
-			'view'	=> 'adm_view/laporan/v_lap_penjualan_agen'
+			'view'	=> 'adm_view/laporan/v_lap_komisi_agen'
 		];
 
 		$this->template_view->load_view($content, $data);
@@ -51,6 +52,9 @@ class Lap_penjualan_agen extends CI_Controller
 
 		$bulan = clean_string($this->input->get('bulan'));
 		$tahun = clean_string($this->input->get('tahun'));
+		$id_user_agen = clean_string($this->input->get('kode_user_agen'));
+		$data_user_agen = $this->m_user->get_detail_user($id_user_agen);
+
 		$periode = $arr_bulan[$bulan].' '.$tahun;
 		$saldo_awal = 0;
 		$saldo_akhir = 0;
@@ -59,7 +63,7 @@ class Lap_penjualan_agen extends CI_Controller
 		$tanggal_awal = date('Y-m-d H:i:s', strtotime($tahun . '-' . $bulan . '-01 00:00:00'));
 		$tanggal_akhir = date('Y-m-t H:i:s', strtotime($tahun . '-' . $bulan . '-01 23:59:59'));
 
-		$query_lap = $this->m_jual->get_detail_lap_agen($tanggal_awal, $tanggal_akhir);
+		$query_lap = $this->m_jual->get_detail_lap_agen($tanggal_awal, $tanggal_akhir, $id_user_agen);
 
 		$rowspan = 0;
 		$id_klaim = '';
@@ -180,6 +184,8 @@ class Lap_penjualan_agen extends CI_Controller
 			'hasil_data' => $str_table,
 			'bulan' => $bulan,
 			'tahun' => $tahun,
+			'id_user_agen' => $id_user_agen,
+			'data_user_agen' => $data_user_agen,
 			'cek_status_kunci' => TRUE //sementara di set true, soalnya belum tau ada konsep kuncian atau tidak
 		);
 
@@ -187,13 +193,13 @@ class Lap_penjualan_agen extends CI_Controller
 			'css' => false,
 			'js'	=> 'adm_view/js/js_lap_penjualan',
 			'modal' => false,
-			'view'	=> 'adm_view/laporan/v_lap_penjualan_agen_detail'
+			'view'	=> 'adm_view/laporan/v_lap_komisi_agen_detail'
 		];
 
 		$this->template_view->load_view($content, $data);
 	}
 
-	public function cetak_report($bulan, $tahun)
+	public function cetak_report($bulan, $tahun, $kode_user_agen)
 	{
 		// $this->load->library('Pdf_gen');
 		$id_user = $this->session->userdata('id_user');
@@ -207,7 +213,8 @@ class Lap_penjualan_agen extends CI_Controller
 		$tanggal_awal = date('Y-m-d H:i:s', strtotime($tahun . '-' . $bulan . '-01 00:00:00'));
 		$tanggal_akhir = date('Y-m-t H:i:s', strtotime($tahun . '-' . $bulan . '-01 23:59:59'));
 
-		$query_lap = $this->m_jual->get_detail_lap_agen($tanggal_awal, $tanggal_akhir);
+		$query_lap = $this->m_jual->get_detail_lap_agen($tanggal_awal, $tanggal_akhir, $kode_user_agen);
+		$data_user_agen = $this->m_user->get_detail_user($kode_user_agen);
 
 		$rowspan = 0;
 		$id_klaim = '';
@@ -315,7 +322,7 @@ class Lap_penjualan_agen extends CI_Controller
            	$str_table .= "</tr>";
         }else{
     		$str_table .= "<tr>";
-            $str_table .= "<td colspan='9' align='center'> <strong>Tidak Ada Data ...</strong> </td>";
+            $str_table .= "<td colspan='9'> <strong>Tidak Ada Data ...</strong> </td>";
             $str_table .= "</tr>";
         }      
 
@@ -323,8 +330,9 @@ class Lap_penjualan_agen extends CI_Controller
 		$data['periode'] = $periode;
 		$data['title'] = 'Laporan Komisi Agen';
 	    $data['data_user'] = $data_user;
+	    $data['data_user_agen'] = $data_user_agen;
 	    
-	    $this->load->view('adm_view/laporan/v_lap_penjualan_agen_cetak', $data);
+	    $this->load->view('adm_view/laporan/v_lap_komisi_agen_cetak', $data);
 	    
 	    // $html = $this->load->view('adm_view/laporan/v_lap_penjualan_agen_cetak', $data, true);
 	    // $filename = 'laporan_komisi_agen_'.time();

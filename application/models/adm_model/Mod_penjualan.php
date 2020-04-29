@@ -146,7 +146,7 @@ class Mod_penjualan extends CI_Model
 		}
 	}
 
-	public function get_detail_lap_agen($datetime_awal, $datetime_akhir)
+	public function get_detail_lap_agen($datetime_awal, $datetime_akhir, $id_user='')
 	{
 		$this->db->select("
 			tc.id,
@@ -169,6 +169,9 @@ class Mod_penjualan extends CI_Model
 		$this->db->join('t_klaim_verify tkv', 'tc.id_klaim_agen = tkv.id_klaim_agen', 'left');
 		$this->db->where('tc.status', 0);
 		$this->db->where('tc.is_konfirm', 1);
+		if ($id_user != '') {
+			$this->db->where('mu.id_user', $id_user);
+		}
 		$this->db->where("tc.created_at between '" . $datetime_awal . "' and '" . $datetime_akhir . "'");
 		$this->db->order_by('tc.created_at', 'asc');
 		
