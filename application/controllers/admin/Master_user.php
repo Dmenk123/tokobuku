@@ -188,6 +188,38 @@ class Master_user extends CI_Controller {
 		echo json_encode(['status'=>$status]);
 	}
 
+	public function edit_profil($id)
+	{
+		$isi_notif = [];
+		$id_user = clean_string($id);
+		$this->load->model('adm_model/mod_user', 'm_user');
+		$this->load->model('mod_global');
+		$data_user = $this->m_user->get_detail_user($id_user);
+
+		$select = "m_user.*, m_user_detail.nama_lengkap_user, m_user_detail.alamat_user, m_user_detail.no_telp_user, m_user_detail.email, m_user_detail.gambar_user, m_user_detail.rekening, m_user_detail.bank";
+		$join = array(
+			["table" => "m_user_detail", "on" => "m_user.id_user = m_user_detail.id_user"]
+		);
+
+		$userdata = $this->mod_global->get_data($select, 'm_user', ['m_user.status' => 1, 'm_user.id_user' => $id_user], $join);
+
+		$data = array(
+			'data_user' => $data_user,
+			'isi_notif' => $isi_notif,
+			'cek_kunci' => FALSE,
+			'hasil_data' => $userdata
+		);
+
+		$content = [
+			'css' => false,
+			'js'	=> 'adm_view/js/js_lap_penjualan',
+			'modal' => false,
+			'view'	=> 'adm_view/v_admin_profile'
+		];
+
+		$this->template_view->load_view($content, $data);
+	}
+
 	private function _validate()
 	{
 		$data = array();
