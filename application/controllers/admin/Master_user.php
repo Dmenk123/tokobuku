@@ -212,7 +212,7 @@ class Master_user extends CI_Controller {
 
 		$content = [
 			'css' => false,
-			'js'	=> 'adm_view/js/js_lap_penjualan',
+			'js'	=> 'adm_view/js/js_master_user',
 			'modal' => false,
 			'view'	=> 'adm_view/v_admin_profile'
 		];
