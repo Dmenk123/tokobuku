@@ -1,17 +1,17 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : lokal
+ Source Server         : localhost
  Source Server Type    : MySQL
- Source Server Version : 100131
+ Source Server Version : 100129
  Source Host           : localhost:3306
  Source Schema         : properti
 
  Target Server Type    : MySQL
- Target Server Version : 100131
+ Target Server Version : 100129
  File Encoding         : 65001
 
- Date: 13/04/2020 02:31:43
+ Date: 10/05/2020 22:09:38
 */
 
 SET NAMES utf8mb4;
@@ -93,14 +93,16 @@ INSERT INTO `m_menu` VALUES (3, 4, 'Setting Role', 'Setting Role', 'admin/set_ro
 INSERT INTO `m_menu` VALUES (4, 0, 'Setting (Administrator)', 'Setting', NULL, 'fa fa-gear', 1, 1, 5, 0, 0, 0);
 INSERT INTO `m_menu` VALUES (5, 0, 'Data Master', 'Data Master', ' ', 'fa fa-database', 1, 1, 2, 0, 0, 0);
 INSERT INTO `m_menu` VALUES (6, 5, 'Master Produk', 'Master Produk', 'admin/master_produk_adm', '', 0, 2, 1, 1, 1, 1);
-INSERT INTO `m_menu` VALUES (7, 5, 'Mster Agen', 'Mster Agen', 'admin/master_agen', '', 0, 2, 2, 1, 1, 1);
+INSERT INTO `m_menu` VALUES (7, 5, 'Master User', 'Master User', 'admin/master_user', '', 1, 2, 2, 1, 1, 1);
 INSERT INTO `m_menu` VALUES (8, 5, 'Master Konten', 'Master Konten', 'admin/master_konten_adm', '', 1, 2, 3, 1, 1, 1);
 INSERT INTO `m_menu` VALUES (9, 0, 'Transaksi', 'Transaksi', ' ', 'fa fa-exchange', 1, 1, 3, 0, 0, 0);
 INSERT INTO `m_menu` VALUES (10, 9, 'Penjualan', 'Penjualan', 'admin/penjualan', '', 1, 2, 1, 1, 1, 1);
 INSERT INTO `m_menu` VALUES (11, 0, 'Laporan', 'Laporan', ' ', 'fa fa-line-chart', 1, 1, 4, 0, 0, 0);
 INSERT INTO `m_menu` VALUES (12, 11, 'Laporan Penjualan', 'Laporan Penjualan', 'admin/lap_penjualan', '', 1, 2, 1, 0, 0, 0);
-INSERT INTO `m_menu` VALUES (13, 9, 'Verifikasi Klaim', 'Verifikasi Klaim', 'admin/verifikasi_klaim', '', 1, 2, 2, 1, 1, 1);
+INSERT INTO `m_menu` VALUES (13, 9, 'Verifikasi Klaim', 'Verifikaai Klaim', 'admin/verifikasi_klaim', '', 1, 2, 2, 1, 1, 1);
 INSERT INTO `m_menu` VALUES (14, 9, 'Setting Harga', 'Setting Harga', 'admin/set_harga', '', 1, 2, 3, 1, 1, 1);
+INSERT INTO `m_menu` VALUES (15, 11, 'Laporan Komisi Agen', 'Laporan Komisi Agen', 'admin/lap_penjualan_agen', '', 1, 2, 2, 0, 0, 0);
+INSERT INTO `m_menu` VALUES (16, 11, 'Laporan Komisi Per Agen', 'Laporan Komisi Per Agen', 'admin/lap_komisi_agen', '', 1, 2, 3, 0, 0, 0);
 
 -- ----------------------------
 -- Table structure for m_produk
@@ -176,17 +178,15 @@ CREATE TABLE `m_user`  (
 -- ----------------------------
 -- Records of m_user
 -- ----------------------------
-INSERT INTO `m_user` VALUES ('USR00001', 'masnur', 'hX2fmaWl', 1, NULL, 1, '2020-04-12 12:21:30', '2019-10-05 21:34:14', '2020-04-12 17:21:30', NULL);
-INSERT INTO `m_user` VALUES ('USR00002', 'agen', 'hX2fmaWl', 2, NULL, 1, '2020-03-31 13:00:14', '2019-11-09 19:36:13', '2020-03-31 18:00:14', 'Ioa2fmaCuS');
-INSERT INTO `m_user` VALUES ('USR00003', 'customer', 'hX2fmaWl', 3, NULL, 1, '2019-12-03 08:41:40', '2019-11-09 19:43:19', '2020-02-17 15:29:42', NULL);
-INSERT INTO `m_user` VALUES ('USR00004', 'coba', 'hX2fmaWl', 3, NULL, 1, '2020-03-15 17:23:51', '2020-02-07 13:28:03', '2020-03-15 23:23:51', NULL);
-INSERT INTO `m_user` VALUES ('USR00005', 'jono', 'hX2fmaWl', 3, NULL, 1, '2020-03-23 17:56:57', '2020-03-11 13:20:26', '2020-03-23 23:56:57', NULL);
-INSERT INTO `m_user` VALUES ('USR00006', 'dwi', 'hX2fmaWl', 2, NULL, 1, '2020-04-01 13:50:20', '2020-03-11 13:40:48', '2020-04-01 18:50:20', 'S8N45T9');
-INSERT INTO `m_user` VALUES ('USR00007', 'agen_ganteng', 'hX2fmaWl', 2, NULL, 1, '2020-04-05 18:09:39', '2020-04-02 11:09:18', '2020-04-05 23:09:39', 'X6L82G5');
-INSERT INTO `m_user` VALUES ('USR00008', 'laila', 'hX2fmaWl', 2, NULL, 1, '2020-04-11 11:14:43', '2020-04-11 11:14:42', '2020-04-11 16:14:43', 'E5U92N9');
-INSERT INTO `m_user` VALUES ('USR00009', 'cok', 'hX2fmaWl', 2, NULL, 1, '2020-04-11 11:57:42', '2020-04-11 11:57:41', '2020-04-11 16:57:42', 'E3D6Z1');
-INSERT INTO `m_user` VALUES ('USR00010', 'yahya', 'hX2fmaWl', 2, NULL, 1, '2020-04-11 16:12:02', '2020-04-11 16:12:02', '2020-04-11 21:12:02', 'U1C44S7');
-INSERT INTO `m_user` VALUES ('USR00011', 'yayuk', 'hX2fmaWl', 2, NULL, 1, '2020-04-12 21:05:31', '2020-04-12 21:05:30', '2020-04-13 02:05:31', 'E3F17D1');
+INSERT INTO `m_user` VALUES ('USR00001', 'dwi_admin', 'hX2fmaWl', 1, NULL, 1, '2020-05-08 10:22:00', '2019-10-05 21:34:14', '2020-05-08 10:22:00', NULL);
+INSERT INTO `m_user` VALUES ('USR00002', 'Atriyani', 'tb/eztXbs82swqaf', 2, NULL, 1, '2020-04-28 16:49:56', '2020-04-14 10:43:04', '2020-04-28 02:49:56', 'H6J33W2');
+INSERT INTO `m_user` VALUES ('USR00003', 'A_D._Setyoko', 'v73V2OTYvMCxz9LZyoWEo5k=', 2, NULL, 1, '2020-04-16 16:58:46', '2020-04-14 11:22:50', '2020-04-16 02:58:46', 'J6J43J1');
+INSERT INTO `m_user` VALUES ('USR00004', 'Nyuwardi', 'uLDa2OXihpeB', 2, NULL, 1, '2020-04-27 14:45:59', '2020-04-14 11:47:37', '2020-04-27 00:45:59', 'X6Z43A3');
+INSERT INTO `m_user` VALUES ('USR00005', 'Lucia Sri Wahyuni', 'zbrT3tHar9G8wp+Z', 2, NULL, 1, '2020-04-29 05:43:08', '2020-04-14 13:58:43', '2020-04-28 15:43:08', 'B6M79B1');
+INSERT INTO `m_user` VALUES ('USR00006', 'jhardini', 'v6zlxuLQx8CAmQ==', 2, NULL, 1, '2020-04-15 06:03:29', '2020-04-15 02:24:16', '2020-04-14 23:03:29', 'J7B61J0');
+INSERT INTO `m_user` VALUES ('USR00007', 'Admin', 'ta/Zzt6ggJJ6mq8=', 2, NULL, 1, '2020-04-16 17:19:21', '2020-04-15 04:07:02', '2020-04-16 03:19:21', 'F5M57Z8');
+INSERT INTO `m_user` VALUES ('USR00008', 'Fendi10', 'xLWdnqCn', 2, NULL, 1, '2020-04-16 14:46:29', '2020-04-15 13:05:51', '2020-04-16 14:50:19', 'C8H43V8');
+INSERT INTO `m_user` VALUES ('USR00009', 'HESTIWORO SUHARDJONO', 'hX2cmKGf', 2, NULL, 1, '2020-04-16 17:33:57', '2020-04-16 17:15:50', '2020-04-16 03:33:57', 'F2Q36F3');
 
 -- ----------------------------
 -- Table structure for m_user_detail
@@ -203,26 +203,24 @@ CREATE TABLE `m_user_detail`  (
   `gambar_user` varchar(250) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL DEFAULT 'user_default.png',
   `thumb_gambar_user` varchar(100) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL DEFAULT 'user_default_thumb.png',
   `email` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
-  `bank` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
-  `rekening` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+  `bank` varchar(100) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+  `rekening` varchar(100) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id_user_detail`) USING BTREE,
   UNIQUE INDEX `id_user`(`id_user`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 16 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 29 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of m_user_detail
 -- ----------------------------
-INSERT INTO `m_user_detail` VALUES (1, 'USR00001', 'Masnur Ganteng', 'Jl. Harapan Nusa Dan Bangsa', '1986-11-08', 'L', '0868574548454', 'admin-1573576263.jpg', 'admin-1573576263_thumb.jpg', NULL, NULL, NULL);
-INSERT INTO `m_user_detail` VALUES (2, 'USR00002', 'Agen', 'aifudf nisduf sidufis ndudrs', '1945-10-09', 'L', '0819218129121', 'kepsek-1573302973.jpg', 'kepsek-1573302973_thumb.jpg', NULL, NULL, NULL);
-INSERT INTO `m_user_detail` VALUES (3, 'USR00003', 'Customer', 'asfsd', '1963-02-14', 'L', '121312', 'keuangan-1573303398.jpg', 'keuangan-1573303398_thumb.jpg', NULL, NULL, NULL);
-INSERT INTO `m_user_detail` VALUES (8, 'USR00004', 'coba,cobalah', NULL, '1970-01-01', NULL, '121212', 'coba-1581928536-.jpg', 'coba-1581928536-.jpg', 'coba@gmail.com', NULL, NULL);
-INSERT INTO `m_user_detail` VALUES (9, 'USR00005', 'jono,joni', NULL, '1970-01-01', NULL, '08973633444', 'user_default.png', 'user_default_thumb.png', 'jono@gmail.com', NULL, NULL);
-INSERT INTO `m_user_detail` VALUES (10, 'USR00006', 'dwi,siswanto', NULL, '1970-01-01', NULL, '08575847474', 'coba-1581928536-.jpg', 'user_default_thumb.png', 'dwi@gmail.com', NULL, NULL);
-INSERT INTO `m_user_detail` VALUES (11, 'USR00007', 'agen,ganteng', NULL, '1970-01-01', NULL, '089121291121', 'agen-1585823162.jpg', 'user_default_thumb.png', 'agen@ganteng.com', 'BNI', '12891892819');
-INSERT INTO `m_user_detail` VALUES (12, 'USR00008', 'majnun', NULL, '1970-01-01', NULL, '121212', 'user_default.png', 'user_default_thumb.png', 'laila@laila.com', 'BCA', '12121212');
-INSERT INTO `m_user_detail` VALUES (13, 'USR00009', '12345', NULL, '1970-01-01', NULL, '121212', 'user_default.png', 'user_default_thumb.png', 'cok@cok.com', 'BCA', '12121212');
-INSERT INTO `m_user_detail` VALUES (14, 'USR00010', 'yahya', NULL, '1970-01-01', NULL, '121212', 'user_default.png', 'user_default_thumb.png', 'yahya@masnur.com', 'BCA', '121121');
-INSERT INTO `m_user_detail` VALUES (15, 'USR00011', 'yayuk', NULL, '1970-01-01', NULL, '12121212', 'user_default.png', 'user_default_thumb.png', 'yayuk@gmail.com', 'BCA', '44444');
+INSERT INTO `m_user_detail` VALUES (1, 'USR00001', 'Administrator Aplikasi', 'Jl. Harapan Nusa Dan Bangsa', '1986-11-08', 'L', '0868574548454', 'user_default.png', 'user_default_thumb.png', NULL, NULL, NULL);
+INSERT INTO `m_user_detail` VALUES (21, 'USR00002', 'Atrie', NULL, '1970-01-01', NULL, '085745628888', 'user_default.png', 'user_default_thumb.png', 'atriyani802@gmail.com', 'MANDIRI', '1370016937647');
+INSERT INTO `m_user_detail` VALUES (22, 'USR00003', 'Antonius Dwi', NULL, '1970-01-01', NULL, '087794524152', 'antonius-1586863810.jpg', 'user_default_thumb.png', 'bill_setyoko@yahoo.com', 'BRI', '309301026648531');
+INSERT INTO `m_user_detail` VALUES (23, 'USR00004', 'Nyuwardi', NULL, '1970-01-01', NULL, '085139089366', 'user_default.png', 'user_default_thumb.png', 'sinyonyuwardi@gmail.com', 'BNI', '0187475153');
+INSERT INTO `m_user_detail` VALUES (24, 'USR00005', 'Lucia', NULL, '1970-01-01', NULL, '082136944194', 'user_default.png', 'user_default_thumb.png', 'lusyyogyakarta@gmail.com', 'MANDIRI', '137-00-1222834-8');
+INSERT INTO `m_user_detail` VALUES (25, 'USR00006', 'Hardini', NULL, '1970-01-01', NULL, '081917390999', 'user_default.png', 'user_default_thumb.png', 'jhardini@yahoo.co.id', 'BNI', '0306699251');
+INSERT INTO `m_user_detail` VALUES (26, 'USR00007', 'Administrasi', NULL, '1970-01-01', NULL, '081234567892', 'user_default.png', 'user_default_thumb.png', 'siswa.admin@gmail.com', 'BCA', '6789987765');
+INSERT INTO `m_user_detail` VALUES (27, 'USR00008', 'Fendi', NULL, '1970-01-01', NULL, '08115759014', 'user_default.png', 'user_default_thumb.png', 'pointtravel88@yahoo.com', 'BCA', '1710682077');
+INSERT INTO `m_user_detail` VALUES (28, 'USR00009', 'HESTIWORO', NULL, '1970-01-01', NULL, '08129293771', 'user_default.png', 'user_default_thumb.png', 'hestisuhardjono@gmail.com', 'BCA', '7060051571');
 
 -- ----------------------------
 -- Table structure for t_checkout
@@ -247,23 +245,24 @@ CREATE TABLE `t_checkout`  (
   `deleted_at` datetime(0) NULL DEFAULT NULL,
   `status` int(1) NULL DEFAULT 1 COMMENT '1: aktif, 0: nonaktif, 2:batal',
   `is_agen_klaim` int(1) NULL DEFAULT 0 COMMENT '1:sudah, 0:belum diklaim',
-  `is_verify_klaim` int(1) NULL DEFAULT 0,
+  `is_verify_klaim` int(1) NOT NULL DEFAULT 0,
   `id_klaim_agen` varchar(50) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
-  `jenis` varchar(10) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT 'paket' COMMENT 'paket  / affiliate',
+  `jenis` varchar(10) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL DEFAULT 'paket',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of t_checkout
 -- ----------------------------
-INSERT INTO `t_checkout` VALUES ('03fe6f3c-059a-4e66-a6a4-32860f7030ba', NULL, 2700000.00, 270000.00, 300000.00, 'jL0h5', 'X6L82G5', 1, 'Wardoyo', 'Kemringet', 'pranoto_official@gmail.com', 'asasasa', 'bukti-wardoyo-1586075510.jpg', '2020-04-05 10:31:51', NULL, NULL, 0, 1, 1, '5776c9db-d3ea-4ce7-b852-8ffa95764b30', 'paket');
-INSERT INTO `t_checkout` VALUES ('1bceaad4-cdd3-442d-b3ca-7011384131e6', NULL, 2700000.00, 0.00, 300000.00, 'jJCvN', NULL, 1, 'coba', 'coba', 'klepon@asa.com', '141212121312', 'bukti-coba-1585645868.jpg', '2020-02-29 11:11:09', NULL, NULL, 0, 0, 0, NULL, 'paket');
-INSERT INTO `t_checkout` VALUES ('5f5702e8-1851-4525-8089-3b3700f134f6', NULL, 2700000.00, 0.00, 300000.00, 'jJEYu', NULL, 1, 'karyono', 'soponyono', 'karyo@gmail.com', '0812371212', 'bukti-karyono-1585652164.jpg', '2020-02-29 12:56:04', NULL, NULL, 0, 0, 0, NULL, 'paket');
-INSERT INTO `t_checkout` VALUES ('be56baf6-d330-443b-b169-87308d9f1396', NULL, 2700000.00, 270000.00, 300000.00, 'jL0tu', 'X6L82G5', 1, 'yono', 'esteban', 'yono@gmail.com', '129192891', 'bukti-yono-1586076306.jpg', '2020-04-05 10:45:06', NULL, NULL, 0, 1, 1, '5776c9db-d3ea-4ce7-b852-8ffa95764b30', 'paket');
-INSERT INTO `t_checkout` VALUES ('e38fd69d-6e5d-4abc-8ef6-944a339ced1c', NULL, 2700000.00, 270000.00, 300000.00, 'jJ7NZ', 'S8N45T9', 1, 'asasa', 'asasas', 'asa@klkl.com', '121313131', 'bukti-asasa-1585624553.jpg', '2020-03-31 05:15:53', NULL, NULL, 0, 1, 0, NULL, 'paket');
-INSERT INTO `t_checkout` VALUES ('e41b4402-5ae7-4687-81e3-6a83cb85d37e', NULL, 1200000.00, 0.00, 0.00, 'jNhv8', NULL, 0, 'yayuk', '', 'yayuk@gmail.com', '12121212', 'bukti-yayuk-1586718330.jpg', '2020-04-12 21:05:30', NULL, NULL, 1, 0, 0, NULL, 'affiliate');
-INSERT INTO `t_checkout` VALUES ('ecb5c182-9865-46fc-83a4-602f2c31b28c', NULL, 2700000.00, 270000.00, 300000.00, 'jL4CN', 'X6L82G5', 1, 'cas', 'asasas', 'asaop@gmail.com', '1212-91-01218', 'bukti-cas-1586088983.jpg', '2020-04-05 14:16:23', NULL, NULL, 0, 1, 0, '7a85dded-e1e5-43a8-a9b2-33011b72ef08', 'paket');
-INSERT INTO `t_checkout` VALUES ('fdcb174d-478f-4a93-be74-ff0ab3575207', NULL, 2700000.00, 270000.00, 300000.00, 'jJ7Kl', 'S8N45T9', 1, 'cas', '12', 'asa@sas.com', '131212', 'bukti-cas-1585624378.jpg', '2020-03-31 05:12:59', NULL, NULL, 0, 1, 0, NULL, 'paket');
+INSERT INTO `t_checkout` VALUES ('1556af6c-db15-45bd-88d4-94e5765267ad', NULL, 1200000.00, 0.00, 0.00, 'jOJ20', NULL, 1, 'Atrie', '', 'atriyani802@gmail.com', '085745628888', 'bukti-atrie-1586860984.jpg', '2020-04-14 10:43:04', NULL, NULL, 0, 0, 0, NULL, 'affiliate');
+INSERT INTO `t_checkout` VALUES ('18ab4fd8-b308-47a3-bb2f-d759cbe93e2f', NULL, 1200000.00, 0.00, 0.00, 'jOZKI', NULL, 1, 'Administrasi', '', 'siswa.admin@gmail.com', '081234567892', 'bukti-administrasi-1586923622.jpg', '2020-04-15 04:07:02', NULL, NULL, 0, 0, 0, NULL, 'affiliate');
+INSERT INTO `t_checkout` VALUES ('2f07c501-d673-4f4b-8931-dfdeb75501f6', NULL, 3000000.00, 550000.00, 0.00, 'jOa0S', 'F5M57Z8', 1, 'Cobaanak', NULL, 'coba.anak@gmail.com', '086789765432', 'bukti-cobaanak-1586926236.jpeg', '2020-04-15 04:50:36', NULL, NULL, 0, 0, 0, NULL, 'paket');
+INSERT INTO `t_checkout` VALUES ('6badde52-1246-4e85-83d1-bcdb0f477081', NULL, 1200000.00, 0.00, 0.00, 'jOJeU', NULL, 1, 'Antonius', '', 'bill_setyoko@yahoo.com', '087794524152', 'bukti-antonius-1586863369.jpg', '2020-04-14 11:22:50', NULL, NULL, 0, 0, 0, NULL, 'affiliate');
+INSERT INTO `t_checkout` VALUES ('8c571ff4-6ef3-4a56-b3ef-b9bcfffb67c0', NULL, 1200000.00, 0.00, 0.00, 'jOM5L', NULL, 1, 'Lucia', '', 'lusyyogyakarta@gmail.com', '082136944194', 'bukti-lucia-1586872722.jpg', '2020-04-14 13:58:43', NULL, NULL, 0, 0, 0, NULL, 'affiliate');
+INSERT INTO `t_checkout` VALUES ('93ea373d-b85b-4495-8c75-b1394244bd26', NULL, 1200000.00, 0.00, 0.00, 'jP1Yk', NULL, 1, 'HESTIWORO', '', 'hestisuhardjono@gmail.com', '08129293771', 'bukti-hestiworo-1587032148.jpg', '2020-04-16 17:15:50', NULL, NULL, 0, 0, 0, NULL, 'affiliate');
+INSERT INTO `t_checkout` VALUES ('b9fb09f0-a62f-41cd-89c3-106ba5412778', NULL, 1200000.00, 0.00, 0.00, 'jOXiq', NULL, 1, 'Hardini', '', 'jhardini@yahoo.co.id', '081917390999', 'bukti-hardini-1586917455.png', '2020-04-15 02:24:16', NULL, NULL, 0, 0, 0, NULL, 'affiliate');
+INSERT INTO `t_checkout` VALUES ('d215ad83-0d55-40a9-b063-f3b764b5672d', NULL, 1200000.00, 0.00, 0.00, 'jOK2T', NULL, 1, 'Nyuwardi', '', 'sinyonyuwardi@gmail.com', '085139089366', 'bukti-nyuwardi-1586864856.jpg', '2020-04-14 11:47:37', NULL, NULL, 0, 0, 0, NULL, 'affiliate');
+INSERT INTO `t_checkout` VALUES ('d320967b-8ba0-4836-b5c8-5bc404084a82', NULL, 1200000.00, 0.00, 0.00, 'jOhjj', NULL, 1, 'Fendi', '', 'pointtravel88@yahoo.com', '08115759014', 'bukti-fendi-1586955950.png', '2020-04-15 13:05:51', NULL, NULL, 0, 0, 0, NULL, 'affiliate');
 
 -- ----------------------------
 -- Table structure for t_hak_akses
@@ -286,6 +285,7 @@ CREATE TABLE `t_hak_akses`  (
 -- ----------------------------
 INSERT INTO `t_hak_akses` VALUES (1, 1, 0, 0, 0);
 INSERT INTO `t_hak_akses` VALUES (5, 1, 0, 0, 0);
+INSERT INTO `t_hak_akses` VALUES (7, 1, 1, 1, 1);
 INSERT INTO `t_hak_akses` VALUES (8, 1, 1, 1, 1);
 INSERT INTO `t_hak_akses` VALUES (9, 1, 0, 0, 0);
 INSERT INTO `t_hak_akses` VALUES (10, 1, 1, 1, 1);
@@ -293,6 +293,8 @@ INSERT INTO `t_hak_akses` VALUES (13, 1, 1, 1, 1);
 INSERT INTO `t_hak_akses` VALUES (14, 1, 1, 1, 1);
 INSERT INTO `t_hak_akses` VALUES (11, 1, 0, 0, 0);
 INSERT INTO `t_hak_akses` VALUES (12, 1, 0, 0, 0);
+INSERT INTO `t_hak_akses` VALUES (15, 1, 0, 0, 0);
+INSERT INTO `t_hak_akses` VALUES (16, 1, 0, 0, 0);
 INSERT INTO `t_hak_akses` VALUES (4, 1, 0, 0, 0);
 INSERT INTO `t_hak_akses` VALUES (3, 1, 1, 1, 1);
 INSERT INTO `t_hak_akses` VALUES (2, 1, 1, 1, 1);
@@ -317,32 +319,20 @@ CREATE TABLE `t_klaim_agen`  (
 ) ENGINE = InnoDB CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
--- Records of t_klaim_agen
--- ----------------------------
-INSERT INTO `t_klaim_agen` VALUES ('126be567-7158-469f-9cca-3c82abac9cc9', 'S8N45T9', NULL, 0.00, 540000.00, 540000.00, '2020-03-31 16:35:15', NULL, '2020-03-31 16:35:15', NULL, 'C-MsrOk');
-INSERT INTO `t_klaim_agen` VALUES ('5776c9db-d3ea-4ce7-b852-8ffa95764b30', 'X6L82G5', 'USR00001', 0.00, 540000.00, 540000.00, '2020-04-05 10:47:30', '2020-04-05 17:14:22', '2020-04-05 10:47:30', NULL, 'C-KHEk1');
-INSERT INTO `t_klaim_agen` VALUES ('7a85dded-e1e5-43a8-a9b2-33011b72ef08', 'X6L82G5', NULL, 0.00, 270000.00, 270000.00, '2020-04-05 14:23:26', NULL, '2020-04-05 14:23:26', NULL, 'C-b5Pod');
-
--- ----------------------------
 -- Table structure for t_klaim_verify
 -- ----------------------------
 DROP TABLE IF EXISTS `t_klaim_verify`;
 CREATE TABLE `t_klaim_verify`  (
   `id` varchar(50) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
-  `id_klaim_agen` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
-  `id_user` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
-  `tanggal_verify` datetime(0) NULL DEFAULT NULL,
-  `bank` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
-  `rekening` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
-  `bukti` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
-  `nilai_transfer` double(20, 2) NULL DEFAULT 0.00,
+  `id_klaim_agen` varchar(50) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+  `id_user` varchar(50) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+  `tanggal_verify` datetime(0) NOT NULL,
+  `bank` varchar(50) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+  `rekening` varchar(100) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+  `bukti` varchar(100) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+  `nilai_transfer` double(20, 2) NOT NULL DEFAULT 0.00,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;
-
--- ----------------------------
--- Records of t_klaim_verify
--- ----------------------------
-INSERT INTO `t_klaim_verify` VALUES ('5776c9db-d3ea-4ce7-b852-8ffa9571', '5776c9db-d3ea-4ce7-b852-8ffa95764b30', 'USR00001', '2020-04-05 17:14:22', 'BNI', '12891892819', 'bukti-agen-ganteng-1586099662.jpg', 540000.00);
+) ENGINE = MyISAM CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for t_log_harga
@@ -358,45 +348,14 @@ CREATE TABLE `t_log_harga`  (
   `diskon_paket` int(3) NULL DEFAULT NULL COMMENT 'besaran diskon',
   `harga_diskon_paket` double(20, 2) NULL DEFAULT NULL COMMENT 'nilai diskon',
   `tanggal_berlaku` timestamp(0) NULL DEFAULT NULL,
-  `jenis` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL COMMENT 'paket  / affiliate',
+  `jenis` varchar(20) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of t_log_harga
 -- ----------------------------
-INSERT INTO `t_log_harga` VALUES ('1412d101-e054-4933-885f-0495fdf5a372', 1200000.00, '2020-04-12 19:37:04', 0, 0.00, 1, 0, 1200000.00, '2020-04-13 12:00:00', 'affiliate');
-INSERT INTO `t_log_harga` VALUES ('39081da9-b101-41a7-9c04-52354aedf07e', 1200000.00, '2020-04-12 18:58:09', 0, 0.00, 0, 10, 1080000.00, '2020-04-12 12:00:00', 'affiliate');
-INSERT INTO `t_log_harga` VALUES ('f984060d-aa05-4c31-a90b-eae7cd1d8b9e', 3000000.00, '2020-04-12 18:57:53', 10, 300000.00, 1, 0, 3000000.00, '2020-04-12 12:00:00', 'paket');
-
--- ----------------------------
--- Function structure for uuid_v4
--- ----------------------------
-DROP FUNCTION IF EXISTS `uuid_v4`;
-delimiter ;;
-CREATE DEFINER=`root`@`localhost` FUNCTION `uuid_v4`() RETURNS char(36) CHARSET latin1
-BEGIN
-    -- Generate 8 2-byte strings that we will combine into a UUIDv4
-    SET @h1 = LPAD(HEX(FLOOR(RAND() * 0xffff)), 4, '0');
-    SET @h2 = LPAD(HEX(FLOOR(RAND() * 0xffff)), 4, '0');
-    SET @h3 = LPAD(HEX(FLOOR(RAND() * 0xffff)), 4, '0');
-    SET @h6 = LPAD(HEX(FLOOR(RAND() * 0xffff)), 4, '0');
-    SET @h7 = LPAD(HEX(FLOOR(RAND() * 0xffff)), 4, '0');
-    SET @h8 = LPAD(HEX(FLOOR(RAND() * 0xffff)), 4, '0');
-
-    -- 4th section will start with a 4 indicating the version
-    SET @h4 = CONCAT('4', LPAD(HEX(FLOOR(RAND() * 0x0fff)), 3, '0'));
-
-    -- 5th section first half-byte can only be 8, 9 A or B
-    SET @h5 = CONCAT(HEX(FLOOR(RAND() * 4 + 8)),
-                LPAD(HEX(FLOOR(RAND() * 0x0fff)), 3, '0'));
-
-    -- Build the complete UUID
-    RETURN LOWER(CONCAT(
-        @h1, @h2, '-', @h3, '-', @h4, '-', @h5, '-', @h6, @h7, @h8
-    ));
-END
-;;
-delimiter ;
+INSERT INTO `t_log_harga` VALUES ('ceda0b5a-7a02-46f1-9030-ff38c88fd157', 3000000.00, '2020-04-13 07:59:49', 18, 550000.00, 1, 0, 3000000.00, '2020-04-14 02:00:00', 'paket');
+INSERT INTO `t_log_harga` VALUES ('efefed31-2f8e-4954-98d6-03359b3d067e', 1200000.00, '2020-04-13 08:00:16', 0, 0.00, 1, 0, 1200000.00, '2020-04-14 02:00:00', 'affiliate');
 
 SET FOREIGN_KEY_CHECKS = 1;
