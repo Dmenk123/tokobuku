@@ -46,7 +46,7 @@
                   <li class="user-footer">
                      <div class="pull-left">
 								<?php $id_user = $this->session->userdata('id_user');?>
-								<a href='<?php echo site_url("admin/master_user/edit_profil/$id_user");?>' class="btn btn-default btn-flat">Profile</a>
+								<a href='<?php echo site_url("admin/master_user/edit_user/$id_user");?>' class="btn btn-default btn-flat">Profile</a>
                      </div>
                      <div class="pull-right">
                         <a  href="javascript:void(0);" onclick="logout_proc()" class="btn btn-default btn-flat">Logout</a>

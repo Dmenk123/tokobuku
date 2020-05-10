@@ -9,6 +9,10 @@ class Master_user extends CI_Controller {
 		$this->load->model('mod_global', 'm_global');
 		$this->load->model('adm_model/mod_user', 'm_user');
 		$this->load->library('enkripsi');
+
+		if (!$this->session->userdata('id_user')) {
+			return redirect('admin/login','refresh');
+		}
 	}
 
 	public function index()
@@ -30,6 +34,142 @@ class Master_user extends CI_Controller {
 		];
 
 		$this->template_view->load_view($content, $data);
+	}
+
+	public function add()
+	{
+		$isi_notif = [];
+		$id_user = $this->session->userdata('id_user');
+		$data_user = $this->m_user->get_detail_user($id_user);
+
+		$data = array(
+			'data_user' => $data_user,
+			'isi_notif' => $isi_notif
+		);
+
+		$content = [
+			'css' => false,
+			'modal' => false,
+			'js'	=> 'adm_view/js/js_user',
+			'view'	=> 'adm_view/master_user/v_add_user'
+		];
+
+		$this->template_view->load_view($content, $data);
+	}
+
+	public function add_data()
+	{
+		$flag_upload_foto = FALSE;
+
+		//validasi
+		$data = array();
+		$data['error_string'] = array();
+		$data['inputerror'] = array();
+		$data['status'] = TRUE;
+		
+		if ($this->input->post('namalengkap') == '') {
+			$data['inputerror'][] = 'namalengkap';
+			$data['error_string'][] = 'Wajib mengisi namalengkap';
+			$data['status'] = FALSE;
+		}
+
+		if ($this->input->post('username') == '') {
+			$data['inputerror'][] = 'username';
+			$data['error_string'][] = 'Wajib mengisi username';
+			$data['status'] = FALSE;
+		}
+
+		if ($this->input->post('password') == null) {
+			$data['inputerror'][] = 'password';
+			$data['error_string'][] = 'Wajib mengisi ulang Password Baru';
+			$data['status'] = FALSE;
+		}
+
+		if ($this->input->post('repassword') == null) {
+			$data['inputerror'][] = 'repassword';
+			$data['error_string'][] = 'Wajib mengisi ulang Password';
+			$data['status'] = FALSE;
+		}
+
+		if ($data['status'] == FALSE) {
+			echo json_encode(['status' => FALSE, 'inputerror' => $data['inputerror'], 'error_string' => $data['error_string']]);
+			return;
+		}
+		//end validasi
+
+		$password = clean_string($this->input->post('password'));
+		$repassword = clean_string($this->input->post('repassword'));
+		$username = clean_string($this->input->post('username'));
+		$status = $this->input->post('status');
+		$hasil_password = $this->enkripsi->encrypt($password);
+		$arr_namalengkap = clean_string($this->input->post('namalengkap'));
+		$namafileseo = $this->seoUrl($arr_namalengkap.' '.time());
+
+		if ($password != $repassword) {
+			echo json_encode([
+				'status' => false,
+				'password_beda' => true
+			]);
+			return;
+		}
+
+		if(!empty($_FILES['gambar']['name']))
+		{
+			$this->konfigurasi_upload_bukti($namafileseo);
+			//get detail extension
+			$pathDet = $_FILES['gambar']['name'];
+			$extDet = pathinfo($pathDet, PATHINFO_EXTENSION);
+			if ($this->gbr_bukti->do_upload('gambar')) 
+			{
+				$flag_upload_foto = TRUE;
+				$gbrBukti = $this->gbr_bukti->data();
+				//inisiasi variabel u/ digunakan pada fungsi config img bukti
+				$nama_file_foto = $gbrBukti['file_name'];
+				//load config img
+				$this->konfigurasi_image_resize($nama_file_foto);
+				//clear img lib after resize
+				$this->image_lib->clear();
+			} //end
+		}
+
+		$this->db->trans_begin();
+		
+		$id_user = $this->m_global->getKodeUser();
+
+		//data input array
+		$input = array(
+			'id_user' => $id_user,
+			'username' => $username,
+			'password' => $hasil_password,
+			'id_level_user' => '1',
+			'status' => $status,
+			'created_at' => date('Y-m-d H:i:s')
+		);
+
+        //save to db
+        $this->m_global->insert_data('m_user', $input);
+
+        $detail = array(
+			'id_user'=> $id_user,
+			'nama_lengkap_user'=> $arr_namalengkap
+		);
+		
+		if ($flag_upload_foto) {
+			$detail['gambar_user'] = $nama_file_foto;
+		}
+
+		//save to db
+        $this->m_global->insert_data('m_user_detail', $detail);
+
+        if ($this->db->trans_status() === FALSE) {
+			$this->db->trans_rollback();
+			$status = FALSE;
+		} else {
+			$this->db->trans_commit();			
+			$status = TRUE;
+		}
+
+		echo json_encode(['status'=>$status]);
 	}
 
 	public function list_user()
@@ -188,38 +328,6 @@ class Master_user extends CI_Controller {
 		echo json_encode(['status'=>$status]);
 	}
 
-	public function edit_profil($id)
-	{
-		$isi_notif = [];
-		$id_user = clean_string($id);
-		$this->load->model('adm_model/mod_user', 'm_user');
-		$this->load->model('mod_global');
-		$data_user = $this->m_user->get_detail_user($id_user);
-
-		$select = "m_user.*, m_user_detail.nama_lengkap_user, m_user_detail.alamat_user, m_user_detail.no_telp_user, m_user_detail.email, m_user_detail.gambar_user, m_user_detail.rekening, m_user_detail.bank";
-		$join = array(
-			["table" => "m_user_detail", "on" => "m_user.id_user = m_user_detail.id_user"]
-		);
-
-		$userdata = $this->mod_global->get_data($select, 'm_user', ['m_user.status' => 1, 'm_user.id_user' => $id_user], $join);
-
-		$data = array(
-			'data_user' => $data_user,
-			'isi_notif' => $isi_notif,
-			'cek_kunci' => FALSE,
-			'hasil_data' => $userdata
-		);
-
-		$content = [
-			'css' => false,
-			'js'	=> 'adm_view/js/js_master_user',
-			'modal' => false,
-			'view'	=> 'adm_view/v_admin_profile'
-		];
-
-		$this->template_view->load_view($content, $data);
-	}
-
 	private function _validate()
 	{
 		$data = array();
@@ -254,5 +362,48 @@ class Master_user extends CI_Controller {
 		}
 
 		return $data;
-	}	
+	}
+
+	public function konfigurasi_upload_bukti($nmfile)
+	{ 
+		//konfigurasi upload img display
+		$config['upload_path'] = './assets/img/foto_profil/';
+		$config['allowed_types'] = 'gif|jpg|png|jpeg|bmp';
+		$config['overwrite'] = TRUE;
+		$config['max_size'] = '4000';//in KB (4MB)
+		$config['max_width']  = '0';//zero for no limit 
+		$config['max_height']  = '0';//zero for no limit
+		$config['file_name'] = $nmfile;
+		//load library with custom object name alias
+		$this->load->library('upload', $config, 'gbr_bukti');
+		$this->gbr_bukti->initialize($config);
+	}
+
+	public function konfigurasi_image_resize($filename)
+	{
+		//konfigurasi image lib
+	    $config['image_library'] = 'gd2';
+	    $config['source_image'] = './assets/img/foto_profil/'.$filename;
+	    $config['create_thumb'] = FALSE;
+	    $config['maintain_ratio'] = FALSE;
+	    $config['new_image'] = './assets/img/foto_profil/'.$filename;
+	    $config['overwrite'] = TRUE;
+	    $config['width'] = 450;
+	    $config['height'] = 500;
+	    $this->load->library('image_lib',$config);
+	    $this->image_lib->initialize($config);
+	    $this->image_lib->resize();
+	}
+
+	private function seoUrl($string) {
+	    //Lower case everything
+	    $string = strtolower($string);
+	    //Make alphanumeric (removes all other characters)
+	    $string = preg_replace("/[^a-z0-9_\s-]/", "", $string);
+	    //Clean up multiple dashes or whitespaces
+	    $string = preg_replace("/[\s-]+/", " ", $string);
+	    //Convert whitespaces and underscore to dash
+	    $string = preg_replace("/[\s_]/", "-", $string);
+	    return $string;
+	}
 }

@@ -16,7 +16,7 @@
           <div class="box">
             <div class="box-header">
               <?php if ($this->session->userdata('id_level_user') == '1') { ?>
-                <button class="btn btn-success" onclick="add_user()"><i class="glyphicon glyphicon-plus"></i> Add User</button>
+                <a class="btn btn-success" href="<?=base_url('admin/master_user/add');?>"><i class="glyphicon glyphicon-plus"></i> Add User</a>
               <?php } ?>
               <button class="btn btn-default" onclick="reload_table()"><i class="glyphicon glyphicon-refresh"></i> Reload</button>
             </div>

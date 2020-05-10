@@ -10,6 +10,10 @@ class Lap_komisi_agen extends CI_Controller
 		$this->load->model('mod_global', 'm_global');
 		$this->load->model('adm_model/mod_user', 'm_user');
 		$this->load->model('adm_model/mod_penjualan', 'm_jual');
+
+		if (!$this->session->userdata('id_user')) {
+			return redirect('admin/login','refresh');
+		}
 	}
 
 	private function arr_bulan()

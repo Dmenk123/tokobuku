@@ -70,14 +70,57 @@ $(document).ready(function() {
 
 });	
 
-function add_user() 
-{
-	save_method = 'add';
-	$('#form')[0].reset(); //reset form on modals
-	$('.form-group').removeClass('has-error');//clear error class
-	$('.help-block').empty(); //clear error string
-	$('#modal_form').modal('show'); //show bootstrap modal
-	$('.modal-title').text('Add Pengguna'); //set title modal
+function add_user() {
+    $('#btnSave').text('saving...'); //change button text
+    $('#btnSave').attr('disabled', true); //set button disable 
+    
+    var url;
+    url = "<?php echo site_url('admin/master_user/add_data') ?>";
+    
+    // Get form
+    let form = $('#form_input')[0];
+    let data = new FormData(form);
+
+    // ajax adding data to database
+    $.ajax({
+        url: url,
+        enctype: 'multipart/form-data',
+        type: "POST",
+        data: data,
+        dataType: "JSON",
+        processData: false,
+        contentType: false,
+        success: function(data) {
+            if (data.status) {
+                window.location.href = "<?= base_url('/admin/master_user'); ?>";
+            } else {
+                if(data.password_beda){
+                    alert('Password tidak sama !!!');
+                }else{
+                    for (var i = 0; i < data.inputerror.length; i++) {
+                        if (data.inputerror[i] != 'jabatan') {
+                            $('[name="' + data.inputerror[i] + '"]').parent().addClass('has-error'); //select parent twice to select div form-group class and add has-error class
+                            $('[name="' + data.inputerror[i] + '"]').next().text(data.error_string[i]); //select span help-block class set text error string
+                        } else {
+                            $($('#jabatan').data('select2').$container).addClass('has-error');
+                        }
+                    }
+                }
+            }
+
+            $('#btnSave').text('save'); //change button text
+            $('#btnSave').attr('disabled', false); //set button enable 
+
+
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.log(textStatus, errorThrown);
+            alert('Error adding / update data');
+            $('#btnSave').text('save'); //change button text
+            $('#btnSave').attr('disabled', false); //set button enable 
+
+        }
+    });
 }
 
 function update_profil() {
