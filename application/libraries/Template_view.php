@@ -15,8 +15,8 @@ class Template_view extends CI_Controller {
     function load_view($content, $data = NULL){
 		//var_dump($content);exit;
 		
-        $this->_ci->load->library('session');
-		
+		$this->_ci->load->library('session');
+						
         if(!$_SESSION['id_level_user']){
             $id_level = "0";
         }
@@ -25,17 +25,17 @@ class Template_view extends CI_Controller {
         }
 
 		$queryActive = $this->_ci->db->query("
-		select
-			m_menu.id_menu,
-			m_menu.tingkat_menu,
-            m_menu.nama_menu,
-			m_menu.id_parent as id_ataspertama,
-			(select menuataskedua.id_parent from m_menu menuataskedua where menuataskedua.id_menu=m_menu.id_parent) as id_ataskedua,
-			(select menuatasketiga.id_parent from m_menu menuatasketiga where menuatasketiga.id_menu= (select menuataskedua.id_parent from m_menu menuataskedua where menuataskedua.id_menu=m_menu.id_parent)) as id_atasketiga
-		from
-			m_menu,t_hak_akses
-		WHERE
-			m_menu.aktif_menu = 1 and m_menu.LINK_MENU = 'admin/".$this->_ci->uri->segment(2)."' and m_menu.id_menu=t_hak_akses.id_menu and t_hak_akses.id_level_user= '".$id_level."'
+			select
+				m_menu.id_menu,
+				m_menu.tingkat_menu,
+				m_menu.nama_menu,
+				m_menu.id_parent as id_ataspertama,
+				(select menuataskedua.id_parent from m_menu menuataskedua where menuataskedua.id_menu=m_menu.id_parent) as id_ataskedua,
+				(select menuatasketiga.id_parent from m_menu menuatasketiga where menuatasketiga.id_menu= (select menuataskedua.id_parent from m_menu menuataskedua where menuataskedua.id_menu=m_menu.id_parent)) as id_atasketiga
+			from
+				m_menu,t_hak_akses
+			WHERE
+				m_menu.aktif_menu = 1 and m_menu.LINK_MENU = 'admin/".$this->_ci->uri->segment(2)."' and m_menu.id_menu=t_hak_akses.id_menu and t_hak_akses.id_level_user= '".$id_level."'
 		");
 		$dataActive = $queryActive->row();
 		//echo $this->_ci->db->last_query();exit;
@@ -84,7 +84,7 @@ class Template_view extends CI_Controller {
 			}
 
 			
-		/* 	if(!$dataActive){
+			/* 	if(!$dataActive){
 				redirect("admin/login");
 			} */
 
@@ -318,6 +318,15 @@ class Template_view extends CI_Controller {
 			$noMenuSatu++;
 		}
 
+		//notif klaim
+		$query_notif = $this->_ci->db->query("SELECT * FROM t_klaim_agen WHERE datetime_verify is not null")->result();
+		$data['isi_notif'] = $query_notif;
+		$data['qty_notif'] = count($query_notif);
+
+		//notif daftar member
+		$query_notif2 = $this->_ci->db->query("SELECT * FROM t_checkout WHERE is_konfirm = '0' and jenis = 'paket'")->result();
+		$data['isi_notif2'] = $query_notif2;
+		$data['qty_notif2'] = count($query_notif2);
 
 		$data['tampil_menu'] = $menuHtml;
 		if($content['css']){

@@ -8,7 +8,7 @@ class Dashboard extends CI_Controller {
 		parent::__construct();
 		$this->load->model('adm_model/Mod_dashboard_adm','m_dasbor');
 		$this->load->model('adm_model/Mod_user','m_user');
-		// $this->load->model('penjualan_adm/mod_penjualan_adm','m_jual');
+		$this->load->model('mod_global', 'm_global');
 		// $this->load->library('flashdata_stokmin');
 		
 		if ($this->session->userdata('logged_in') != true) {
@@ -27,11 +27,16 @@ class Dashboard extends CI_Controller {
 		$query = $this->m_user->get_detail_user($id_user);
 
 		$data_dashboard = [];
-		$isi_notif = [];
+		/* $where_notif = 'datetime_verify is not null';
+		$query_notif = $this->m_global->get_data('*', 't_klaim_agen', $where = $where_notif, $join = array(), $order = FALSE, $limit = FALSE, $start = FALSE);
 		
+		$isi_notif = $query_notif;
+		$qty_notif = count($query_notif); */
+
 		$data = [
 			'data_user' => $query,
-			'isi_notif' => $isi_notif
+			// 'isi_notif' => $isi_notif,
+			// 'qty_notif' => $qty_notif
 		];
 
 		$content = [
