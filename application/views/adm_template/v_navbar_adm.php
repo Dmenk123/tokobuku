@@ -76,9 +76,9 @@
 								} ?>
 								<li>
 									<a href="#" class="<?php echo $strip; ?> linkNotif" id="<?php echo $notif->id; ?>">
-										<?php echo $notif->kode_klaim; ?> <br>
+										<?php echo "Kode Ref : ".$notif->kode_klaim; ?> <br>
 										<small>
-											<strong><?php echo $notif->jumlah_klaim; ?></strong> (<?php echo timeAgo(strtotime($notif->datetime_klaim)); ?>)</small>
+											<strong>Rp. <?php echo number_format($notif->jumlah_klaim , 0, ",", "."); ?></strong> (<?php echo timeAgo(strtotime($notif->datetime_klaim)); ?>)</small>
 									</a>
 								</li>
 							<?php } ?>
@@ -106,7 +106,7 @@
 									<a href="#" class="<?php echo $strip; ?> linkNotif" id="<?php echo $notif->id; ?>">
 										<?php echo 'Program belajar a/n '.$notif->nama_depan; ?> <br>
 										<small>
-											<strong><?php echo $notif->laba_agen_total; ?></strong> (<?php echo timeAgo(strtotime($notif->created_at)); ?>)</small>
+											<strong>Rp. <?php echo number_format($notif->harga_total, 0, ",", "."); ?></strong> (<?php echo timeAgo(strtotime($notif->created_at)); ?>)</small>
 									</a>
 								</li>
 							<?php } ?>

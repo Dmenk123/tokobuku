@@ -24,12 +24,8 @@ class Affiliate extends CI_Controller {
 		);
 
         $this->load->view('v_navbar');
-        if (!empty($this->session->userdata('kode_agen'))) {
-            $this->load->view('v_kode', $data);
-        }else{
-            $this->load->view('v_affiliate', $data);
-        }
-		$this->load->view('footer');
+		$this->load->view('v_affiliate', $data);
+       	$this->load->view('footer');
 	}
 	
 	public function register()

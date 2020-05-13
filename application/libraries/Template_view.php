@@ -319,12 +319,12 @@ class Template_view extends CI_Controller {
 		}
 
 		//notif klaim
-		$query_notif = $this->_ci->db->query("SELECT * FROM t_klaim_agen WHERE datetime_verify is not null")->result();
+		$query_notif = $this->_ci->db->query("SELECT * FROM t_klaim_agen WHERE datetime_verify is null ORDER BY created_at DESC")->result();
 		$data['isi_notif'] = $query_notif;
 		$data['qty_notif'] = count($query_notif);
 
 		//notif daftar member
-		$query_notif2 = $this->_ci->db->query("SELECT * FROM t_checkout WHERE is_konfirm = '0' and jenis = 'paket'")->result();
+		$query_notif2 = $this->_ci->db->query("SELECT * FROM t_checkout WHERE is_konfirm = '0' and jenis = 'paket' ORDER BY created_at DESC")->result();
 		$data['isi_notif2'] = $query_notif2;
 		$data['qty_notif2'] = count($query_notif2);
 

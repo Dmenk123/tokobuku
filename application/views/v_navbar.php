@@ -106,10 +106,7 @@
           <div class="navigation__column center">
                 <ul class="main-menu menu">
     				<li class="menu-item dropdown"><a href="<?= base_url('home'); ?>">Home</a></li>
-    				<?php if ($this->session->userdata('kode_agen') == null ): ?>
-    					<li class="menu-item has-mega-menu"><a href="<?= base_url('affiliate'); ?>">Affiliate</a>
-    					</li>
-    				<?php endif ?>
+						<li class="menu-item has-mega-menu"><a href="<?= base_url('affiliate'); ?>">Affiliate</a></li>
     				<li class="menu-item dropdown"><a href="#">Contact</a></li>
     			</ul>
           </div>
