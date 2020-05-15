@@ -62,18 +62,33 @@ if (isset($js)) {
 	var baseUrl = "<?= base_url();?>";
 
 	$(document).ready(function() {
-		//update dt_read after click
-		$(document).on('click', '.linkNotif', function() {
+		
+		$(document).on('click', '.linkNotifKlaim', function() {
 			var id = $(this).attr('id');
 			$.ajax({
-				url: "<?php echo site_url('inbox_adm/update_read_email/') ?>" + id,
-				type: "POST",
+				url: baseUrl+"admin/dashboard/get_klaim_agen/"+id,
+				type: "GET",
 				dataType: "JSON",
 				success: function(data) {
-					location.href = "<?php echo site_url('inbox_adm') ?>";
+					location.href = baseUrl+"admin/verifikasi_klaim/verifikasi_detail/"+id+"/"+data.bulan+"/"+data.tahun;
 				},
 				error: function(jqXHR, textStatus, errorThrown) {
-					alert('Error get data from ajax');
+					alert('Terjadi Kesalahan Notifikasi Klaim Agen');
+				}
+			});
+		});
+
+		$(document).on('click', '.linkNotifPenjualan', function() {
+			var id = $(this).attr('id');
+			$.ajax({
+				url: baseUrl+"admin/dashboard/get_penjualan/"+id,
+				type: "GET",
+				dataType: "JSON",
+				success: function(data) {
+					location.href = baseUrl+"admin/penjualan/penjualan_detail/"+id+"/1/"+data.bulan+"/"+data.tahun;
+				},
+				error: function(jqXHR, textStatus, errorThrown) {
+					alert('Terjadi Kesalahan Notifikasi Penjualan');
 				}
 			});
 		});

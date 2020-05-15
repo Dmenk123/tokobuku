@@ -75,7 +75,7 @@
 									$strip = 'strip2';
 								} ?>
 								<li>
-									<a href="#" class="<?php echo $strip; ?> linkNotif" id="<?php echo $notif->id; ?>">
+									<a href="#" class="<?php echo $strip; ?> linkNotifKlaim" id="<?php echo $notif->id; ?>">
 										<?php echo "Kode Ref : ".$notif->kode_klaim; ?> <br>
 										<small>
 											<strong>Rp. <?php echo number_format($notif->jumlah_klaim , 0, ",", "."); ?></strong> (<?php echo timeAgo(strtotime($notif->datetime_klaim)); ?>)</small>
@@ -103,7 +103,7 @@
 									$strip = 'strip2';
 								} ?>
 								<li>
-									<a href="#" class="<?php echo $strip; ?> linkNotif" id="<?php echo $notif->id; ?>">
+									<a href="#" class="<?php echo $strip; ?> linkNotifPenjualan" id="<?php echo $notif->id; ?>">
 										<?php echo 'Program belajar a/n '.$notif->nama_depan; ?> <br>
 										<small>
 											<strong>Rp. <?php echo number_format($notif->harga_total, 0, ",", "."); ?></strong> (<?php echo timeAgo(strtotime($notif->created_at)); ?>)</small>

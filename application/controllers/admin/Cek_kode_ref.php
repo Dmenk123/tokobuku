@@ -23,13 +23,11 @@ class Cek_kode_ref extends CI_Controller
 
 	public function index()
 	{
-		$isi_notif = [];
 		$id_user = $this->session->userdata('id_user');
 		$data_user = $this->m_user->get_detail_user($id_user);
 
 		$data = array(
 			'data_user' => $data_user,
-			'isi_notif' => $isi_notif,
 			'arr_bulan' => $this->arr_bulan(),
 			'cek_kunci' => FALSE
 		);
@@ -37,6 +35,33 @@ class Cek_kode_ref extends CI_Controller
 		$content = [
 			'css' => false,
 			// 'modal' => 'adm_view/modal/modalSetRoleAdm',
+			'js'	=> false,
+			'modal' => false,
+			'view'	=> 'adm_view/cek_kode_ref/v_cek_kode_ref'
+		];
+
+		$this->template_view->load_view($content, $data);
+	}
+
+	public function detail()
+	{
+		$id_user = $this->session->userdata('id_user');
+		$data_user = $this->m_user->get_detail_user($id_user);
+		$tipe = clean_string($this->input->get('tipe'));
+		$koderef = clean_string($this->input->get('koderef'));
+		
+		if ($tipe == '' || $koderef == '') {
+			return redirect('admin/cek_kode_ref','refresh');
+		}
+
+		$data = array(
+			'data_user' => $data_user,
+			'arr_bulan' => $this->arr_bulan(),
+			'cek_kunci' => FALSE
+		);
+
+		$content = [
+			'css' => false,
 			'js'	=> false,
 			'modal' => false,
 			'view'	=> 'adm_view/cek_kode_ref/v_cek_kode_ref'

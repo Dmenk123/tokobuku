@@ -79,4 +79,20 @@ class Dashboard extends CI_Controller {
 		return $arr[$bulan];
 	}
 
+	public function get_penjualan($id)
+	{
+		$q = $this->m_global->get_data_single('created_at', 't_checkout', ['id' => $id]);
+		$data['bulan'] = date('m', strtotime($q->created_at));
+		$data['tahun'] = date('Y', strtotime($q->created_at));
+		echo json_encode($data);
+	}
+
+	public function get_klaim_agen($id)
+	{
+		$q = $this->m_global->get_data_single('datetime_klaim', 't_klaim_agen', ['id' => $id]);
+		$data['bulan'] = date('m', strtotime($q->datetime_klaim));
+		$data['tahun'] = date('Y', strtotime($q->datetime_klaim));
+		echo json_encode($data);
+	}
+
 }
