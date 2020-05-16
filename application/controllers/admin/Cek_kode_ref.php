@@ -54,14 +54,58 @@ class Cek_kode_ref extends CI_Controller
 			return redirect('admin/cek_kode_ref','refresh');
 		}
 
+		if ($tipe == 'TRANS') {
+			$q = $this->db->query("
+				SELECT t_checkout.*, m_user_detail.nama_lengkap_user as nama_agen
+				FROM t_checkout 
+				LEFT JOIN m_user on t_checkout.kode_agen = m_user.kode_agen
+				LEFT JOIN m_user_detail on m_user.id_user = m_user_detail.id_user
+				WHERE t_checkout.kode_ref like '%".$koderef."%'"
+			)->result();
+		}else{
+			$q = $this->db->query("
+				SELECT t_klaim_agen.*, m_user.username, m_user_detail.nama_lengkap_user, m_user_detail.rekening, m_user_detail.no_telp_user, m_user_detail.email, m_user_detail.bank
+				FROM t_klaim_agen 
+				LEFT JOIN m_user on t_klaim_agen.id_agen = m_user.kode_agen
+				LEFT JOIN m_user_detail on m_user.id_user = m_user_detail.id_user 
+				WHERE kode_klaim like '%".$koderef."%'")->result();
+		}
+
+		$retval = [];
+		foreach ($q as $key => $value) {
+			$retval[$key]['no'] = $key += 1;
+			if ($tipe == 'TRANS') {
+				$retval[$key]['nama_lengkap'] = $value->nama_depan;
+				$retval[$key]['kode_ref'] = $value->kode_ref;
+				$retval[$key]['telepon'] = $value->telepon;
+				$retval[$key]['nilai'] = "Rp. " . number_format($value->harga_total, 0, ",", ".");
+				if ($value->nama_agen) {
+					$retval[$key]['keterangan'] = "Agen : ".$value->nama_agen." | Laba : "."Rp. " . number_format($value->laba_agen_total, 0, ",", ".");
+				}else{
+					$retval[$key]['keterangan'] = ' - ';
+				}
+				
+			}else{
+				$retval[$key]['nama_lengkap'] = $value->nama_lengkap_user;
+				$retval[$key]['kode_ref'] = $value->kode_klaim;
+				$retval[$key]['telepon'] = $value->no_telp_user;
+				$retval[$key]['nilai'] = "Rp. " . number_format($value->jumlah_klaim, 0, ",", ".");
+				$retval[$key]['keterangan'] = "Rekening : ".$value->rekening." | Bank : ".$value->bank;
+			}
+			
+			$retval[$key]['email'] = $value->email;
+			$retval[$key]['tanggal'] = date('d-m-Y H:i:s', strtotime($value->created_at));
+		}
+
 		$data = array(
-			'data_user' => $data_user,
-			'arr_bulan' => $this->arr_bulan(),
-			'cek_kunci' => FALSE
+			'hasil_data' 	=> $retval,
+			'data_user' 	=> $data_user,
+			'arr_bulan' 	=> $this->arr_bulan(),
+			'cek_kunci' 	=> FALSE
 		);
 
 		$content = [
-			'css' => false,
+			'css' 	=> false,
 			'js'	=> false,
 			'modal' => false,
 			'view'	=> 'adm_view/cek_kode_ref/v_cek_kode_ref'
@@ -69,154 +113,5 @@ class Cek_kode_ref extends CI_Controller
 
 		$this->template_view->load_view($content, $data);
 	}
-
-	public function lap_detail()
-	{
-		$isi_notif = [];
-		$id_user = $this->session->userdata('id_user');
-		$data_user = $this->m_user->get_detail_user($id_user);
-		$arr_bulan = $this->arr_bulan();
-
-		$bulan = clean_string($this->input->get('bulan'));
-		$tahun = clean_string($this->input->get('tahun'));
-		$periode = $arr_bulan[$bulan].' '.$tahun;
-		$saldo_awal = 0;
-		$saldo_akhir = 0;
-		$arr_data = [];
-
-		$tanggal_awal = date('Y-m-d H:i:s', strtotime($tahun . '-' . $bulan . '-01 00:00:00'));
-		$tanggal_akhir = date('Y-m-t H:i:s', strtotime($tahun . '-' . $bulan . '-01 23:59:59'));
-
-		$saldo_awal += $this->m_jual->get_saldo_awal_lap($tanggal_awal);
-
-		//assign satu row array untuk saldo awal
-		$arr_data[0]['tanggal'] = date('d-m-Y', strtotime($tahun .'-'. $bulan.'-01'));
-		$arr_data[0]['kode_ref'] = '-';
-		$arr_data[0]['keterangan'] = 'Saldo Awal';
-		$arr_data[0]['penerimaan'] = '-';
-		$arr_data[0]['laba_agen'] = '-';
-		$arr_data[0]['penerimaan_raw'] = 0;
-		$arr_data[0]['laba_agen_raw'] = 0;
-		$arr_data[0]['saldo_akhir'] = $saldo_awal;
-
-		$query_lap = $this->m_jual->get_detail_lap($tanggal_awal, $tanggal_akhir);
-		if ($query_lap) {
-			foreach ($query_lap as $key => $val) 
-			{
-				$arr_data[$key+1]['tanggal'] = date('d-m-Y', strtotime($val->created_at));
-				$arr_data[$key+1]['kode_ref'] = $val->kode_ref;
-				
-				if ($val->jenis == 'affiliate') {
-					$arr_data[$key+1]['keterangan'] = 'Pendaftaran Affiliate a/n : '.$val->nama_lengkap;
-				}else{
-					$arr_data[$key+1]['keterangan'] = 'Pendaftaran Member a/n : '.$val->nama_lengkap;
-				}
-
-				$arr_data[$key+1]['penerimaan'] = number_format($val->harga_total,2,",",".");
-				$arr_data[$key+1]['penerimaan_raw'] = $val->harga_total;
-				$arr_data[$key+1]['laba_agen'] = number_format($val->laba_agen_total,2,",",".");
-				$arr_data[$key+1]['laba_agen_raw'] = $val->laba_agen_total;
-
-				//saldo
-				$saldo_akhir += (int)$saldo_awal + (int)$val->harga_total - (int)$val->laba_agen_total;
-				
-				//set saldo awal to 0
-				$saldo_awal = 0;
-				$arr_data[$key+1]['saldo_akhir'] = (int)$saldo_akhir;
-			}
-		}
-
-		$data = array(
-			'data_user' => $data_user,
-			'isi_notif' => $isi_notif,
-			'arr_bulan' => $this->arr_bulan(),
-			'cek_kunci' => FALSE,
-			'periode' => $periode,
-			'hasil_data' => $arr_data,
-			'bulan' => $bulan,
-			'tahun' => $tahun,
-			'cek_status_kunci' => TRUE //sementara di set true, soalnya belum tau ada konsep kuncian atau tidak
-		);
-
-		$content = [
-			'css' => false,
-			'js'	=> 'adm_view/js/js_lap_penjualan',
-			'modal' => false,
-			'view'	=> 'adm_view/laporan/v_lap_penjualan_detail'
-		];
-
-		$this->template_view->load_view($content, $data);
-	}
-
-	public function cetak_report($bulan, $tahun)
-	{
-		// $this->load->library('Pdf_gen');
-		$id_user = $this->session->userdata('id_user');
-		$data_user = $this->m_user->get_detail_user($id_user);
-		$arr_bulan = $this->arr_bulan();
-
-		$periode = $arr_bulan[$bulan].' '.$tahun;
-		$saldo_awal = 0;
-		$saldo_akhir = 0;
-		$arr_data = [];
-
-		$tanggal_awal = date('Y-m-d H:i:s', strtotime($tahun . '-' . $bulan . '-01 00:00:00'));
-		$tanggal_akhir = date('Y-m-t H:i:s', strtotime($tahun . '-' . $bulan . '-01 23:59:59'));
-
-		$saldo_awal += $this->m_jual->get_saldo_awal_lap($tanggal_awal);
-
-		//assign satu row array untuk saldo awal
-		$arr_data[0]['tanggal'] = date('d-m-Y', strtotime($tahun .'-'. $bulan.'-01'));
-		$arr_data[0]['kode_ref'] = '-';
-		$arr_data[0]['keterangan'] = 'Saldo Awal';
-		$arr_data[0]['penerimaan'] = '-';
-		$arr_data[0]['laba_agen'] = '-';
-		$arr_data[0]['penerimaan_raw'] = 0;
-		$arr_data[0]['laba_agen_raw'] = 0;
-		$arr_data[0]['saldo_akhir'] = $saldo_awal;
-
-		$query_lap = $this->m_jual->get_detail_lap($tanggal_awal, $tanggal_akhir);
-		if ($query_lap) {
-			foreach ($query_lap as $key => $val) 
-			{
-				$arr_data[$key+1]['tanggal'] = date('d-m-Y', strtotime($val->created_at));
-				$arr_data[$key+1]['kode_ref'] = $val->kode_ref;
-				
-				if ($val->jenis == 'affiliate') {
-					$arr_data[$key+1]['keterangan'] = 'Pendaftaran Affiliate a/n : '.$val->nama_lengkap;
-				}else{
-					$arr_data[$key+1]['keterangan'] = 'Pendaftaran Member a/n : '.$val->nama_lengkap;
-				}
-
-				$arr_data[$key+1]['penerimaan'] = number_format($val->harga_total,2,",",".");
-				$arr_data[$key+1]['penerimaan_raw'] = $val->harga_total;
-				$arr_data[$key+1]['laba_agen'] = number_format($val->laba_agen_total,2,",",".");
-				$arr_data[$key+1]['laba_agen_raw'] = $val->laba_agen_total;
-
-				//saldo
-				$saldo_akhir += (int)$saldo_awal + (int)$val->harga_total - (int)$val->laba_agen_total;
-				
-				//set saldo awal to 0
-				$saldo_awal = 0;
-				$arr_data[$key+1]['saldo_akhir'] = (int)$saldo_akhir;
-			}
-		}
-
-		$data = array(
-			'data_user' => $data_user,
-			'arr_bulan' => $this->arr_bulan(),
-			'periode' => $periode,
-			'hasil_data' => $arr_data,
-			'bulan' => $bulan,
-			'tahun' => $tahun,
-			'title' => 'Laporan Penjualan'
-		);
-	    
-	    $this->load->view('adm_view/laporan/v_lap_penjualan_cetak', $data);
-	    
-	    // $html = $this->load->view('adm_view/laporan/v_lap_penjualan_agen_cetak', $data, true);
-	    // $filename = 'laporan_komisi_agen_'.time();
-	    // $this->pdf_gen->generate($html, $filename, true, 'A4', 'landscape');
-	}
-
+	
 }//end of class penjualan.php

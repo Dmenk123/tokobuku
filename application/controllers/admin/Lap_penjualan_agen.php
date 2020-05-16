@@ -65,10 +65,15 @@ class Lap_penjualan_agen extends CI_Controller
 
 		$query_lap = $this->m_jual->get_detail_lap_agen($tanggal_awal, $tanggal_akhir);
 
+		/*echo "<pre>";
+		print_r ($query_lap);
+		echo "</pre>";
+		exit;*/
+
 		$rowspan = 0;
-		$id_klaim = '';
+		$kode_ref = '';
 		$str_table = '';
-		@$id_klaim = $query_lap[0]->id_klaim;
+		@$kode_ref = $query_lap[0]->kode_ref;
 		$laba_agen_total = 0;
 		$klaim_agen_total = 0;
 		$transfer_total = 0;
@@ -88,18 +93,19 @@ class Lap_penjualan_agen extends CI_Controller
 	            $str_table .= "</td>";
 	            $str_table .= "<td>".$val->kode_ref."</td>";
 	           
+	           	//cek rowspan
             	for ($i=$key; $i < count($query_lap); $i++) 
             	{ 
-	            	if ($query_lap[$i]->id_klaim == $id_klaim) {
+	            	if ($query_lap[$i]->kode_ref == $kode_ref) {
             			$rowspan++;
 	            	}else{
 	            		//cek jika nilai sama dengan array sebelumnya, maka skip
-	            		if ($query_lap[$i]->id_klaim == $query_lap[$i-1]->id_klaim) {
+	            		if ($query_lap[$i]->kode_ref == $query_lap[$i-1]->kode_ref) {
 	            			break;
 	            		}
-	            		// jika tidak set flag id_klaim
+	            		// jika tidak set flag kode_ref
 	            		else{
-	            			$id_klaim = $query_lap[$i]->id_klaim;
+	            			$kode_ref = $query_lap[$i]->kode_ref;
 	            			break;
 	            		}
 	            	}
@@ -214,9 +220,9 @@ class Lap_penjualan_agen extends CI_Controller
 		$query_lap = $this->m_jual->get_detail_lap_agen($tanggal_awal, $tanggal_akhir);
 
 		$rowspan = 0;
-		$id_klaim = '';
+		$kode_ref = '';
 		$str_table = '';
-		@$id_klaim = $query_lap[0]->id_klaim;
+		@$kode_ref = $query_lap[0]->kode_ref;
 		$laba_agen_total = 0;
 		$klaim_agen_total = 0;
 		$transfer_total = 0;
@@ -238,16 +244,16 @@ class Lap_penjualan_agen extends CI_Controller
 	           
             	for ($i=$key; $i < count($query_lap); $i++) 
             	{ 
-	            	if ($query_lap[$i]->id_klaim == $id_klaim) {
+	            	if ($query_lap[$i]->kode_ref == $kode_ref) {
             			$rowspan++;
 	            	}else{
 	            		//cek jika nilai sama dengan array sebelumnya, maka skip
-	            		if ($query_lap[$i]->id_klaim == $query_lap[$i-1]->id_klaim) {
+	            		if ($query_lap[$i]->kode_ref == $query_lap[$i-1]->kode_ref) {
 	            			break;
 	            		}
-	            		// jika tidak set flag id_klaim
+	            		// jika tidak set flag kode_ref
 	            		else{
-	            			$id_klaim = $query_lap[$i]->id_klaim;
+	            			$kode_ref = $query_lap[$i]->kode_ref;
 	            			break;
 	            		}
 	            	}
@@ -336,3 +342,4 @@ class Lap_penjualan_agen extends CI_Controller
 	}
 
 }//end of class penjualan.php
+

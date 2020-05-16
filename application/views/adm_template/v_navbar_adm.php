@@ -35,7 +35,7 @@
 						<!-- User image -->
 						<li class="user-header">
 							<?php foreach ($data_user as $val) { ?>
-								<img src="<?php echo config_item('assets'); ?>img/foto_profil/<?php echo $val->gambar_user; ?>" class="img-circle" alt="User Image">
+								<img src="<?php echo base_url('assets/'); ?>img/foto_profil/<?php echo $val->gambar_user; ?>" class="img-circle" alt="User Image">
 								<p><?php echo $val->nama_lengkap_user; ?></p>
 							<?php } ?>
 						</li>
