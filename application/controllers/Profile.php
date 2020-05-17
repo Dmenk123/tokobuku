@@ -135,7 +135,6 @@ class Profile extends CI_Controller {
 	public function list_after_komisi_history($id_agen)
 	{
 		$list = $this->mod_profile->get_data_after_komisi($id_agen);
-
 		$data = array();
 		$no = 0;
 		foreach ($list as $datalist) {
@@ -144,9 +143,10 @@ class Profile extends CI_Controller {
 			$row = array();
 			//loop value tabel db
 			$row[] = $no;
-			$row[] = date('d-m-Y H:i', strtotime($datalist->created_at));
+			$row[] = date('d-m-Y H:i', strtotime($datalist->tanggal_verify));
 			$row[] = "Rp. " . number_format($datalist->laba_agen_total, 0, ",", ".");
 			$row[] = $datalist->kode_ref;
+			$row[] = $datalist->bukti_bayar;
 			$data[] = $row;
 		} //end loop
 

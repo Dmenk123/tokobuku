@@ -189,7 +189,18 @@ class Verifikasi_klaim extends CI_Controller
 		//load konfig upload
 		$this->konfigurasi_upload_bukti($namafileseo);
 		$path = $_FILES['bukti']['name'];
+		$allowed_ext = ['png', 'jpg', 'jpeg'];
 		$ext = pathinfo($path, PATHINFO_EXTENSION);
+		
+		if (!in_array($ext, $allowed_ext)) {
+			echo json_encode([
+				'status' => false,
+				'bulan' => $bulan,
+				'tahun' => $tahun
+			]);
+			return;
+		}
+
 		if ($this->bukti_tf->do_upload('bukti')) {
 			$gbr = $this->bukti_tf->data(); //get file upload data
 			$this->konfigurasi_image_bukti($gbr['file_name'], $namafileseo, $ext);
@@ -225,7 +236,8 @@ class Verifikasi_klaim extends CI_Controller
 			'bank' => $bank,
 			'rekening' => $rekening,
 			'bukti' => $arr_gambar['nama_gambar'],
-			'nilai_transfer' => (int)$nilaitotal
+			'nilai_transfer' => (int)$nilaitotal,
+			'is_aktif' => 1
 		);
 
 		$insert = $this->m_global->insert_data('t_klaim_verify', $dataIns);
@@ -291,19 +303,30 @@ class Verifikasi_klaim extends CI_Controller
 
 	public function batal_verify($id, $bulan, $tahun)
 	{
-		$table = 't_checkout';
-		$data = [
-			'status' => 1,
-			'is_konfirm' => 0
-		];
-		$data_where = ['id' => $id];
-		$query = $this->m_global->updateData2($table,$data_where,$data);
+		$status = FALSE;
 
-		if ($query) {
-			$status = TRUE;
-		}else{
-			$status = FALSE;
-		}
+		$table = 't_checkout';
+		$data = ['is_verify_klaim' => 0];
+		$data_where = ['id_klaim_agen' => $id, 'is_verify_klaim' => 1];
+		$update1 = $this->m_global->updateData2($table,$data_where,$data);
+		$status = ($update1) ? true : false;
+
+		$update2 = $this->m_global->updateData2(
+			't_klaim_agen', 
+			['id' => $id], 
+			['datetime_verify' => null, 'id_user_verify' => null]
+		);
+
+		$status = ($update2) ? true : false;
+
+
+		$update3 = $this->m_global->updateData2(
+			't_klaim_verify', 
+			['id_klaim_agen' => $id, 'is_aktif' => 1], 
+			['is_aktif' => 0]
+		);
+
+		$status = ($update3) ? true : false;
 
 		echo json_encode([
 			'status' => $status,

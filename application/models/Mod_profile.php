@@ -150,9 +150,9 @@ class Mod_profile extends CI_Model
 
 	private function _get_data_after_komisi_query($id_agen) //term is value of $_REQUEST['search']
 	{
-		$this->db->select('*');
-
+		$this->db->select('t_checkout.*, t_klaim_verify.bukti as bukti_bayar, t_klaim_verify.tanggal_verify');
 		$this->db->from('t_checkout');
+		$this->db->join('t_klaim_verify', 't_checkout.id_klaim_agen = t_klaim_verify.id_klaim_agen and t_klaim_verify.is_aktif = 1', 'left');
 		$this->db->where('t_checkout.kode_agen', $id_agen);
 		$this->db->where('t_checkout.status', '0'); //status transaksi sudah selesai
 		$this->db->where('t_checkout.is_konfirm', '1'); //sudah dikonfirmasi bahwa transaksi selesai
