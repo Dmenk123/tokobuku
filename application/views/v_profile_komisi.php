@@ -6,8 +6,8 @@
 			</div>
 			<div class="col-md-12">
 				<div class="box" id="contact">
-					<h2>Klaim Komisi Yang Belum Diklaim</h2>
-					<p class="text-muted">Berikut merupakan rincian komisi affiliate yang belum anda ditarik.</p>
+					<h5>Komisi Anda Yang Belum Diklaim</h5>
+					<p class="text-muted">Berikut merupakan rincian komisi yang sudah anda dapatkan.</p>
 					<div class="row">
 						<div class="col-md-12">
 							<div class="table-responsive">
@@ -36,8 +36,8 @@
 					</div><!-- /.row -->
 					<br>
 					<hr>
-					<h2>Klaim Komisi Dalam Tahap Verifikasi Oleh Admin</h2>
-					<p class="text-muted">Berikut merupakan rincian komisi affiliate yang masuk dalam tahap verifikasi.</p>
+					<h5>Klaim Komisi Dalam Tahap Verifikasi</h5>
+					<p class="text-muted">Berikut merupakan rincian komisi anda yang masuk dalam tahap verifikasi.</p>
 					<div class="row">
 						<div class="col-md-12">
 							<div class="table-responsive">
@@ -66,8 +66,8 @@
 					</div><!-- /.row -->
 					<br>
 					<hr>
-					<h2>Klaim Komisi Sudah Ditarik</h2>
-					<p class="text-muted">Berikut merupakan rincian komisi affiliate yang sudah anda ditarik.</p>
+					<h5>Komisi yang Sudah anda Tarik</h5>
+					<p class="text-muted">Berikut merupakan rincian komisi yang sudah anda ditarik.</p>
 					<div class="row">
 						<div class="col-md-12">
 							<div class="table-responsive">
@@ -133,14 +133,6 @@
   </div>
 </div>
 
-<!-- <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      ...
-    </div>
-  </div>
-</div> -->
-
 <script>
 	var table;
 	var table2;
@@ -184,7 +176,7 @@
 			}
 		});
 	}
-
+	
 	function lihatBukti(imgfile, koderef) {
 		var urlBukti = baseUrl+'assets/img/bukti_verifikasi/'+imgfile;
 		$('#modalBukti').modal('show');

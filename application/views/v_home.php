@@ -82,24 +82,30 @@ body {
 			<div class="ps-container">
 					 <p style="font-size:36px; font-family: arial black; color:red; line-height: 32px;" align="center">DALAM 30 HARI<br>JAGO MENGHASILKAN CASH BANYAK
 					 </p>
-					 <p style="font-size:25px; font-family: arial; color:blue; line-height: 32px;" align="center">Tanpa Modal Tanpa Utang, <br>Bukan Cuma Jadi Makelar, 
+					 <p style="font-size:25px; font-family: arial; color:blue; line-height: 32px;" align="center"><strong>Tidak Tergantung dengan Bisnis Apapun</strong> 
 					 </p>
 					 <p style="font-size:14px; font-family: arial; color:black; line-height: 10px;" align="center">Dengan cara scientific, sistematic dan terpercaya. 
 					 </p>
 					 <br>
 					 <br>
-					 <p style="font-size:18px; font-family: arial; color:black;">Untuk kalian yang sedang dalam keadaan kesulitan ekonominya karena terkena dampak kondisi penurunan pemasukan finansialnya saat ini. 
+					 <p style="font-size:28px; font-family: arial; color:black; line-height: 32px;" align="center"><strong>Untuk kalian yang sedang dalam keadaan kesulitan ekonominya karena terkena dampak kondisi penurunan pemasukan finansialnya saat ini.</strong>  
 					 </p>
-					 <p style="font-size:25px; font-family: arial; color:blue; line-height: 32px;" align="center">Program 80% vs 120% 
-					 </p>
-					 <p style="font-size:18px; font-family: arial; color:black;">Pemerintah Inggris memberi dana hibah 80% dari gaji kepada warganya selama masa corona agar tidak ada warganya yang di PHK akibat mulai menurunnya roda ekonomi 
-					 </p>
+					 <!--<p style="font-size:20px; font-family: arial; color:black; align="center><strong>Untuk kalian yang sedang dalam keadaan kesulitan ekonominya karena terkena dampak kondisi penurunan pemasukan finansialnya saat ini.</strong> 
+					 </p>-->
 					 <br>
-					 <p style="font-size:18px; font-family: arial; color:black;">Nyetrum ke Pak Cipto, anda mendapat 120% dari gaji, bahkan nantinya akan jadi Teladan Lebih Besar, menambah Aset Puluhan Milyar. 
-					 </p>
 					 <br>
-					 <p style="font-size:18px; font-family: arial; color:black;">Tapi anda tidak boleh jago minta, minta itu berarti tangan di bawah. <span style="font-size:18px;color:blue;">Anda akan diubah menjadi jago tangan di atas, yaitu jago menghasilkan</span> 
-					 </p>
+					 <div style="background-color:yellow; padding-left:20px; padding-right:20px; padding-top:20px; padding-bottom:20px;">
+    					 <p style="font-size:25px; font-family: arial; color:blue; line-height: 32px;" align="center"><strong>Program 80% vs 120%</strong> 
+    					 </p>
+    					 <p style="font-size:18px; font-family: arial; color:black;">Pemerintah Inggris memberi dana hibah 80% dari gaji kepada warganya selama masa corona agar tidak ada warganya yang di PHK akibat mulai menurunnya roda ekonomi. 
+    					 </p>
+    					 <br>
+    					 <p style="font-size:18px; font-family: arial; color:black;">Nyetrum ke Pak Cipto, anda mendapat 120% dari gaji, bahkan nantinya akan jadi Teladan Lebih Besar, menambah Aset Puluhan Milyar. 
+    					 </p>
+    					 <br>
+    					 <p style="font-size:18px; font-family: arial; color:black;">Tapi anda tidak boleh jago minta, minta itu berarti tangan di bawah. <span style="font-size:18px;color:blue;">Anda akan diubah menjadi jago tangan di atas, yaitu jago menghasilkan.</span> 
+    					 </p>
+					 </div>
 					 <br>
 					 <p style="font-size:20px; font-family: arial; color:blue; line-height: 32px;" align="center"><strong>Anda akan jago menghasilkan uang, setidaknya 120% dari gaji atau penghasilan anda yang terancam hilang di masa ini, bahkan nantinya akan jadi teladan lebih besar, yaitu jago menambah Aset Puluhan Milyar, bukan cuma jago penghasilan tambahan.</strong> 
 					 </p>
@@ -121,9 +127,9 @@ body {
 								</div>
 					 </div>
 					<br>
-					
+					<br>
 					<div align="center">
-							<img src="<?php echo base_url();?>images/gmb.jpeg">
+							<img src="<?php echo base_url();?>images/Pertanyaan1.jpg">
 					</div>
 					<br />
 					
@@ -142,90 +148,123 @@ body {
 							<li style="font-size:18px; font-family: arial; color:black; padding-left:20px;">Bahkan yang paling parah, kita sampai dikejar-kejar debt collector.</li> -->
 					 
 							<p>&nbsp;</p>
-							<p style="font-size:18px; font-family: arial; color:black;">Dalam keadaan ekonomi seperti ini, setiap orang ingin punya banyak penghasilan agar bisa memenuhi kebutuhannya sehari-hari. Namun mereka tidak tahu cara untuk mengatasi hal tersebut.
-							</p>
+							<p style="font-size:35px; font-family: arial; color:red; line-height: 35px;" align="center"><strong>JANGAN KALAH DARI IBU RUMAH TANGGA</strong> 
+					 </p>
+							<!--<p style="font-size:18px; font-family: arial; color:red; ">JANGAN KALAH DARI IBU RUMAH TANGGA
+							</p>-->
+							<!--<p style="font-size:18px; font-family: arial; color:black;">Dalam keadaan ekonomi seperti ini, setiap orang ingin punya banyak penghasilan agar bisa memenuhi kebutuhannya sehari-hari. Namun mereka tidak tahu cara untuk mengatasi hal tersebut.
+							</p>-->
 							<br>
-							<p style="font-size:18px; font-family: arial; color:black" align="center"><strong>Mau sampai kapan, hidup kita dibayang-bayangi utang ? <br>Sudahi kondisi ini!</strong> 
+							<p style="font-size:25px; font-family: arial; color:black" align="center"><strong>Jangan hanya jago nambah umur, tapi masih kesulitan cash, terus masih tidak belajar, akibatnya lebih mahal dalam hidup. </strong> 
 					 </p>
 					 <br>
-							<p style="font-size:18px; font-family: arial; color:black;">Mau cari mentor, tapi masih bingung ? Apakah mentornya sudah berpengalaman dan berhasil menerapkan strateginya sendiri ? </p>
+							<!--<p style="font-size:18px; font-family: arial; color:black;">Mau cari mentor, tapi masih bingung ? Apakah mentornya sudah berpengalaman dan berhasil menerapkan strateginya sendiri ? </p>-->
 							
-							<p style="font-size:18px; font-family: arial; color:black;">Eits, tapi sebelum melanjutkannya, mari kita seleksi dulu siapapun orang yang akan anda jadikan panutan sebagai Mentor. </p>
+							<p style="font-size:18px; font-family: arial; color:black;">Buktinya selama ini anda didampingi diri sendiri dan orang lain hasilnya ya masih kesulitan cash, masa raport seperti itu masih mau dipertahankan. Karena itu, Nyetrum ke Bp. Cipto Junaedy agar cepat Ketularan jadi Teladan. </p>
+							
+							<!--<p style="font-size:18px; font-family: arial; color:black;">Eits, tapi sebelum melanjutkannya, mari kita seleksi dulu siapapun orang yang akan anda jadikan panutan sebagai Mentor. </p>-->
 							<br>
 						
 					 
-				<div class="accordions">
-								<div class="accordion-item">
-									<div class="accordion-title" data-tab="item1">
-										<h2><strong>Apakah sudah LULUS dengan pertanyaan - pertanyaan ini :</strong>  <i class="fa fa-chevron-down"></i></h2>
-									</div>
-									<div class="accordion-content" id="item1">
-										<table border="0">
+				<!--<div class="accordions">-->
+				<!--				<div class="accordion-item">-->
+				<!--					<div class="accordion-title" data-tab="item1">-->
+				<!--						<h2><strong>Bp. Cipto Junaedy :</strong>  <i class="fa fa-chevron-down"></i></h2>-->
+				<!--					</div>-->
+				<!--					<div class="accordion-content" id="item1">-->
+				<div style="padding-left:10px; padding-right:10px; padding-top:10px; padding-bottom:10px; background-color:aqua; font-size:15px;">
+										<table border="0" style="color:black; line-height:30px; ">
 												<tbody>
 													<tr>
-														<td>1.</td>
-														<td align="justify">Apakah mentor anda sudah pernah memberikan rumah-rumah gratis bagi yang membutuhkan? kalau betul jago caplok, maka tidak takut beri rumah gratis</td>
+														<td style="vertical-align: top;">1.</td>
+														<td align="justify">Bp. Cipto Junaedy <strong>secara rutin memberi Rumah Gratis</strong></td>
 													</tr>
 													<tr>
-														<td>2.</td>
-														<td align="justify">Apakah mentor anda sudah punya Rumah minumum 20 Miliar tanpa utang, jangan bicara bikin perumahan jika menghadapi1 Rumah seharga 20 Miliar saja tidak becus tanpa utang.</td>
+														<td style="vertical-align: top;">2.</td>
+														<td align="justify">Bp. Cipto Junaedy meraih Penghargaan <strong>International Arch of Europe (IAE) 2020 Convention in Frankfurt</strong> </td>
 													</tr>
 													<tr>
-														<td>3.</td>
+														<td style="vertical-align: top;">3.</td>
+														<td align="justify">Bp. Cipto Junaedy meraih Penghargaan <strong>Rekor MURI</strong> sebagai <strong>PELOPOR STRATEGI Membeli Banyak Properti Tanpa Utang</strong></td>
+													</tr>
+													<!--<tr>
+														<td style="vertical-align: top;">3.</td>
 														<td align="justify">Jika betul jago, apakah Mentor anda sudah membeli dan memiliki property dari 5 developer property terbaik dan terbesar di indonesia : Lippo Group, Sinar Mas Group, Pakuwon Group, Ciputra Group dan Agung Podomoro Group?</td>
+													</tr>-->
+													<tr>
+														<td style="vertical-align: top;">4.</td>
+														<td align="justify">Bp. Cipto Junaedy meraih Penghargaan <strong>Man Of The Year 2011</strong></td>
 													</tr>
 													<tr>
-														<td>4.</td>
-														<td align="justify">Jika betul jago, apakah Mentor anda sudah bisa membeli kondominium kelas dunia seperti St. Moritz? Dan bukan sekedar punya property kelas kontrakan/kos-kosan saja. Awas orang buta menuntun orang buta!</td>
+														<td style="vertical-align: top;">5.</td>
+														<td align="justify">Bp. Cipto Junaedy Meraih Penghargaan sebagai <strong>Entrepreneur of The Year 2015 </strong></td>
 													</tr>
 													<tr>
-														<td>5.</td>
-														<td align="justify">Jika betul jago, apakah Mentor anda sudah pernah membeli apartment bergengsi hampir 1 tower?</td>
+														<td style="vertical-align: top;">6.</td>
+														<td align="justify">Bp. Cipto juga meraih Penghargaan <strong>Pelayan Publik Terbaik 2015</strong></td>
 													</tr>
 													<tr>
-														<td>6.</td>
-														<td align="justify">Jika betul jago, apakah Mentor anda sudah pernah membeli/mencaplok property di luar negeri tanpa utang ?</td>
+														<td style="vertical-align: top;">7.</td>
+														<td align="justify">Bp. Cipto Junaedy meraih Penghargaan <strong>Best Strategy Guru</strong></td>
 													</tr>
 													<tr>
-														<td>7.</td>
-														<td align="justify">Jika betul jago, apakah Mentor anda diakui Gramedia dan benar menjadi National Mega Bestseller level Gramedia?</td>
+														<td style="vertical-align: top;">8.</td>
+														<td align="justify">Bp. Cipto Junaedy juga meraih Penghargaan <strong>Man of The Year 2017</strong></td>
 													</tr>
 													<tr>
-														<td>8.</td>
-														<td align="justify">Jika betul jago, apakah Mentor anda sudah pernah diakui dan mendapatkan penghargaan oleh berbagai pihak yang kaliber seperti Forum Komunikasi Wartawan, LePrID, dll?</td>
+														<td style="vertical-align: top;">9.</td>
+														<td align="justify">Bp. Cipto Junaedy juga diliput oleh <strong>media asing Pendiri Twitter, Evan Williams</strong></td>
 													</tr>
 													<tr>
-														<td>9.</td>
-														<td align="justify">Jika betul jago, apakah Mentor anda adalah pelopor yang diakui meraih rekor MURI mengajarkan tanpa utang?</td>
+														<td style="vertical-align: top;">10.</td>
+														<td align="justify">Bp. Cipto Junaedy juga diliput berbagai media nasional yaitu <strong>koran Kompas, Jawa Pos, Neraca, Sindo, Investor Daily, Bisnis Indonesia, Media Indonesia, dan berbagai media lainnya.</strong>  </td>
 													</tr>
 													<tr>
-														<td>10.</td>
-														<td align="justify">Jika betul jago, sudah berapa orang muridnya yang sudah berhasil memiliki perumahan/ tower tanpa hutang??</td>
+														<td style="vertical-align: top;">11.</td>
+														<td align="justify">Juga sudah bisa membeli dan memiliki dari 5 Developer Properti terbaik dan terbesar di Indonesia : Lippo Group, Sinar Mas Group, Pakuwon Group, Ciputra Group, dan Agung Podomoro Group.</td>
 													</tr>
 													<tr>
-														<td>11.</td>
-														<td align="justify">Jika betul jago, berapa jumah strategi yg dimilikinya?</td>
+														<td style="vertical-align: top;">12.</td>
+														<td align="justify">Kalau betul jago caplok Apakah pembicara sendiri sudah bisa membeli kondominium kelas dunia seperti : St Moritz, dan membeli apartment bergengsi hampir 1 tower ?</td>
 													</tr>
 													<tr>
-														<td>12.</td>
-														<td align="justify">Jika betul jago, berapa jumlah murid berhasil yg sudah dilahirkan, apakah dihadirkan secara live untuk sharing ?</td>
+														<td style="vertical-align: top;">13.</td>
+														<td align="justify">Apakah sudah melahirkan murid – murid yg sering diliput Majalah property terkenal dan koran Terkenal krn sudah menghasilkan Tower – Tower Apartment Tanpa Utang atau Kompleks Perumahan,  Kompleks Villa Tanpa Utang Tanpa Modal? Apa namanya ?</td>
 													</tr>
 													<tr>
-														<td>13.</td>
-														<td align="justify">Jika betul jago, apakah si Mentor mengajar tulus atau hanya menjadikan anda sebagai broker/pembeli project property pribadi si Mentor saja?</td>
+														<td style="vertical-align: top;">14.</td>
+														<td align="justify">Apakah hanya mengajar Tanpa Modal untuk Perumahannya, Tapi ternyata maksudnya Tanpa Modal karena perumahannya Pakai Utang. Atau sudah benar Komplit mengajarkan 2 syarat : perumahannya Tanpa modal DAN Tanpa Utang.</td>
 													</tr>
 													<tr>
-														<td>14.</td>
-														<td align="justify">Jika betul jago, apakah Mentor anda sudah pernah berpengalaman mengunci resiko secara kompleks dan dalam di level Korporasi, grup perusahaan Public Listed, sebagai Group Finance Director?</td>
+														<td style="vertical-align: top;">15.</td>
+														<td align="justify">Apakah sudah punya banyak proyek yang sudah jadi bangunannya atau hanya brosur saja ?? kalau cuma brosur maka bau kencur pun bisa omong doang.</td>
 													</tr>
+													<tr>
+														<td style="vertical-align: top;">16.</td>
+														<td align="justify">Apakah sudah melahirkan project properti utk kelas tanah mahal diatas Rp 30jt per m2 ?</td>
+													</tr>
+													<tr>
+														<td style="vertical-align: top;">17.</td>
+														<td align="justify">Apakah pengajarannya sudah terpercaya, kredibel, sistematik dan Scientific dan diakui pihak ketiga yg sekaliber Gramedia Mega Best Seller ?</td>
+													</tr>
+													<tr>
+														<td style="vertical-align: top;">18.</td>
+														<td align="justify">Apakah pembicara sudah bisa mengajarkan murid muridnya untuk juga mencaplok properti di Singapore (negara termahal properti), Tanpa Utang ?</td>
+													</tr>
+													<tr>
+														<td style="vertical-align: top;">19.</td>
+														<td align="justify">Apakah pembicara jago Keuangan tanpa utang dengan pengalaman mengunci resiko secara dalam dan kompleks di level Korporasi Group perusahaan Public Listed, sebagai Group Finance Director ?  atau hanya jago public speaking saja.</td>
+													</tr>
+			
 												</tbody>
 											</table>
-									</div>
-								</div>
-							</div>
+							<!--		</div>-->
+							<!--	</div>-->
+							<!--</div>-->
+						    </div>
 
 							<p>&nbsp;</p>
-							<p style="font-size:18px; font-family: arial; color:black;">Tidak perlu bingung mencari, inilah Bp. Cipto Junaedy. Seorang mentor yang sudah berhasil membuktikan, mempraktekkan strateginya sendiri dan juga berhasil mematahkan strategi  yang berbasis Utang. </p>
+							<!--<p style="font-size:18px; font-family: arial; color:black;">Tidak perlu bingung mencari, inilah Bp. Cipto Junaedy. Seorang mentor yang sudah berhasil membuktikan, mempraktekkan strateginya sendiri dan juga berhasil mematahkan strategi  yang berbasis Utang. </p>-->
 							<p>&nbsp;</p>	
 							</div>
 						
@@ -276,20 +315,35 @@ Strategi Tanpa Uang Tanpa Utang yang diajarkannya dikenal orisinil dan mendobrak
 <div class="row">
 <div class="col-sm-6">
 	 <div class="embed-responsive embed-responsive-16by9">
-					<iframe class="embed-responsive-item" src="https://www.youtube.com/embed/IAAL7283xVk"></iframe>
+					<iframe class="embed-responsive-item" src="https://www.youtube.com/embed/C3D5-xNNRs0"></iframe>
 			 </div>
 </div>
 <br>
 <div class="col-sm-6">
-	 <p  style="font-size:18px; font-family: arial; color:navy;"><strong>Jika kita berhutang maka Lubangnya Disini : Bayar hutangnya bersifat Pasti, tapi yang digunakan untuk bayarnya sifatnya Tidak Pasti.</strong></p>
+	 <!--<p  style="font-size:18px; font-family: arial; color:navy;"><strong>Jika kita berhutang maka Lubangnya Disini : Bayar hutangnya bersifat Pasti, tapi yang digunakan untuk bayarnya sifatnya Tidak Pasti.</strong></p>-->
 </div>
 </div>
 
 
 <br>
 <br>
-<p style="font-size:20px; font-family: arial; color:black" align="center"><strong>Karena itu, saya tunggu actionya. Agar Dalam 30 Hari, anda bisa jago menghasilkan cash banyak, setidaknya 120% dari gaji atau penghasilan anda yang terancam hilang di masa ini, bahkan nantinya akan jadi teladan lebih besar, yaitu jago menambah Aset Puluhan Milyar, bukan cuma jago penghasilan tambahan.</strong> 
+<p style="font-size:30px; font-family: arial; color:black" align="center"><strong>Karena itu, Cepat kesetrum ketularan Jago hasilkan Cash Banyak</strong> 
 </p>
+<br>
+<div style="background-color:maroon; padding-left:20px; padding-right:20px; padding-top:20px; padding-bottom:20px;">
+    					 
+<p style="font-size:20px; font-family: arial; color:yellow" align="center">Ikuti Workshop Online 12 sessions : <strong>Dalam 30 Hari Jago Menghasilkan Cash Banyak, Tanpa Modal, Tanpa Utang, dengan cara Scientific Akurat dan Terpercaya</strong> 
+</p>
+<br>
+<p style="font-size:20px; font-family: arial; color:white" align="center"><strong>Anda akan jago menghasilkan cash banyak, setidaknya 120% dari gaji atau penghasilan anda yang terancam hilang di masa ini, bahkan nantinya akan jadi Teladan lebih besar, yaitu jago menambah Aset Puluhan Milyar, bukan cuma jago penghasilan tambahan.</strong> 
+</p>
+</div>
+<br>
+<br>
+<br>
+<p style="font-size:20px; font-family: arial; color:black" align="center"><strong>Untuk mulai program, klik tombol di bawah ini</strong> 
+</p>
+<br>
 <br>
 <div class="ps-product__shopping" align="center"><a href="<?= base_url('join_member');?>"><img src="<?php echo base_url();?>images/Tombol 30 hari.png" width="400"><i class="ps-icon-next"></i></a>
 </div>
@@ -303,8 +357,8 @@ Jika kita berani bertanya ke atasan kita, "Pak Bos, apakah saya mampu dan kapan 
 
 <p style="font-size:18px; font-family: arial; color:black;" align="justify">Bahkan atasan kita sendiri utangnya juga belum lunas - lunas. Mau sampai kapan begitu?.</p>-->
 
-<p style="font-size:20px; font-family: arial; color:black" align="center"><strong>Ingat, kumpulan kita membentuk hidup kita. Jika kumpulnya dengan teman kerja kita, maka kita hanya jago nambah HP cantik. Jika kumpul dengan pengutang, misalnya teman bisnis atau atasan kita yang pakai utang, maka kitapun akan ketularan utang.</strong> 
-</p>
+<!--<p style="font-size:20px; font-family: arial; color:black" align="center"><strong>Ingat, kumpulan kita membentuk hidup kita. Jika kumpulnya dengan teman kerja kita, maka kita hanya jago nambah HP cantik. Jika kumpul dengan pengutang, misalnya teman bisnis atau atasan kita yang pakai utang, maka kitapun akan ketularan utang.</strong> 
+</p>-->
 
 <p>&nbsp;</p>
 <p>&nbsp;</p>
@@ -328,7 +382,8 @@ Jika kita berani bertanya ke atasan kita, "Pak Bos, apakah saya mampu dan kapan 
 			
 			</div>
 		</div>
-		
+<br>
+<br>
 		<div class="ps-home-testimonial bg--parallax pb-80" data-background="images/background/testimoni1.jpg">
 			<div class="container">
 				<div class="owl-slider" data-owl-auto="true" data-owl-loop="true" data-owl-speed="5000" data-owl-gap="0" data-owl-nav="false" data-owl-dots="true" data-owl-item="1" data-owl-item-xs="1" data-owl-item-sm="1" data-owl-item-md="1" data-owl-item-lg="1" data-owl-duration="1000" data-owl-mousedrag="on" data-owl-animate-in="fadeIn" data-owl-animate-out="fadeOut">
@@ -389,7 +444,7 @@ Jika kita berani bertanya ke atasan kita, "Pak Bos, apakah saya mampu dan kapan 
 		<div class="ps-section ps-home-blog pt-80 pb-80">
 			<div class="ps-container">
 				<div class="ps-section__header mb-50">
-					<h2 class="ps-section__title" data-mask="News">Galeri Liputan Media</h2>
+					<h2 class="ps-section__title" data-mask="News">Galeri Penganugerahan</h2>
 				</div>
 					<div id="myCarousel" class="carousel slide" data-ride="carousel" style="margin-left:50px;margin-right:50px;margin-top:50px;margin-bottom:50px;" >
 									<!-- Indicators -->
@@ -402,27 +457,31 @@ Jika kita berani bertanya ke atasan kita, "Pak Bos, apakah saya mampu dan kapan 
 									<!-- Wrapper for slides -->
 									<div class="carousel-inner">
 										<div class="item active">
-											<img src="images/blog/muri.jpg" alt="Los Angeles" style="width:100%;">
+											<img src="images/blog/rekormuri.jpg" alt="Los Angeles" style="width:100%;">
 										</div>
 							
 										<div class="item">
-											<img src="images/blog/Man Of The Years 2011.jpg" alt="Chicago" style="width:100%;">
+											<img src="images/blog/Man.jpg" alt="Chicago" style="width:100%;">
 										</div>
 									
 										<div class="item">
-											<img src="images/blog/Best Strategy Guru.jpg" alt="New york" style="width:100%;">
+											<img src="images/blog/Pelayanterbaik.jpg" alt="New york" style="width:100%;">
 										</div>
 										
 										<div class="item">
-											<img src="images/blog/Pelayan Publik Terbaik.jpg" alt="New york" style="width:100%;">
+											<img src="images/blog/bestguru.jpg" alt="New york" style="width:100%;">
 										</div>
 										
 										<div class="item">
-											<img src="images/blog/Indonesian Active Figure.jpg" alt="New york" style="width:100%;">
+											<img src="images/blog/Indonesia.jpg" alt="New york" style="width:100%;">
 										</div>
 										
 										<div class="item">
-											<img src="images/blog/Exsecutive of the year.jpg" alt="New york" style="width:100%;">
+											<img src="images/blog/Ofyear.jpg" alt="New york" style="width:100%;">
+										</div>
+										
+										<div class="item">
+											<img src="images/blog/IAE.jpg" alt="New york" style="width:100%;">
 										</div>
 									</div>
 							
@@ -441,83 +500,110 @@ Jika kita berani bertanya ke atasan kita, "Pak Bos, apakah saya mampu dan kapan 
 		<div class="ps-section ps-home-blog pt-80 pb-80">
 			<div class="ps-container">
 				<div class="ps-section__header mb-50">
-					<h2 class="ps-section__title" data-mask="News">- Our Story</h2>
-					<div class="ps-section__action"><a class="ps-morelink text-uppercase" href="#">View all post<i class="fa fa-long-arrow-right"></i></a></div>
+					<h2 class="ps-section__title" data-mask="News">- Galeri Liputan Media</h2>
+					<!--<div class="ps-section__action"><a class="ps-morelink text-uppercase" href="#">View all post<i class="fa fa-long-arrow-right"></i></a></div>-->
 				</div>
-				<div class="ps-section__content">
-					<div class="row">
-						<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 ">
-							<div class="ps-post">
-								<div class="ps-post__thumbnail"><a class="ps-post__overlay" href="blog-detail.html"></a><img src="images/blog/tribun.jpg" alt=""></div>
-								<div class="ps-post__content"><a class="ps-post__title" href="blog-detail.html">Ajarkan Semangat Berbagi dan Hidup Tanpa Utang di Gramedia Pandanaran</a>
-									<p class="ps-post__meta"><span>By:<a class="mr-5" href="blog.html">Tribun Jateng</a></span> -<span class="ml-5">Jumat, 11 November 2016</span></p>
-									<p>"Nah ini, jangan membatasi hidup kita sesuai dompet dan penghasiln kita. Pencipta kita itu besar, untuk bisa meraih permintaan itu kita harus berajar. Pencipta kita besar dan tidak pernah punya utang, ya kan," imbuh Cipto dalam uraianya.…</p><a class="ps-morelink" href="https://jateng.tribunnews.com/2016/11/11/cipto-junaedy-ajarkan-semangat-berbagi-dan-hidup-tanpa-utang-di-gramedia-pandanaran">Read more<i class="fa fa-long-arrow-right"></i></a>
-								</div>
+				<div id="myCarousel" class="carousel slide" data-ride="carousel" style="margin-left:50px;margin-right:50px;margin-top:50px;margin-bottom:50px;" >
+									<!-- Indicators -->
+									<ol class="carousel-indicators">
+										<li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+										<li data-target="#myCarousel" data-slide-to="1"></li>
+										<li data-target="#myCarousel" data-slide-to="2"></li>
+									</ol>
+							
+									<!-- Wrapper for slides -->
+									<div class="carousel-inner">
+										<div class="item active">
+											<img src="images/blog/kompas.jpg" alt="Los Angeles" style="width:100%;">
+										</div>
+							
+										<div class="item">
+											<img src="images/blog/neraca1.jpg" alt="Chicago" style="width:100%;">
+										</div>
+									
+										<div class="item">
+											<img src="images/blog/jawapos.jpg" alt="New york" style="width:100%;">
+										</div>
+										
+										<div class="item">
+											<img src="images/blog/sindo.jpg" alt="New york" style="width:100%;">
+										</div>
+										
+										<div class="item">
+											<img src="images/blog/mediaindonesia.jpg" alt="New york" style="width:100%;">
+										</div>
+										
+										<div class="item">
+											<img src="images/blog/bisnisindonesia.jpg" alt="New york" style="width:100%;">
+										</div>
+										
+										<div class="item">
+											<img src="images/blog/investordaily.jpg" alt="New york" style="width:100%;">
+										</div>
+									</div>
+							
+									<!-- Left and right controls -->
+									<a class="left carousel-control" href="#myCarousel" data-slide="prev">
+										<span class="glyphicon glyphicon-chevron-left"></span>
+										<span class="sr-only">Previous</span>
+									</a>
+									<a class="right carousel-control" href="#myCarousel" data-slide="next">
+										<span class="glyphicon glyphicon-chevron-right"></span>
+										<span class="sr-only">Next</span>
+									</a>
 							</div>
-						</div>
-						<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 ">
-							<div class="ps-post">
-								<div class="ps-post__thumbnail"><a class="ps-post__overlay" href="blog-detail.html"></a><img src="images/blog/Indop.jpg" alt=""></div>
-								<div class="ps-post__content"><a class="ps-post__title" href="blog-detail.html">Punya Properti Tanpa Utang</a>
-									<p class="ps-post__meta"><span>By:<a class="mr-5" href="blog.html">IndoPos</a></span> -<span class="ml-5">Jumat, 19 Agustus 2016.</span></p>
-									<p>Menurut Cipto, strategi cerdas yang dijalankan dalam menjalankan bisnis properti diawali dengan mengubah paradigma berpikir harus utang. Baginya, utang adalah racun yang merusak setiap sendi-sendi bisnis. Jika usaha didirikan dengan utang, maka hal itu hanyalah perusak kelangsungan bisnis ke depannya.…</p><a class="ps-morelink" href="blog-detail.html">Read more<i class="fa fa-long-arrow-right"></i></a>
-								</div>
-							</div>
-						</div>
-						<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 ">
-							<div class="ps-post">
-								<div class="ps-post__thumbnail"><a class="ps-post__overlay" href="blog-detail.html"></a><img src="images/blog/Antara.jpg" alt=""></div>
-								<div class="ps-post__content"><a class="ps-post__title" href="blog-detail.html">Ingin cepat kaya butuh strategi</a>
-									<p class="ps-post__meta"><span>By:<a class="mr-5" href="blog.html">Antara NEWS</a></span> -<span class="ml-5">Jumat, 11 November 2016.</span></p>
-									<p>Menanggapi banyaknya orang yang terjerumus karena keinginan cepat kaya secara instan, Cipto mengatakan instan atau tidaknya bergantung dengan usaha belajar untuk meraih apa yang diinginkan. "Selama ini banyak orang bilang, mana ada yang instan? Kalau dia (orang, red.) mau belajar maka bisa lebih instan. Kalau orang ngawur ayo cepat kaya, itu negatif kalau tidak ada pembelajaran," katanya.…</p><a class="ps-morelink" href="blog-detail.html">Read more<i class="fa fa-long-arrow-right"></i></a>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-											<p style="font-size:20px; font-family: arial; color:black;" align="center"><strong>Ayo Nyetrum ke Bp. Cipto Junaedy, agar Cepat ketularan jadi Teladan Hidup Besar</strong></p>
-<br>
-<p style="font-size:20px; font-family: arial; color:black;" align="center">Jangan Jago Minta, itu namanya tangan di bawah. <strong>Anda akan kesetrum jago mendapatkan 120% dari income anda yang terancam saat ini, bahkan nantinya jadi Teladan yang lebih besar yaitu Jago Nambah Aset Puluhan Milyar<strong></p>
-<br>
-<p style="font-size:20px; font-family: arial; color:black;" align="center">Dengan segudang Keuntungan yang akan anda dapatkan di atas,</p>
-<p style="font-size:20px; font-family: arial; color:black;" align="center">Kira - kira berapa biaya Program Belajar yang harus saya keluarkan ?</p>
-<p style="font-size:20px; font-family: arial; color:black;" align="center">10 Jt  ??</p>
-<p style="font-size:20px; font-family: arial; color:blue;" align="center">7 Jt  ??</p>
-<p style="font-size:20px; font-family: arial; color:red;" align="center">5,2 Jt  ??</p>
-<p style="font-size:20px; font-family: arial; color:orange;" align="center">4,8 Jt  ??</p>
-<br>
-
-<p style="font-size:20px; font-family: arial; color:black;" align="center"><strong>kami pun tahu keinginan besar Anda untuk bisa mengikuti Workshop Online ini, agar bisa jago menghasilkan Cash Banyak.</strong></p>
-<br>
-<p style="font-size:25px; font-family: arial; color:black;" align="center">Maka kami putuskan untuk mengeluarkan Program ini dengan Harga :</p>
-<br>
-<p style="font-size:25px; font-family: arial; color:black;" align="center"><strike>Rp. 4.000.000</strike></p>
-<br>
-<p style="font-size:30px; font-family: arial; color:blue;" align="center">TAPI</p>
-<br>
-<p style="font-size:30px; font-family: arial; color:red;" align="center">Spesial untuk Anda <span style="font-size:30px;color:black;">yang Action Sekarang,</span> maka kami akan memberikan Anda Harga</p>
-<br>
-<p style="font-size:35px; font-family: arial; color:black;" align="center"><strong>Rp. 3.000.000</strong></p>
-<p style="font-size:14px; font-family: arial; color:red;" align="center"><strong>(Hanya untuk 30 orang pertama hari ini)</strong></p>
-<br>
-<p style="font-size:18px; font-family: arial; color:black;" align="justify">Sekali lagi, kelasnya dibawakan dalam bentuk <span style="color:red;"><b>Workshop Online 12 sessions: </b></span><strong>Dalam 30 Hari Jago Menghasilkan Cash Banyak, Tanpa Modal, Tanpa Utang, dengan cara Scientific Akurat dan Terpercaya.</strong> <span style="color:blue;">Ada kuota karena kami terbatas tidak bisa menolong semua orang sekaligus.</span></p>
-<br>
-<p style="font-size:18px; font-family: arial; color:black;" align="justify"><strong>Biaya untuk Workshop Online tsb yaitu Rp 3 juta untuk 12 sessions, sekitar UMR. </strong><span style="color:red;"><b>Kalau yang DP saja yaitu Rp 700 ribu, maka belum bisa langsung masuk program, </b></span><strong> tapi bisa ambil kuota dulu daripada tidak ambil kuota maka akibatnya lebih mahal dalam hidup.</strong></p>
-<br>
-<p style="font-size:25px; font-family: arial; color:black;" align="center"><span style="color:red;"><strong>Program LANGSUNG DIMULAI bagi yang sudah genap biayanya</span></strong> untuk Workshop Online 12 sessions itu, dan bulan ini juga ketularan jadi Teladan, jago menghasilkan Cash Banyak</p>
-<br>
-<p style="font-size:18px; font-family: arial; color:blue;" align="center">Ok pak Cipto, saya tertarik dengan Program Belajar "DALAM 30 HARI JAGO MENGHASILKAN CASH BANYAK" ini, namun apakah biaya 3 Jt itu sepadan dengan apa yang akan saya dapatkan dari pak cipto ?</p>
-<br>
-<p style="font-size:18px; font-family: arial; color:black;" align="justify">Lebih dari sepadan, karena anda akan jago menghasilkan uang, setidaknya 120% dari gaji atau penghasilan anda yang terancam hilang di masa ini, bahkan nantinya akan jadi teladan lebih besar, yaitu jago menambah Aset Puluhan Milyar, bukan cuma jago penghasilan tambahan.</p>
-<p style="font-size:18px; font-family: arial; color:black;" align="justify">Karena itu, saya tunggu actionnya. Kami Terbatas, tidak bisa membantu banyak orang sekaligus. Jadi mohon maaf, yang kami terima TERBATAS. Yang duluan kirim bukti konfirmasi, dilayani duluan.</p>
-<br>
-<div class="ps-product__shopping" align="center"><a href="<?= base_url('join_member');?>"><img src="<?php echo base_url();?>images/Tombol 30 hari.png" width="400"><i class="ps-icon-next"></i></a>
-</div>
-<br>
 			</div>
-			
-
 		</div>
+		<div class="ps-section ps-home-blog pt-80 pb-80">
+		    <div class="ps-container">
+		        <p style="font-size:25px; font-family: arial; color:black;" align="center"><strong>Ayo Nyetrum ke Bp. Cipto Junaedy, agar Cepat ketularan jadi Teladan Hidup Besar</strong></p>
+                <br>
+                <p style="font-size:20px; font-family: arial; color:red;" align="center">Jangan Jago Minta, itu namanya tangan di bawah. <span style="color:black;"</span><strong>Anda akan kesetrum jago mendapatkan 120% dari income anda yang terancam saat ini, bahkan nantinya jadi Teladan yang lebih besar yaitu Jago Nambah Aset Puluhan Milyar<strong></p>
+                <br>
+                <p style="font-size:20px; font-family: arial; color:black;" align="center">Dengan segudang Keuntungan yang akan anda dapatkan di atas,</p>
+                <p style="font-size:20px; font-family: arial; color:black;" align="center">Kira - kira berapa biaya Program Belajar yang harus saya keluarkan ?</p>
+                <p style="font-size:20px; font-family: arial; color:black;" align="center">10 Jt  ??</p>
+                <p style="font-size:20px; font-family: arial; color:blue;" align="center">7 Jt  ??</p>
+                <p style="font-size:20px; font-family: arial; color:red;" align="center">5,2 Jt  ??</p>
+                <p style="font-size:20px; font-family: arial; color:orange;" align="center">4,8 Jt  ??</p>
+                <br>
+                
+                <p style="font-size:20px; font-family: arial; color:black;" align="center"><strong>Kami pun tahu keinginan besar Anda untuk bisa mengikuti Workshop Online ini, agar bisa jago menghasilkan Cash Banyak.</strong></p>
+                <br>
+                <p style="font-size:25px; font-family: arial; color:black;" align="center">Maka kami putuskan untuk mengeluarkan Program ini dengan Harga :</p>
+                <br>
+                <p style="font-size:25px; font-family: arial; color:black;" align="center"><strike>Rp. 4.000.000</strike></p>
+                <br>
+                <p style="font-size:30px; font-family: arial; color:blue;" align="center">TAPI</p>
+                <br>
+                <p style="font-size:30px; font-family: arial; color:red;" align="center">Spesial untuk Anda <span style="font-size:30px;color:black;">yang Action Sekarang,</span> maka kami akan memberikan Anda Harga</p>
+                <br>
+                <p style="font-size:35px; font-family: arial; color:black;" align="center"><strong>Rp. 3.000.000</strong></p>
+                <p style="font-size:14px; font-family: arial; color:red;" align="center"><strong>(Hanya untuk 30 orang pertama, Kami Terbatas,  tidak bisa membantu banyak orang sekaligus.)</strong></p>
+                <br>
+                <p style="font-size:18px; font-family: arial; color:black;" align="center">Sekali lagi, kelasnya dibawakan dalam bentuk <span style="color:red;"><b>Workshop Online 12 sessions: </b></span><strong>Dalam 30 Hari Jago Menghasilkan Cash Banyak, Tanpa Modal, Tanpa Utang, dengan cara Scientific Akurat dan Terpercaya.</strong> <br><span style="color:blue;">Ada kuota karena kami terbatas tidak bisa menolong semua orang sekaligus.</span></p>
+                <br>
+                <p style="font-size:18px; font-family: arial; color:black;" align="center"><strong>Biaya untuk Workshop Online tsb yaitu Rp 3 juta untuk 12 sessions, sekitar UMR. </strong><span style="color:red;"><b>Kalau yang DP saja yaitu Rp 700 ribu, maka belum bisa langsung masuk program, </b></span><strong> tapi bisa ambil kuota dulu daripada tidak ambil kuota maka akibatnya lebih mahal dalam hidup.</strong></p>
+                <br>
+                <div style="background-color:maroon; padding-left:20px; padding-right:20px; padding-top:20px; padding-bottom:20px;">
+                    
+                <p style="font-size:25px; font-family: arial; color:white;" align="center"><span style="color:yellow;"><strong>Program LANGSUNG DIMULAI bagi yang sudah genap biayanya</span></strong> untuk Workshop Online 12 sessions itu, dan bulan ini juga ketularan jadi Teladan, jago menghasilkan Cash Banyak</p>
+                </div>
+                <br>
+                <p style="font-size:18px; font-family: arial; color:blue;" align="center">Ok pak Cipto, saya tertarik dengan Program Belajar "DALAM 30 HARI JAGO MENGHASILKAN CASH BANYAK" ini, namun apakah biaya 3 Jt itu sepadan dengan apa yang akan saya dapatkan dari pak cipto ?</p>
+                <br>
+                <p style="font-size:18px; font-family: arial; color:black;" align="center">Lebih dari sepadan, karena anda akan jago menghasilkan uang, setidaknya 120% dari gaji atau penghasilan anda yang terancam hilang di masa ini, bahkan nantinya akan jadi teladan lebih besar, yaitu jago menambah Aset Puluhan Milyar, bukan cuma jago penghasilan tambahan.</p>
+                <p style="font-size:18px; font-family: arial; color:black;" align="center">Karena itu, ayo Cepat ketularan jadi Teladan Hidup Besar. Kami Terbatas, tidak bisa membantu banyak orang sekaligus. Jadi mohon maaf, yang kami terima TERBATAS. Yang duluan kirim bukti konfirmasi, dilayani duluan.</p>
+                <br>
+                <p style="font-size:20px; font-family: arial; color:black" align="center"><strong>Untuk mulai program, klik tombol di bawah ini</strong> 
+                </p>
+                <br>
+                <div class="ps-product__shopping" align="center"><a href="<?= base_url('join_member');?>"><img src="<?php echo base_url();?>images/Tombol 30 hari.png" width="400"><i class="ps-icon-next"></i></a></div>
+		    </div>
+		</div>
+        <br>
+	</div>
+</div>
 		
 		<script type="text/javascript">
 				$(function(){

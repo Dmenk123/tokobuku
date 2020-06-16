@@ -50,7 +50,6 @@ class Join_member extends CI_Controller {
 
 		$arr_valid = $this->_validate();
 		$fname = clean_string($this->input->post('fname'));
-		$lname = clean_string($this->input->post('lname'));
 		$email = clean_string($this->input->post('email'));
 		$telp = clean_string($this->input->post('telp'));
 		$namafileseo = $this->seoUrl('Bukti-'.$fname.' '.time());
@@ -119,7 +118,6 @@ class Join_member extends CI_Controller {
 			'diskon_total' => $diskon_total,
 			'is_konfirm' => 0,
 			'nama_depan' => $fname,
-			'nama_belakang' => $lname,
 			'email' => $email,
 			'telepon' => $telp,
 			'bukti' => $arr_gambar['nama_gambar'],
@@ -135,7 +133,12 @@ class Join_member extends CI_Controller {
 			$this->session->set_flashdata('feedback_failed', 'Gagal Melakukan Pendaftaran.');
 			redirect('join_member/result_page');
 		} else {
-			$this->db->trans_commit();			
+			$this->db->trans_commit();		
+			
+			if ($this->session->userdata('kode_agen') != null) {
+				$this->session->unset_userdata('kode_agen');
+			}
+			
 			$this->session->set_flashdata('feedback_success', $kode_ref);
 			redirect('join_member/result_page');
 		}
@@ -145,7 +148,7 @@ class Join_member extends CI_Controller {
 	{
 		$genCaptcha = $this->recaptcha->generate();
 		
-		$resp = $genCaptcha->setExpectedHostname('localhost')
+		$resp = $genCaptcha->setExpectedHostname('majangdapatuang.com')
                   ->setExpectedAction('get_recaptcha')
                   ->setScoreThreshold(0.5)
                   ->verify($token);

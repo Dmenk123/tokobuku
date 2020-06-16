@@ -11,7 +11,7 @@ class Mod_global extends CI_Model
 	    $data[8] = chr(ord($data[8]) & 0x3f | 0x80); // set bits 6-7 to 10
 
 	    return vsprintf('%s%s-%s-%s-%s-%s%s%s', str_split(bin2hex($data), 4));
-	}
+	}   
 
 	public function get_data($select, $table, $where=FALSE, $join = array(), $order=FALSE, $limit=FALSE, $start=FALSE)
 	{
@@ -46,13 +46,13 @@ class Mod_global extends CI_Model
 		if ($where) {
 			$this->db->where($where);
 		}
-
-		if (count($join) > 0 || $join != null) {
+        
+        if (count($join) > 0 || $join != null) {
             foreach($join as $j) :
     			$this->db->join($j["table"], $j["on"],'left');
     		endforeach;
         }
-
+		
 		if ($order) {
 			$this->db->order_by($order);
 		}
@@ -108,7 +108,7 @@ class Mod_global extends CI_Model
 		$query = $this->db->get();
 		return $query->row();
 	}
-
+	
 	public function getSelectedData($table,$datawhere,$data_like=null, $datawhere_or = null, $datawhere1=null,$wherein=null,$where_in=null,$in=null,$where_sekda=null,$datalike_or=null,$not_in=null,$not_like=null)
     {
         $this->db->select('*');

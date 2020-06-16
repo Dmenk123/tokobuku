@@ -1631,6 +1631,7 @@ website:    http://www.themepunch.com
 
 /* BULLETS */
 .hermes.tp-bullets {
+    display: none;
 }
 
 .hermes .tp-bullet {
@@ -1643,6 +1644,7 @@ website:    http://www.themepunch.com
     -webkit-transition: background 0.3s ease;
     transition: background 0.3s ease;
     position:absolute;
+    display: none;
 }
 
 .hermes .tp-bullet:hover {

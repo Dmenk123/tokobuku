@@ -35,6 +35,18 @@ class Profile extends CI_Controller {
 			$q = $this->mod_profile->get_komisi_belum_tarik($id_agen);
 			$qq = $this->mod_profile->get_komisi_sudah_tarik($id_agen);
 			$qqq = $this->mod_profile->get_komisi_pending_tarik($id_agen);
+			$qqqq = $this->mod_profile->cek_status_sudah_verify_agen($userdata[0]->email);
+		   
+			if($qqqq){
+			    if($qqqq->is_konfirm == '1'){
+    			    $sts = TRUE;       
+    			}else{
+    			    $sts = FALSE;
+    			}    
+			}else{
+			    $sts = FALSE;
+			}
+			
 			
 			$arr_batine_agen = [
 				'komisi_belum' => $q->total_laba,
@@ -46,7 +58,8 @@ class Profile extends CI_Controller {
 		$data = [
 			'data_user' => $userdata,
 			'data_komisi' => $arr_komisi,
-			'data_laba_agen' => $arr_batine_agen
+			'data_laba_agen' => $arr_batine_agen,
+			'status_konfirm' => $sts
 		];
 
 		$this->load->view('v_navbar');
@@ -290,6 +303,7 @@ class Profile extends CI_Controller {
 
 	public function update_profil()
 	{
+	    $this->load->library('Enkripsi');
 		$flag_upload_foto = FALSE;
 		$flag_ganti_pass = FALSE;
 		
@@ -308,18 +322,8 @@ class Profile extends CI_Controller {
 		$email = clean_string($this->input->post('email'));
 		$rekening = clean_string($this->input->post('rekening'));
 		$bank = clean_string($this->input->post('bank'));
-		$arr_namalengkap = explode(' ', clean_string($this->input->post('namalengkap')));
-		$namafileseo = $this->seoUrl($arr_namalengkap[0].' '.time());
-
-		if (count($arr_namalengkap) == 2) {
-			$nama_lengkap = $arr_namalengkap[0].','.$arr_namalengkap[1];
-		}else if(count($arr_namalengkap) == 3){
-			$nama_lengkap = $arr_namalengkap[0].','.$arr_namalengkap[1].','.$arr_namalengkap[2];
-		}else if(count($arr_namalengkap) == 4){
-			$nama_lengkap = $arr_namalengkap[0].','.$arr_namalengkap[1].','.$arr_namalengkap[2].','.$arr_namalengkap[3];
-		}else{
-			$nama_lengkap = $arr_namalengkap[0];
-		}
+		$nama_lengkap = clean_string($this->input->post('namalengkap'));
+		$namafileseo = $this->seoUrl($nama_lengkap.' '.time());
 
 		$this->db->trans_begin();
 		

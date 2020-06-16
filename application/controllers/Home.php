@@ -10,6 +10,11 @@ class Home extends CI_Controller {
         $this->load->helper(array('url', 'form', 'text', 'html', 'security', 'file', 'directory', 'number', 'date', 'download'));
         $this->load->model('mod_global');
 	}
+	
+	public function err_404()
+	{
+		return redirect('home');
+	}
 
 	public function index()
 	{
@@ -30,7 +35,6 @@ class Home extends CI_Controller {
 	public function aff($uri='')
 	{
 		$cek_agen = $this->pengecekan_agen($uri);
-		
 		if ($cek_agen) {
 			return redirect('home', 'refresh');
 		}
@@ -51,7 +55,6 @@ class Home extends CI_Controller {
 		{
 			$param_sess = $uri;
 			$cek_sess = $this->mod_global->cek_sesi_agen($param_sess);
-			
 			if ($cek_sess) {
 				$this->session->unset_userdata('kode_agen');
 				$this->session->set_userdata(

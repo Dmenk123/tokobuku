@@ -89,6 +89,24 @@
 			$(this).next().empty();
 		});
 
+		//update dt_read after click
+		/*$(document).on('click', '.linkNotif', function(){
+		    var id = $(this).attr('id');
+		    $.ajax({
+		        url : "<?php echo site_url('inbox/update_read/') ?>/" + id,
+		        type: "POST",
+		        dataType: "JSON",
+		        success: function(data)
+		        {
+		            location.href = "<?php echo site_url('inbox/index') ?>";
+		        },
+		        error: function (jqXHR, textStatus, errorThrown)
+		        {
+		            alert('Error get data from ajax');
+		        }
+		    });
+		});*/
+
 		$(".bukti").change(function() {
 			var id = this.id;
 			readURL(this, id);

@@ -10,10 +10,6 @@ class Lap_penjualan_agen extends CI_Controller
 		$this->load->model('mod_global', 'm_global');
 		$this->load->model('adm_model/mod_user', 'm_user');
 		$this->load->model('adm_model/mod_penjualan', 'm_jual');
-
-		if (!$this->session->userdata('id_user')) {
-			return redirect('admin/login','refresh');
-		}
 	}
 
 	private function arr_bulan()
@@ -64,11 +60,6 @@ class Lap_penjualan_agen extends CI_Controller
 		$tanggal_akhir = date('Y-m-t H:i:s', strtotime($tahun . '-' . $bulan . '-01 23:59:59'));
 
 		$query_lap = $this->m_jual->get_detail_lap_agen($tanggal_awal, $tanggal_akhir);
-
-		/*echo "<pre>";
-		print_r ($query_lap);
-		echo "</pre>";
-		exit;*/
 
 		$rowspan = 0;
 		$kode_ref = '';
@@ -327,7 +318,7 @@ class Lap_penjualan_agen extends CI_Controller
     		$str_table .= "<tr>";
             $str_table .= "<td colspan='9' align='center'> <strong>Tidak Ada Data ...</strong> </td>";
             $str_table .= "</tr>";
-        }      
+        }   
 
 		$data['hasil_tabel'] = $str_table;
 		$data['periode'] = $periode;
@@ -342,4 +333,3 @@ class Lap_penjualan_agen extends CI_Controller
 	}
 
 }//end of class penjualan.php
-

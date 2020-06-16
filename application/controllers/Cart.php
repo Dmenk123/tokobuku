@@ -22,11 +22,11 @@ class Cart extends CI_Controller {
 	function add_to_cart($id_produk)
 	{
 		$where = ['m_produk.id' => $id_produk];
-		$select = "m_produk.*, m_kategori.nama as nama_kategori, m_satuan.nama as nama_satuan, t_log_harga.harga_satuan, t_log_harga.potongan, t_log_harga.harga_potongan, t_log_harga.diskon, t_log_harga.harga_diskon";
+		$select = "m_produk.*, m_kategori.nama as nama_kategori, m_satuan.nama as nama_satuan, t_log_harga.harga_satuan, t_log_harga.potongan";
 		$join = array(
 			["table" => "m_kategori", "on" => "m_produk.id_kategori = m_kategori.id"],
 			["table" => "m_satuan", "on"  => "m_produk.id_satuan = m_satuan.id"],
-			["table" => "t_log_harga", "on" => "m_produk.id = t_log_harga.id_produk and t_log_harga.is_aktif = '1'"]
+			["table" => "t_log_harga", "on" => "m_produk.id = t_log_harga.id_produk"]
 		);
 
 		$produk = $this->mod_global->get_data_single($select, 'm_produk', $where, $join);
@@ -39,8 +39,6 @@ class Cart extends CI_Controller {
         $nama_satuan = $produk->nama_satuan;
         $id_kategori = $produk->id_kategori;
         $nama_kategori = $produk->nama_kategori;
-        $harga_potongan = $produk->harga_potongan;
-        $harga_diskon = $produk->harga_diskon;
         
         //store to array index with reserved word in cart library
         $data = array(
@@ -53,12 +51,9 @@ class Cart extends CI_Controller {
                             'Id_satuan_produk' => $id_satuan,
                             'Nama_satuan_produk' => $nama_satuan,
                             'Id_kategori_produk' => $id_kategori,
-                            'Nama_kategori_produk' => $nama_kategori,
-                            'Laba_agen' => $harga_potongan,
-                            'Harga_diskon' => $harga_diskon
+                            'Nama_kategori_produk' => $nama_kategori
                         ) 
         );
-
         $this->cart->insert($data);
         
         echo json_encode(array(

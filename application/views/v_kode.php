@@ -126,6 +126,6 @@
 
   function cek_link() {
     var kode = "<?php echo $this->session->userdata['kode_agen']?>";
-    $("#text_link").text('<?php echo base_url()?>'+'product_listing/list_produk/'+kode);
+    $("#text_link").text('<?php echo base_url()?>'+'home/aff/'+kode);
   }
 </script>

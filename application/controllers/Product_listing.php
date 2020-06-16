@@ -14,8 +14,20 @@ class Product_listing extends CI_Controller {
 
 	public function list_produk($uri='')
 	{
-		$this->pengecekan_agen($uri);	
+		if ($uri != '') {
+			$param_sess = $uri;
+			$cek_sess = $this->mod_global->cek_sesi_agen($param_sess);
 			
+			if ($cek_sess) {
+				$this->session->unset_userdata('kode_agen');
+				$this->session->set_userdata(
+					array(
+						'kode_agen' => $cek_sess->kode_agen
+					)
+				);
+			}
+		}
+
 		if (!isset($per_page)) {
 			$per_page = 10; //default per page
 		}else{
@@ -46,7 +58,7 @@ class Product_listing extends CI_Controller {
 		$join = array(
 			["table" => "m_kategori", "on" => "m_produk.id_kategori = m_kategori.id"],
 			["table" => "m_satuan", "on"  => "m_produk.id_satuan = m_satuan.id"],
-			["table" => "t_log_harga", "on" => "m_produk.id = t_log_harga.id_produk and t_log_harga.is_aktif = '1'"]
+			["table" => "t_log_harga", "on" => "m_produk.id = t_log_harga.id_produk"]
 		);
 
 		$produk = $this->mod_global->get_data($select, 'm_produk', ['m_produk.is_aktif' => 1], $join, $order, $per_page, $page);
@@ -87,28 +99,5 @@ class Product_listing extends CI_Controller {
         $config['next_link'] = 'Next';
         $config['prev_link'] = 'Prev';
         $this->pagination->initialize($config);
-	}
-
-	public function pengecekan_agen($uri)
-	{
-		if ((int)$this->session->userdata('id_level_user') > 2) {
-			if ($uri != '') {
-			$param_sess = $uri;
-				$cek_sess = $this->mod_global->cek_sesi_agen($param_sess);
-				
-				if ($cek_sess) {
-					$this->session->unset_userdata('kode_agen');
-					$this->session->set_userdata(
-						array(
-							'kode_agen' => $cek_sess->kode_agen
-						)
-					);
-				}
-			}
-		}else{
-			if ($this->session->userdata('kode_agen') != null) {
-				$this->session->unset_userdata('kode_agen');
-			}
-		}
 	}
 }

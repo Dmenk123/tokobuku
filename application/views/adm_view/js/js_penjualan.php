@@ -45,7 +45,7 @@
 			"processing": true,
 			"serverSide": true,
 			"order": [
-				[2, 'desc']
+				[0, 'desc']
 			],
 			//load data for table content from ajax source
 			"ajax": {
@@ -66,7 +66,7 @@
 			"processing": true,
 			"serverSide": true,
 			"order": [
-				[2, 'desc']
+				[0, 'desc']
 			],
 			//load data for table content from ajax source
 			"ajax": {

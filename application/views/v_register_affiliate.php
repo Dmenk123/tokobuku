@@ -10,7 +10,7 @@
 		<img src="<?php echo base_url(); ?>images/GambarR1.jpg">
 	</div>
 	<br>
-	<p style="font-size:30px; font-family: arial; color:black;" align="center"><strong>Hasilkan uang Dari Rumah + Dari Jempol, <span style="font-size:30px;color:red;">kesempatan terbatas</strong></p>
+	<!--<p style="font-size:30px; font-family: arial; color:black;" align="center"><strong>Hasilkan uang Dari Rumah + Dari Jempol, <span style="font-size:30px;color:red;">kesempatan terbatas</strong></p>
 	<br>
 	<p style="font-size:25px; font-family: arial; color:blue;" align="center"><strong>Untuk kalian yang dalam kesulitan finansial, income turun banyak, khawatir uang makin susut<br> <span style="font-size:20px;color:red;">Sudahi Kondisi Itu</strong></p>
 	<br>
@@ -24,11 +24,11 @@
 	<br>
 	<p style="font-size:18px; font-family: arial; color:black;" align="center">Ini artinya,<br> <strong>kamu BISA DAPAT UANG cuman dari share link sambil tiduran, makan, nonton TV, bersantai, dan lainnya, + DAPAT PAHALA karena menjadikan orang jadi Teladan Tanpa Utang.</strong></p>
 
-	<p style="font-size:20px; font-family: arial; color:black;" align="center">Segera hasilkan uang dari jempol, dengan share link kami nantinya.<br>Karena yang kami terima TERBATAS.</p>
+	<p style="font-size:20px; font-family: arial; color:black;" align="center">Segera hasilkan uang dari jempol, dengan share link kami nantinya.<br>Karena yang kami terima TERBATAS.</p>-->
 
 	<!--<p<p style="font-size:14px; font-family: arial; color:black;" align="justify">Hanya dengan memajang brosur online kami, anda bisa mendapatkan Income puluhan juta, dengan ada orang yang ikut Program Belajar Jadi Teladan Tanpa Utang melalui website/brosur online yang anda pajang. Jika orang, sebut saja si A baca brosur online itu link anda, kemudian si A ikut Program Belajar Jadi teladan Tanpa Utang maka anda mendapat uang sebesar 45% dari harga penjualan.</p></p>-->
 	<br>
-	<p style="font-size:20px; font-family: arial; color:black;" align="center">Mau tunggu apa lagi, hanya olahraga jempol dan share link saja bisa miliki sumber uang terus - menerus.</p>
+	<!--<p style="font-size:20px; font-family: arial; color:black;" align="center">Mau tunggu apa lagi, hanya olahraga jempol dan share link saja bisa miliki sumber uang terus - menerus.</p>
 	
 	<br>
 	<p style="font-size:20px; font-family: arial; color:black;" align="center"><strong>Ayo Hasilkan uang Dari Rumah + Dari Jempol, kesempatan terbatas</strong></p>
@@ -39,7 +39,7 @@
 
 	<p style="font-size:35px; font-family: arial; color:black;" align="center"><strong>Rp. 1.200.000</strong></p>
 
-	<p style="font-size:20px; font-family: arial; color:black;" align="center">Anda bisa menghasilkan jutaan tiap bulan, dengan cara olahraga jempol, BISA DAPAT UANG + DAPAT PAHALA karena menjadikan orang jadi Teladan Tanpa Utang</p>
+	<p style="font-size:20px; font-family: arial; color:black;" align="center">Anda bisa menghasilkan jutaan tiap bulan, dengan cara olahraga jempol, BISA DAPAT UANG + DAPAT PAHALA karena menjadikan orang jadi Teladan Tanpa Utang</p>-->
 
 	<!--<p<p style="font-size:14px; font-family: arial; color:black;" align="center"><strong>Miliki<span style="font-size:25px;color:blue;">Mesin Uangmu </span>di atas yang bisa Menghasilkan Uang terus menerus setiap harinya, </strong></p>
     
@@ -48,9 +48,10 @@
 
 	<div class="col-md-7" id="register">
 		<div class="box">
-			<h1>Register</h1>
-			<p class="lead">Anda apakah saat ini belum memiliki akun ?</p>
-			<p>Jadilah bagian dari kami, silahkan daftar Affiliate dan nikmati keuntungannya !!</p>
+			<h1>Saya Mau Hasilkan Uang Dari Jempol</h1>
+			<!--<p class="lead">Anda apakah saat ini belum memiliki akun ?</p>-->
+			<br>
+			<p>Anda belum memiliki akun, untuk daftar Affiliate isi data di bawah ini !!</p>
 			<hr>
 			<form id="form_register" method="POST" name="formRegister" enctype="multipart/form-data">
 				<div class="form-group">
@@ -104,12 +105,12 @@
 					<input type="text" class="form-control numberinput" id="regRekening" name="reg_rekening">
 					<span class="help-block"></span>
 				</div>
-
+				
 				<div class="form-group">
 					<label>Upload Bukti*</label>
 					<input type="file" class="form-control-file" name="bukti" id="bukti" accept=".png, .jpg, .jpeg">
 				</div>
-					
+	
 				<div class="form-group">
 					<label for="Wajib Diisi"><strong>Keterangan : (*) Wajib diisi.</strong></label>
 					<br>
@@ -126,13 +127,13 @@
 	<div class="col-lg-5 col-md-5 col-sm-12 col-xs-12" style="margin-top: 5%;">
 		<div class="ps-checkout__order">
 			<footer>
-				<h3>Metode Pembayaran / Transfer</h3>
+				<h3>Metode Pembayaran dengan Transfer</h3>
 				<div class="form-group cheque">
 					<div class="">
-						<p>Dimohon Transfer Ke Rekening Dibawah Ini Serta Melampirkan Upload Bukti Transfer.</p>
-						<p>BCA : BAPAK Cipto Junaedi - 014-1231212-12121</p>
-						<p>MANDIRI : BAPAK Cipto Junaedi - 021-1231212-12121</p>
-						<p>BANK OF INDIA : BAPAK Cipto Junaedi - 666-1231212-12121</p>
+						<p>Transfer Rp. 1.200.000 Ke Rekening Dibawah Ini Serta Melampirkan Upload Bukti Transfer.</p>
+						<p>Rekening BCA : 464-177-2458 <br> a.n Cipto Junaidi</p>
+						<!--<p>MANDIRI : BAPAK Cipto Junaedi - 021-1231212-12121</p>-->
+						<!--<p>BANK OF INDIA : BAPAK Cipto Junaedi - 666-1231212-12121</p>-->
 					</div>
 				</div>
 				<!--  <div class="form-group paypal">
@@ -141,12 +142,12 @@
 			</footer>
 		</div>
 		<div class="ps-shipping">
-			<h3>PERLU ANDA KETAHUI</h3>
-			<p>Ketika Anda Selesai Melakukan Proses Pendaftaran Member ini.<br> Proses pendaftaran anda akan kami verifikasi dan akan kami kirim pemberitahuan melalui WA/Email anda.</p>
+			<!--<h3>PERLU ANDA KETAHUI</h3>-->
+			<p>Setelah anda selesai membayar & melakukan Pendaftaran ini.<br> Maka pendaftaran anda akan kami proses verifikasi terlebih dahulu.</p>
 		</div>
 		<div class="ps-shipping hidden" id="div_preview">
 			<div class="form-group" style="margin-bottom: 5%;">
-				<h4>Preview Bukti Transfer</h4>
+				<h5>Preview Bukti Transfer</h5>
 			</div>
 			<div class="form-group">
 				<img id="bukti-img" src="" alt="" height="360" width="300" class="hidden" />
@@ -164,13 +165,19 @@
 		$('input.numberinput').bind('keypress', function(e) {
 			return (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57) && e.which != 46) ? false : true;
 		});
-
+		
 		$("#bukti").change(function() {
 			//console.log(this);
 			var id = this.id;
 			readURL(this, id);
 			$("#bukti-img").removeClass('hidden');
 			$('#div_preview').removeClass('hidden');
+		});
+
+		$('.refreshCaptcha').on('click', function() {
+			$.get('<?php echo base_url() . 'register/refresh_captcha'; ?>', function(data) {
+				$('#imgCaptcha').html(data);
+			});
 		});
 
 		$('#form_register').submit(function(event) {
@@ -181,12 +188,12 @@
 				grecaptcha.execute('6LcKN-MUAAAAADMou4FyEsJOONfj5940sKYIVFLt', {
 					action: 'get_recaptcha'
 				}).then(function(token) {
-					$('#form_register').prepend('<input type="hidden" name="token" value="' + token + '">');
-					
+				    
 					if (itGo != false) {
 						$('input[name="token"]').val(token);
 					}else{
-						itGo = token;
+						itGo = true;
+						$('#form_register').prepend('<input type="hidden" name="token" value="' + token + '">');
 					}
 					
 					// $('#form_register').unbind('submit').submit();
@@ -210,7 +217,8 @@
 							} else {
 								if (data.flag_captcha) {
 									alert(data.pesan);
-									location.reload();
+									$("#btnRegister").prop("disabled", false);
+									// location.reload();
 								} else if (data.flag_pesan) {
 									alert(data.pesan);
 									$("#btnRegister").prop("disabled", false);
@@ -236,7 +244,7 @@
 			});
 		});
 	});
-
+	
 	function readURL(input, id) {
 		var idImg = id + '-img';
 		// console.log(idImg);

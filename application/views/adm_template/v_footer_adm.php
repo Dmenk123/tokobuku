@@ -48,7 +48,6 @@ if (isset($modal)) {
 <script src="<?php echo base_url('assets/') ?>datatables/dataTables.bootstrap.min.js"></script>
 <script src="<?php echo base_url('assets/') ?>js/sweetalert.min.js"></script>
 <script src="<?php echo base_url('assets/') ?>js/jquery-maskmoney.min.js"></script>
-<script src="<?php echo base_url('assets/') ?>js/jquery.rowspanizer.min.js"></script>
 <!-- load js per modul -->
 <?php
 if (isset($js)) {
@@ -62,7 +61,6 @@ if (isset($js)) {
 	var baseUrl = "<?= base_url();?>";
 
 	$(document).ready(function() {
-		
 		$(document).on('click', '.linkNotifKlaim', function() {
 			var id = $(this).attr('id');
 			$.ajax({

@@ -20,9 +20,9 @@
 				<div class="row">
 					<div class="col-lg-7 col-md-7 col-sm-12 col-xs-12 ">
 						<div class="ps-checkout__billing">
-							<h3>Mohon Isi Data Diri Anda</h3>
+							<h3>Saya Mau Mulai Menghasilkan Cash Banyak</h3>
 							<div class="form-group form-group--inline">
-								<label>Nama Depan<span>*</span>
+								<label>Nama<span>*</span>
 								</label>
 								<input class="form-control" style="background-color: #e8f0fe;" type="text" name="fname" id="fname">
 								<span class="help-block"></span>
@@ -53,23 +53,23 @@
 						<div class="ps-checkout__order">
 							<!-- <header></header> -->
 							<footer>
-								<h3>Metode Pembayaran / Transfer</h3>
+								<h3>Metode Pembayaran dengan Transfer</h3>
 								<div class="form-group cheque">
 									<div class="">
-										<p>Dimohon Transfer Ke Rekening Dibawah Ini Serta Melampirkan Upload Bukti Transfer.</p>
-										<p>BCA : BAPAK Cipto Junaedi - 014-1231212-12121</p>
-										<p>MANDIRI : BAPAK Cipto Junaedi - 021-1231212-12121</p>
-										<p>BANK OF INDIA : BAPAK Cipto Junaedi - 666-1231212-12121</p>
+										<p>Transfer Rp. 3.000.000 Ke Rekening Dibawah Ini Serta Melampirkan Upload Bukti Transfer.</p>
+										<p>Rekening BCA : 464-177-2458 <br> a.n Cipto Junaidi</p>
+										<!--<p>MANDIRI : BAPAK Cipto Junaedi - 021-1231212-12121</p>-->
+										<!--<p>BANK OF INDIA : BAPAK Cipto Junaedi - 666-1231212-12121</p>-->
 									</div>
 								</div>
 								<div class="form-group paypal">
-									<button class="ps-btn ps-btn--fullwidth" id="btnAksi">Konfirmasi & Selesai<i class="ps-icon-next"></i></button>
+									<button class="ps-btn ps-btn--fullwidth" id="btnAksi">Kirim & Segera Mulai<i class="ps-icon-next"></i></button>
 								</div>
 							</footer>
 						</div>
 						<div class="ps-shipping">
-							<h3>PERLU ANDA KETAHUI</h3>
-							<p>Ketika Anda Selesai Melakukan Proses Pendaftaran Member ini.<br> Proses pendaftaran anda akan kami verifikasi dan akan kami kirim pemberitahuan melalui WA/Email anda.</p>
+							<!--<h3>PERLU ANDA KETAHUI</h3>-->
+							<p>Setelah anda membayar, maka Program LANGSUNG DIMULAI bagi yang sudah genap biayanya untuk Workshop Online 12w sessions itu,dan bulan ini juga ketularan jadi Teladan, jago menghasilkan Cash Banyak <br><br>Kuota Terbatas. Yang duluan kirim bukti konfirmasi, dilayani duluan.</p>
 						</div>
 					</div>
 				</div>

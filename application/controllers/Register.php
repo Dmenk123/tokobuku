@@ -12,7 +12,7 @@ class Register extends CI_Controller {
 	}
 
 	public function index()
-	{
+	{	
 		//captcha	
 		$imgCaptcha = $this->buat_captcha();
 

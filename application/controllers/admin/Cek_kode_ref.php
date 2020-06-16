@@ -113,5 +113,5 @@ class Cek_kode_ref extends CI_Controller
 
 		$this->template_view->load_view($content, $data);
 	}
-	
+
 }//end of class penjualan.php

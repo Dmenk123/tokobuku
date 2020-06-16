@@ -118,6 +118,11 @@ class Penjualan extends CI_Controller
 			'bulan' => $bulan,
 			'tahun' => $tahun
 		);
+		
+		
+        // echo "<pre>";
+        // print_r ($query);
+        // echo "</pre>";
 
 		$content = [
 			'css' 	=> null,
@@ -215,4 +220,3 @@ class Penjualan extends CI_Controller
 	}
 	
 }//end of class penjualan.php
-

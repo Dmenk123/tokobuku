@@ -26,13 +26,13 @@
 						<!-- <header></header> -->
 						<footer>
 							<?php if ($flag) { ?>
-								<h3>Selamat, Sebentar Lagi Anda Tergabung Sebagai Member Kami</h3>
+								<h3>Selamat, Selangkah lagi Program Belajar Anda akan dimulai</h3>
 								<div class="form-group cheque">
 									<div class="" style="text-align: left;">
 										<h3>Kode Referensi : <?= $kode_ref; ?></h3>
 										<br>
-										<p>Selanjutnya transaksi anda akan kami konfirmasi terlebih dahulu.</p>
-										<p>Kami akan menghubungi anda melalui WA/Email yang terdaftar.</p>
+										<p>Selanjutnya transaksi anda akan kami verifikasi terlebih dahulu.</p>
+										<p>Jika sudah terverifikasi, Tim kami akan menghubungi Anda ke Nomor Telpon</p>
 										<p>Apabila hinga 1 hari kerja belum di verifikasi mohon menghubungi kontak kami pada halaman contact. Jangan lupa lampirkan bukti transfer dan kode Referensi anda.</p>
 										<p>Terima Kasih</p>
 									</div>
@@ -43,7 +43,7 @@
 									<div class="" style="text-align: left;">
 										<p>Jangan khawatir apabila anda terlanjur melakukan transfer. Mohon ikuti Langkah berikut ini : </p>
 										<p>1. Silahkan coba kembali untuk melakukan pendaftaran dan upload bukti, kemungkinan tadi ada permasalahan teknis.</p>
-										<p>2. Apabila setelah pendaftaran masih muncul pesan gagal, mohon buka menu contact dan hubungi kami via email/WA. Jangan lupa sertakan bukti transfer anda.</p>
+										<p>2. Apabila setelah pendaftaran masih muncul pesan gagal, mohon buka menu contact dan hubungi kami via email. Jangan lupa sertakan bukti transfer anda.</p>
 										<p>3. Kami akan melakukan proses verifikasi transaksi anda dan menghubungi melalui kontak yang tertera pada laporan anda</p>
 										<p>Terima Kasih</p>
 									</div>

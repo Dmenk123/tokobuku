@@ -104,6 +104,7 @@
         .menu-toggle {
             display: inline-block;
             float: right;
+            right: -90px!important;
         }
     }
     @include media("<md") {

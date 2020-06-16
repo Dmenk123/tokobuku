@@ -191,7 +191,7 @@ class Verifikasi_klaim extends CI_Controller
 		$path = $_FILES['bukti']['name'];
 		$allowed_ext = ['png', 'jpg', 'jpeg'];
 		$ext = pathinfo($path, PATHINFO_EXTENSION);
-		
+		   
 		if (!in_array($ext, $allowed_ext)) {
 			echo json_encode([
 				'status' => false,
@@ -200,7 +200,7 @@ class Verifikasi_klaim extends CI_Controller
 			]);
 			return;
 		}
-
+		
 		if ($this->bukti_tf->do_upload('bukti')) {
 			$gbr = $this->bukti_tf->data(); //get file upload data
 			$this->konfigurasi_image_bukti($gbr['file_name'], $namafileseo, $ext);

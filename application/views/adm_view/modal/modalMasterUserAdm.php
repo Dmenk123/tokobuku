@@ -1,5 +1,5 @@
 <!-- modal add_user -->
-<div class="modal fade" id="modal_form" role="dialog" aria-labelledby="add_user" aria-hidden="true">
+<div class="modal fade" id="modal_user_form" role="dialog" aria-labelledby="add_user" aria-hidden="true">
    <div class="modal-dialog modal-lg">
       <div class="modal-content">
          <div class="modal-header">
@@ -7,18 +7,27 @@
             <h4 class="modal-title"></h4>
          </div>
          <div class="modal-body">
-            <form id="form" name="formUser">
+            <form id="form_user" name="formUser">
                <div class="form-row">
                   <input type="hidden" name="userId">
-                  <div class="form-group col-md-12">
-                     <label for="lblFname" class="lblFnameErr">Nama Lengkap</label>
-                     <input type="text" class="form-control" name="nama" placeholder="Nama Lengkap">
+                  <div class="form-group col-md-6">
+                     <label for="lblFname" class="lblFnameErr">Nama Depan</label>
+                     <input type="text" class="form-control" name="userFname" placeholder="Nama Depan">
+                  </div>
+                  <div class="form-group col-md-6">
+                     <label for="lblLname" class="lblLnameErr">Nama Belakang</label>
+                     <input type="text" class="form-control" name="userLname" placeholder="Nama Belakang">
                   </div>
                </div>
                <div class="form-row">
-                  <div class="form-group col-md-12">
+                  <div class="form-group col-md-6">
                      <label for="lblEmail" class="lblEmailErr">Email</label>
-                     <input type="email" class="form-control" name="email" placeholder="Email">
+                     <input type="email" class="form-control" name="userEmail" placeholder="Email">
+                     <input type="hidden" id="email_hdn">
+                  </div>
+                  <div class="form-group col-md-6">
+                     <label for="lblPass" class="lblPassErr">Password</label>
+                     <input type="text" class="form-control" name="userPassword" placeholder="Password">
                   </div>
                </div>
                <div class="form-row">

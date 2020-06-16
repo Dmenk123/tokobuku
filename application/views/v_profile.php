@@ -10,23 +10,25 @@
 					<p class="text-muted">Berikut merupakan data profil anda, anda dapat mengatur profil anda dengan menekan tombol <strong>Edit</strong>.</p>
 					<div class="row">
 						<?php foreach ($data_user as $value) { ?>
-							<?php
-							$arr_nama = explode(',', $value->nama_lengkap_user);
-							$nama_lengkap = $arr_nama[0] . ' ' . $arr_nama[1];
-							?>
 							<div class="col-md-3">
 								<span>
 									<img class="img-fluid" src="<?php echo base_url(); ?>assets/img/foto_profil/<?php echo $value->gambar_user; ?>" style="border-radius: 50%; height: 50%; width: 50%;">
 								</span>
 							</div>
 							<div class="col-md-9">
-								<p><strong>Nama Lengkap :</strong> <?php echo $nama_lengkap; ?>
-									<br><strong>Email :</strong> <?php echo $value->email; ?>
-									<br><strong>Nomor Telp :</strong> <?php echo $value->no_telp_user; ?>
-									<br><strong>No Rekening :</strong> <?php echo $value->rekening; ?>
-									<br><strong>Bank :</strong> <?php echo $value->bank; ?>
-									<br><strong>Terakhir Login :</strong> <?php echo $value->last_login; ?>
-									<br><strong>Link Affiliate :</strong> <?php echo base_url('home/aff/') . $value->kode_agen; ?>
+								<p><strong>Nama Lengkap :</strong> <?php echo $value->nama_lengkap_user; ?>
+									<br><br><strong>Email :</strong> <?php echo $value->email; ?>
+									<br><br><strong>Nomor Telp :</strong> <?php echo $value->no_telp_user; ?>
+									<br><br><strong>No Rekening :</strong> <?php echo $value->rekening; ?>
+									<br><br><strong>Bank :</strong> <?php echo $value->bank; ?>
+									<br><br><strong>Terakhir Login :</strong> <?php echo $value->last_login; ?>
+								
+									<?php if($status_konfirm){ ?>
+									    <br><strong>Link Affiliate :</strong> <?php echo base_url('home/aff/') . $value->kode_agen; ?>
+									<?php }else{ ?>
+									    <br><strong>Link Affiliate :</strong> <span style="color:red;">Link Affiliate akan ditampilkan setelah dikonfirmasi. Terimakasih</span>  
+									<?php } ?>
+									
 									<hr>
 								</p>
 							</div>

@@ -24,97 +24,22 @@ class Affiliate extends CI_Controller {
 		);
 
         $this->load->view('v_navbar');
-		$this->load->view('v_affiliate', $data);
-       	$this->load->view('footer');
+        if (empty($this->session->userdata('kode_agen'))) {
+            $this->load->view('v_affiliate', $data);
+        }else{
+            return redirect('home');
+        }
+    
 	}
 	
 	public function register()
 	{
-		//captcha	
-		// $imgCaptcha = $this->buat_captcha();
-
-		$data = array(
-			// 'img' => $imgCaptcha,
-		);
+		$data = array();
 
 		$this->load->view('v_navbar');
-		if (!empty($this->session->userdata('kode_agen'))) {
-			$this->load->view('v_kode', $data);
-		} else {
-			$this->load->view('v_register_affiliate', $data);
-		}
-		$this->load->view('footer');
+		$this->load->view('v_register_affiliate', $data);
+// 		$this->load->view('footer');
 	}
-
-	/*public function buat_captcha()
-	{
-		$options = array(
-			'img_path' => 'assets/img/captcha_img/',
-			'img_url' => base_url().'assets/img/captcha_img/',
-			'img_width' => '200',
-			'img_height' => '50',
-			'word_length'   => 5,
-			'font_size' => 20,
-			'expiration' => 7200,
-			'font_path' => FCPATH.'assets/css/fonts/E004007T.ttf',
-			'show_grid' => false,
-			'colors' => array(
-                'background' => array(255, 255, 255),
-                'border' => array(255, 255, 255),
-                'text' => array(0, 0, 0),
-                'grid' => array(255, 40, 40)
-            ),
-		);
-		$cap = create_captcha($options);
-		// Unset previous captcha and store new captcha word
-		$this->session->unset_userdata('captchaCode');
-		$this->session->set_userdata('captchaCode', $cap['word']);
-
-		$image = $cap['image'];
-		return $image;
-	}
-
-	public function refresh_captcha() 
-	{
-        $options = array(
-			'img_path' => 'assets/img/captcha_img/',
-			'img_url' => base_url().'assets/img/captcha_img/',
-			'img_width' => '200',
-			'img_height' => '50',
-			'word_length'   => 5,
-			'font_size' => 16,
-			'expiration' => 7200,
-			'font_path' => FCPATH.'assets/css/fonts/E004007T.ttf',
-			'show_grid' => false,
-			'colors' => array(
-                'background' => array(255, 255, 255),
-                'border' => array(255, 255, 255),
-                'text' => array(0, 0, 0),
-                'grid' => array(255, 40, 40)
-            ),
-		);
-        $captcha = create_captcha($options);
-        
-        // Unset previous captcha and store new captcha word
-        $this->session->unset_userdata('captchaCode');
-        $this->session->set_userdata('captchaCode',$captcha['word']);
-        
-        // Display captcha image
-        echo $captcha['image'];
-    }
-
-	public function check_captcha()
-	{
-		if ($this->input->post('captcha') == $this->session->userdata('captchaCode')) 
-		{
-			return true;
-		}
-		else
-		{
-			echo json_encode(array('pesan_error' => 'Maaf terjadi kesalahan pada penulisan captcha'));
-			return false;
-		}
-	}*/
 
 	public function add_register()
 	{
@@ -142,8 +67,23 @@ class Affiliate extends CI_Controller {
 
 		$hash_password = $this->enkripsi->encrypt($password);
 		
-		$namafileseo = $this->seoUrl('Bukti-'.$nama.' '.time());
+		$arr_valid = $this->_validate();
+		if ($arr_valid['status'] == FALSE) {
+			echo json_encode($arr_valid);
+			return;
+		}
+
+		if ($password != $re_password) {
+			echo json_encode(array(
+				"status" => FALSE,
+				'pesan' => 'Maaf Password harus Sama',
+				'flag_pesan' => TRUE
+			));
+			return;
+		}
+		
 		//load konfig upload
+		$namafileseo = $this->seoUrl('Bukti-'.$nama.' '.time());
 		$this->konfigurasi_upload_bukti($namafileseo);
 		$path = $_FILES['bukti']['name'];
 		$ext = pathinfo($path, PATHINFO_EXTENSION);
@@ -161,28 +101,13 @@ class Affiliate extends CI_Controller {
 			));
 			return;
 		}
-
-		$arr_valid = $this->_validate();
-		if ($arr_valid['status'] == FALSE) {
-			echo json_encode($arr_valid);
-			return;
-		}
-
-		if ($password != $re_password) {
-			echo json_encode(array(
-				"status" => FALSE,
-				'pesan' => 'Maaf Password harus Sama',
-				'flag_pesan' => TRUE
-			));
-			return;
-		}
-
+		
 		$id_user = $this->mod_global->getKodeUser();
         $kode    = $this->kode_affiliate();
         $id_checkout = $this->mod_global->gen_uuid();
 		$kode_ref = $this->incrementalHash();
-
-        $select = "*";
+		
+		$select = "*";
 		$where = ['tanggal_berlaku' < date('Y-m-d H:i:s'), 'jenis' => 'affiliate'];
 		$order = 'tanggal_berlaku DESC';
 		$harga = $this->mod_global->get_data_single($select, 't_log_harga', $where, null, $order);
@@ -195,8 +120,8 @@ class Affiliate extends CI_Controller {
 		}else{
 			$harga_total = $harga->harga_satuan;
 			$diskon_total = 0;
-		}	
-
+		}
+		
 		$data = array(
 			'id' => $id_checkout,
 			'id_user' => null,
@@ -239,6 +164,7 @@ class Affiliate extends CI_Controller {
 			'bank' => $bank,
 			'rekening' => $rekening
 		);
+		
 		//save to db
         $this->mod_global->insert_data('m_user_detail', $detail);
 
@@ -258,7 +184,6 @@ class Affiliate extends CI_Controller {
 					'username' => $login['username'],
 					'password' => $login['password'],
                     'id_level_user' => $login['id_level_user'],
-                    'kode_agen'  => $login['kode_agen'],
 					'logged_in' => true,
 				)
 			);
@@ -401,20 +326,23 @@ class Affiliate extends CI_Controller {
 	{
 		$genCaptcha = $this->recaptcha->generate();
 		
-		$resp = $genCaptcha->setExpectedHostname('localhost')
+		$resp = $genCaptcha->setExpectedHostname('majangdapatuang.com')
                   ->setExpectedAction('get_recaptcha')
                   ->setScoreThreshold(0.5)
                   ->verify($token);
 
-        if ($resp->isSuccess()) {
+      
+      if ($resp->isSuccess()) {
 		    return TRUE;
-		} else {
-		    //$errors = $resp->getErrorCodes();
-		    return FALSE;
+	} else {
+		    
+	    
+		    // $errors = $resp->getErrorCodes();
+	    return FALSE;
 		}
 	}
-
-	private function konfigurasi_upload_bukti($nmfile)
+    
+    private function konfigurasi_upload_bukti($nmfile)
 	{
 		//konfigurasi upload img display
 		$config['upload_path'] = './assets/img/bukti_transfer_aff/';
@@ -473,5 +401,4 @@ class Affiliate extends CI_Controller {
 
 		return substr($result, -5);
 	}
-
 }

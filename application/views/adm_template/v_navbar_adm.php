@@ -1,61 +1,67 @@
 <header class="main-header">
-	<!-- Logo -->
-	<a href="<?php echo site_url('home'); ?>" class="logo">
-		<!-- mini logo for sidebar mini 50x50 pixels -->
-		<span class="logo-mini"><img src="<?php echo base_url('assets/img/logo_thumb.png'); ?>"></span>
-		<!-- logo for regular state and mobile devices -->
-		<!-- <span class="logo-lg"><img src="<?php echo base_url('assets/img/logo-login-page.png'); ?>"></span> -->
+   <!-- Logo -->
+   <a href="<?php echo site_url('home');?>" class="logo">
+      <!-- mini logo for sidebar mini 50x50 pixels -->
+      <span class="logo-mini"><img src="<?php echo base_url('assets/img/logo_thumb.png');?>"></span>
+      <!-- logo for regular state and mobile devices -->
+      <!-- <span class="logo-lg"><img src="<?php echo base_url('assets/img/logo-login-page.png');?>"></span> -->
 
-		<span class="logo-lg" style="color:white;
+      <span 
+         class="logo-lg" 
+         style="color:white;
                 font-family:Charm;
                 font-size: 20px;
                 text-align: center;">
-			<strong>Web Adminstrator</strong>
-		</span>
-	</a>
+         <strong>Web Adminstrator</strong>
+      </span>
+   </a>
+   
+   <!-- Header Navbar: style can be found in header.less -->
+   <nav class="navbar navbar-static-top">
+      <!-- Sidebar toggle button-->
+      <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+         <span class="sr-only">Toggle navigation</span>
+      </a>
+      <!-- custom menu -->
+      <div class="navbar-custom-menu">
+         <ul class="nav navbar-nav">
+         <!-- User Account: style can be found in dropdown.less -->
+            <li class="dropdown user user-menu">
+               <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+               <?php foreach ($data_user as $val) { ?>
+                  <span class="hidden-xs" style="padding: 30px;"><?php echo $val->nama_lengkap_user;?></span>
+              <?php } ?>
+               </a>
+               <ul class="dropdown-menu">
 
-	<!-- Header Navbar: style can be found in header.less -->
-	<nav class="navbar navbar-static-top">
-		<!-- Sidebar toggle button-->
-		<a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
-			<span class="sr-only">Toggle navigation</span>
-		</a>
-		<!-- custom menu -->
-		<div class="navbar-custom-menu">
-			<ul class="nav navbar-nav">
-				<!-- User Account: style can be found in dropdown.less -->
-				<li class="dropdown user user-menu">
-					<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-						<?php foreach ($data_user as $val) { ?>
-							<span class="hidden-xs" style="padding: 30px;"><?php echo $val->nama_lengkap_user; ?></span>
-						<?php } ?>
-					</a>
-					<ul class="dropdown-menu">
+                  <!-- User image -->
+                  <li class="user-header">
+                  <?php foreach ($data_user as $val) { ?>
+                     <img src="<?php echo base_url('assets/img/foto_profil/'); ?><?php echo $val->gambar_user; ?>" class="img-circle" alt="User Image">  
+                     <p><?php echo $val->nama_lengkap_user;?></p>
+                  <?php } ?>
+                  </li>
 
-						<!-- User image -->
-						<li class="user-header">
-							<?php foreach ($data_user as $val) { ?>
-								<img src="<?php echo base_url('assets/'); ?>img/foto_profil/<?php echo $val->gambar_user; ?>" class="img-circle" alt="User Image">
-								<p><?php echo $val->nama_lengkap_user; ?></p>
-							<?php } ?>
-						</li>
-
-						<!-- Menu Footer-->
-						<li class="user-footer">
-							<div class="pull-left">
-								<?php $id_user = $this->session->userdata('id_user'); ?>
-								<a href='<?php echo site_url("admin/master_user/edit_user/$id_user"); ?>' class="btn btn-default btn-flat">Profile</a>
-							</div>
-							<div class="pull-right">
-								<a href="javascript:void(0);" onclick="logout_proc()" class="btn btn-default btn-flat">Logout</a>
-							</div>
-						</li>
-					</ul>
-				</li>
-			</ul>
-		</div>
-		<!-- notifikasi -->
-		<div class="navbar-custom pull-right">
+                  <!-- Menu Footer-->
+                  <li class="user-footer">
+                     <div class="pull-left">
+                     <?php $id_user = $this->session->userdata('id_user');?>
+                     <?php if ($this->session->userdata('id_level_user') == '4') { ?>
+                        <a href='<?php echo site_url("profil/edit_profil_vendor/$id_user");?>' class="btn btn-default btn-flat">Profile</a>
+                     <?php }else{ ?>
+                        <a href='<?php echo site_url("profil/edit_profil/$id_user");?>' class="btn btn-default btn-flat">Profile</a>
+                     <?php } ?>
+                     </div>
+                     <div class="pull-right">
+                        <a  href="javascript:void(0);" onclick="logout_proc()" class="btn btn-default btn-flat">Logout</a>
+                     </div>
+                  </li>
+               </ul>  
+            </li> 
+         </ul>
+      </div>
+      <!-- notifikasi -->
+      <div class="navbar-custom pull-right">
 			<ul class="nav navbar-nav">
 				<li class="dropdown user user-menu">
 					<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-envelope"></i>
@@ -114,6 +120,6 @@
 					<?php } ?>
 				</li>
 			</ul>
-		</div>
-	</nav>
+		</div>  
+   </nav>
 </header>

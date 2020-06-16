@@ -259,4 +259,15 @@ class Mod_profile extends CI_Model
         }
 	}
 	
+	public function cek_status_sudah_verify_agen($email)
+	{
+		$this->db->select('is_konfirm');
+		$this->db->from('t_checkout');
+		$this->db->where('email', $email);
+// 		$this->db->where('status', '1');
+		$this->db->where('jenis', 'affiliate');
+		$q = $this->db->get();
+		return $q->row();
+	}
+	
 }

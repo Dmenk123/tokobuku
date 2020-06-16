@@ -81,7 +81,7 @@
     											</div>
     										</td>
     									</tr>
-                                        <tr>
+    									<tr>
                                             <td colspan="3" align="center"><strong>Kode Referensi : </strong></td>
                                             <td colspan="2" align="center">
                                                 <strong><?= $hasil_data->kode_ref; ?></strong>
@@ -105,15 +105,15 @@
                                                  } 
                                             ?>
     										<input type="hidden" name="bukti_upload" value="<?= $hasil_data->bukti; ?>">
-                                            <input type="hidden" name="kode_ref" value="<?= $hasil_data->kode_ref; ?>">
+    										<input type="hidden" name="kode_ref" value="<?= $hasil_data->kode_ref; ?>">
     									</th>
     								</tr>
     							</table>
-
-    							<?php if($hasil_data->is_konfirm == '0'){ ?>
+                                
+                                <?php if($hasil_data->is_konfirm == '0'){ ?>
                                     <div style="padding-top: 30px; padding-bottom: 10px;text-align:center;">
-                                        <button type="button" class="btn btn-sm btn-primary" title="Verifikasi" onclick="verify('<?=$hasil_data->id;?>')"> Verifikasi </button>
-                                    </div>
+        								<button type="button" class="btn btn-sm btn-primary" title="Verifikasi" onclick="verify('<?=$hasil_data->id;?>')"> Verifikasi </button>
+        							</div>
                                 <?php } ?>
     						</form>
 							<hr>

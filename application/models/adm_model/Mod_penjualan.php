@@ -5,7 +5,7 @@ class Mod_penjualan extends CI_Model
 	// declare array variable to search datatable
 	var $column_search = array(
 		"tc.created_at",
-		"CONCAT(nama_depan, ' ', nama_belakang)",
+		"nama_depan",
 		"tc.email",
 		"tc.harga_total",
 		"tc.status"
@@ -13,14 +13,14 @@ class Mod_penjualan extends CI_Model
 
 	var $column_order = array(
 		"tc.created_at",
-		"CONCAT(nama_depan, ' ', nama_belakang)",
+		"nama_depan",
 		"tc.email",
 		"tc.harga_total",
 		"tc.status",
 		null,
 	);
 
-	var $order = array('tr.id_pembelian' => 'desc'); // default order
+	var $order = array('tc.created_at' => 'desc'); // default order
 
 	public function __construct()
 	{
@@ -33,14 +33,14 @@ class Mod_penjualan extends CI_Model
 		
 		$column = array(
 			"tc.created_at",
-			"CONCAT(nama_depan, ' ', nama_belakang)",
+			"nama_depan",
 			"tc.email",
 			"tc.harga_total",
 			"tc.status",
 			null,
 		);
 
-		$this->db->select("tc.*, CONCAT(nama_depan, ' ', nama_belakang) AS nama_lengkap");
+		$this->db->select("tc.*, nama_depan AS nama_lengkap");
 		$this->db->from('t_checkout as tc');
 		$this->db->where('tc.status', $status);
 		$this->db->where("tc.created_at between '" . $tanggal_awal . "' and '" . $tanggal_akhir . "'");
@@ -102,7 +102,7 @@ class Mod_penjualan extends CI_Model
 
 	public function get_detail($id, $status)
 	{
-		$this->db->select("tc.*, CONCAT(nama_depan, ' ', nama_belakang) AS nama_lengkap, mu.username as username_agen, mud.nama_lengkap_user");
+		$this->db->select("tc.*, nama_depan AS nama_lengkap, mu.username as username_agen, mud.nama_lengkap_user");
 		$this->db->from('t_checkout as tc');
 		$this->db->join('m_user mu', 'tc.kode_agen = mu.kode_agen', 'left');
 		$this->db->join('m_user_detail mud', 'mu.id_user = mud.id_user', 'left');
@@ -128,7 +128,7 @@ class Mod_penjualan extends CI_Model
 
 	public function get_detail_lap($datetime_awal, $datetime_akhir)
 	{
-		$this->db->select("tc.*, CONCAT(nama_depan, ' ', nama_belakang) AS nama_lengkap, mu.username as username_agen, mud.nama_lengkap_user");
+		$this->db->select("tc.*, tc.nama_depan AS nama_lengkap, mu.username as username_agen, mud.nama_lengkap_user");
 		$this->db->from('t_checkout as tc');
 		$this->db->join('m_user mu', 'tc.kode_agen = mu.kode_agen', 'left');
 		$this->db->join('m_user_detail mud', 'mu.id_user = mud.id_user', 'left');
@@ -145,7 +145,7 @@ class Mod_penjualan extends CI_Model
 			return FALSE;
 		}
 	}
-
+	
 	public function get_detail_lap_agen($datetime_awal, $datetime_akhir, $id_user='')
 	{
 		$this->db->select("
